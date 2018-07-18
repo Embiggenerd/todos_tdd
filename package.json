@@ -1,0 +1,26 @@
+{
+  "name": "todos_tdd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha 'src/libs/**/*.test.js'",
+    "test:user_controller": "mocha 'src/libs/**/user_controller*.test.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bcrypt": "^3.0.0",
+    "chai": "^4.1.2",
+    "faker": "^4.1.0",
+    "mocha": "^5.2.0",
+    "node-fetch": "^2.1.2",
+    "rewire": "^4.0.1",
+    "sinon": "^6.1.3",
+    "supertest": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.2.4"
+  }
+}
