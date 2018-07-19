@@ -1,15 +1,16 @@
-const UserServices = require('../services/user_services');
-const { expect, assert } = require('chai');
-const { spy, stub, mock } = require('sinon');
-const { internet } = require('faker');
-const { compare } = require('bcrypt');
+const UserServices = require("../services/user_services");
+const { expect, assert } = require("chai");
+const { spy, stub, mock } = require("sinon");
+const { internet } = require("faker");
+const { hash, compare } = require("bcrypt");
+const { ObjectId } = require("mongoose").Types;
 
-describe('User Services:', () => {
-  it('UserServices module is defined', () => {
+describe("User Services:", () => {
+  it("UserServices module is defined", () => {
     assert.isDefined(UserServices);
   });
-  describe('saveUser test', function() {
-    it('Invoked save method on model', () => {
+  describe("saveUser test", function() {
+    it("Invoked save method on model", () => {
       const save = spy();
       const UserModelMock = function() {
         return {
@@ -21,8 +22,8 @@ describe('User Services:', () => {
       assert(save.calledOnce);
     });
   });
-  describe('userExists test', function() {
-    it('If user exists, returns true', async function() {
+  describe("userExists test", function() {
+    it("If user exists, returns true", async function() {
       const countDocuments = stub().returns(1);
       const username = internet.userName();
 
@@ -31,14 +32,14 @@ describe('User Services:', () => {
       };
       const userServices = UserServices(UserModelMock);
       const actual = await userServices.userExists(username);
-      console.log('actual', actual);
+      console.log("actual", actual);
       const expected = true;
 
       expect(countDocuments.calledOnce).to.be.true;
       expect(countDocuments.firstCall.args[0]).to.deep.equal({ username });
       expect(actual).to.equal(expected);
     });
-    it('If user does not exist, returns false', async function() {
+    it("If user does not exist, returns false", async function() {
       const countDocuments = stub().returns(0);
       const username = internet.userName();
 
@@ -48,7 +49,7 @@ describe('User Services:', () => {
 
       const userServices = UserServices(UserModelMock);
       const actual = await userServices.userExists(username);
-      console.log('actual', actual);
+      console.log("actual", actual);
       const expected = false;
 
       expect(countDocuments.calledOnce).to.be.true;
@@ -57,8 +58,8 @@ describe('User Services:', () => {
     });
   });
 
-  describe('encryptPassword test', function() {
-    it('returns the hash of the arg', async function() {
+  describe("encryptPassword test", function() {
+    it("returns the hash of the arg", async function() {
       const password = internet.password();
 
       const userServices = UserServices({});
@@ -66,6 +67,64 @@ describe('User Services:', () => {
       const actual = await compare(password, encryptedPass);
       const expected = true;
       expect(actual).to.equal(expected);
+    });
+  });
+  describe("validateUser test", function() {
+    it("returns undefined if user not found in database", async function() {
+      const UserModelMock = {
+        findOne: stub().returns(false)
+      };
+      const userData = {
+        username: internet.userName(),
+        password: internet.password()
+      };
+      const userServices = UserServices(UserModelMock);
+      const actual = await userServices.validateUser(userData);
+      const expected = undefined;
+
+      expect(actual).to.equal(expected);
+    });
+    it("returns undefined if passwords don't match", async function() {
+      const userData = {
+        username: internet.userName(),
+        password: internet.password()
+      };
+      const UserModelMock = {
+        findOne: stub().returns({
+          id: ObjectId(),
+          username: userData.username,
+          password: internet.password()
+        })
+      };
+      const userServices = UserServices(UserModelMock);
+      const actual = await userServices.validateUser(
+        userData.username,
+        userData.password
+      );
+      const expected = undefined;
+      expect(actual).to.equal(expected);
+    });
+    it("returns user id when passwords match", async function() {
+      const userData = {
+        username: internet.userName(),
+        password: internet.password()
+      };
+      const encryptedPass = await hash(userData.password, 2);
+      const id = ObjectId();
+      const UserModelMock = {
+        findOne: stub().returns({
+          id,
+          username: userData.username,
+          password: encryptedPass
+        })
+      };
+      const userServices = UserServices(UserModelMock);
+      const actual = await userServices.validateUser(
+        userData.username,
+        userData.password
+      );
+      const expected = id;
+      expect(actual).to.equal(id);
     });
   });
 });
