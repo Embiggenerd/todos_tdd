@@ -6,8 +6,8 @@ const saveUser = UserModel => async (username, password) => {
   return SavedUser;
 };
 
-const userExists = UserModel => username => {
-  const userCount = UserModel.count({ username });
+const userExists = UserModel => async username => {
+  const userCount = await UserModel.countDocuments({ username });
   if (userCount > 0) {
     return true;
   }

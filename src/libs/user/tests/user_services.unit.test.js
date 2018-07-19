@@ -23,27 +23,27 @@ describe('User Services:', () => {
   });
   describe('userExists test', function() {
     it('If user exists, returns true', async function() {
-      const count = stub().returns(1);
+      const countDocuments = stub().returns(1);
       const username = internet.userName();
 
       const UserModelMock = {
-        count
+        countDocuments
       };
       const userServices = UserServices(UserModelMock);
       const actual = await userServices.userExists(username);
       console.log('actual', actual);
       const expected = true;
 
-      expect(count.calledOnce).to.be.true;
-      expect(count.firstCall.args[0]).to.deep.equal({ username });
+      expect(countDocuments.calledOnce).to.be.true;
+      expect(countDocuments.firstCall.args[0]).to.deep.equal({ username });
       expect(actual).to.equal(expected);
     });
-    it('If user exists, returns false', async function() {
-      const count = stub().returns(0);
+    it('If user does not exist, returns false', async function() {
+      const countDocuments = stub().returns(0);
       const username = internet.userName();
 
       const UserModelMock = {
-        count
+        countDocuments
       };
 
       const userServices = UserServices(UserModelMock);
@@ -51,8 +51,8 @@ describe('User Services:', () => {
       console.log('actual', actual);
       const expected = false;
 
-      expect(count.calledOnce).to.be.true;
-      expect(count.firstCall.args[0]).to.deep.equal({ username });
+      expect(countDocuments.calledOnce).to.be.true;
+      expect(countDocuments.firstCall.args[0]).to.deep.equal({ username });
       expect(actual).to.equal(expected);
     });
   });

@@ -1,17 +1,18 @@
-const { userExists, encryptPassword, saveUser } = require('../services');
+const { userExists, encryptPassword, saveUser } = require("../services");
 
 module.exports = async function(req, res, next) {
   const { username, password } = req.body;
   try {
-    // check if user exists
-    if (userExists(username)) res.json({ error: `${username} is taken` });
-
-    // if new
-    // encrypt password
+    let existence = await userExists(username)
+    if (existence) {
+      return res.status(400).json({ error: `${username} is taken` })
+    
+    }
     const encryptedPassword = await encryptPassword(password);
-    // save username, encrypted password
-    const savedUser = saveUser(username, encryptedPassword);
-    res.redirect('/login');
+
+    const savedUser = await saveUser(username, encryptedPassword);
+
+    res.redirect("/login");
   } catch (e) {
     next(e);
   }
