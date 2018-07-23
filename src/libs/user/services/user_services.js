@@ -16,22 +16,24 @@ const userExists = UserModel => async username => {
 
 const encryptPassword = UserModel => password => hash(password, 2);
 
-const validateUser = UserModel => async (username, password) =>  {
+const validateUser = UserModel => async (username, password) => {
   let payload;
-  const foundUser = await UserModel.findOne({username})
-  if(foundUser){
-    const passwordsMatch = await compare(password, foundUser.password)
-    if(passwordsMatch){
-      payload = foundUser.id
+  const foundUser = await UserModel.findOne({ username });
+  if (foundUser) {
+    const passwordsMatch = await compare(password, foundUser.password);
+    if (passwordsMatch) {
+      payload = foundUser.id;
     }
   }
-  return payload
-}
+  return payload;
+};
 
+const loginUser = UserModel => (userId, req) => (req.session.userId = userId);
 
 module.exports = UserModel => ({
   saveUser: saveUser(UserModel),
   userExists: userExists(UserModel),
   encryptPassword: encryptPassword(UserModel),
-  validateUser:validateUser(UserModel)
+  validateUser: validateUser(UserModel),
+  loginUser: loginUser(UserModel)
 });

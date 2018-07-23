@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha 'src/libs/**/*.test.js'",
-    "test:user_controller": "mocha 'src/libs/**/user_controller*.test.js'",
+    "test:user_controllers": "mocha 'src/libs/**/user_controller*.test.js'",
     "test:user_services": "mocha 'src/libs/**/user_services*.test.js'"
   },
   "author": "",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "mongoose": "^5.2.4"
   }
 }
