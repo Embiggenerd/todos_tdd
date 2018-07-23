@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha 'src/libs/**/*.test.js'",
     "test:user_controller": "mocha 'src/libs/**/user_controller*.test.js'",
-    "test:user_services": "mocha 'src/libs/**/user_services*.test.js'"
+    "test:user_services": "mocha 'src/libs/**/user_services*.test.js'",
+    "test:todos": "mocha 'src/libs/todos/**/*.test.js'"
   },
   "author": "",
   "license": "ISC",

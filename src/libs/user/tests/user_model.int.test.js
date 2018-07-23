@@ -12,12 +12,12 @@ describe('User Model test', function() {
   });
 
   before('Clear db, start connection', async function() {
-    mongoose.connect(
+    await mongoose.connect(
       testDB,
       { useNewUrlParser: true },
       () => console.log('Connected to test db')
     );
-    await UserModel.remove({}, () => console.log('db cleaned of users'));
+    await UserModel.remove({}, () => console.log('DB cleaned of users'));
   });
 
   afterEach('Clear users from db between tests', async function() {
@@ -49,7 +49,7 @@ describe('User Model test', function() {
     const foundUser = await UserModel.findOne({
       username: newUserData.username
     });
-    assert.include(foundUser, newUserData);
+    assert.deepInclude(foundUser, newUserData);
   });
 
   it('Updates a user', async function() {
