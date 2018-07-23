@@ -1,62 +1,96 @@
-const mongoose = require("mongoose");
-const request = require("supertest");
-const { expect, assert } = require("chai");
-const { internet } = require("faker");
-const { compare } = require('bcrypt')
+const mongoose = require('mongoose');
+const request = require('supertest');
+const { expect, assert } = require('chai');
+const { internet } = require('faker');
+const { compare } = require('bcrypt');
 
-const app = require("../../../app");
-const UserModel = require("../user_model");
-const testDB = "mongodb://localhost:27017/todo_tdd_test";
+const app = require('../../../app');
+const UserModel = require('../user_model');
+const testDB = 'mongodb://localhost:27017/todo_tdd_test';
 
-describe("User routers test", function() {
-  it("app module is defined", function() {
+describe('User routers test', function() {
+  it('app module is defined', function() {
     assert.isDefined(app);
   });
 
   let server;
 
-  before("connect to db, run server", async function() {
+  before('connect to db, run server', async function() {
     server = await app.listen(3001);
     await mongoose.connect(
       testDB,
       { useNewUrlParser: true }
     );
-    UserModel.remove({}, () => console.log("db cleaned of users"));
+    UserModel.remove({}, () => console.log('db cleaned of users'));
   });
 
-  after("close connection, server", function(done) {
+  after('close connection, server', function(done) {
     mongoose.connection.close();
     server.close(done);
   });
 
-  describe("signup test", function() {
+  describe('signup test', function() {
     const userData = {
       username: internet.userName(),
       password: internet.password()
     };
-    it("edirects to login", async function() {
+    it('redirects to login', async function() {
       await request(server)
-        .post("/user/signup")
+        .post('/user/signup')
         .send(userData)
-        .set("Content-Type", "application/json")
+        .set('Content-Type', 'application/json')
         .expect(302)
-        .expect("Location", "/login");
+        .expect('Location', '/login');
 
       const foundUser = await UserModel.find({ username: userData.username });
     });
-    it("returns 400 for username already exists", async function() {
+    it('returns 400 for username already exists', async function() {
       const foundUser = await UserModel.find({ username: userData.username });
       await request(server)
-        .post("/user/signup")
+        .post('/user/signup')
         .send(userData)
-        .set("Content-Type", "application/json")
+        .set('Content-Type', 'application/json')
         .expect(400);
     });
-    it('saved user password is properly hashed', async function(){
-      const user = await UserModel.findOne({ username: userData.username })
-      console.log('user', user)
-      const comparison = await compare(userData.password, user.password)
+    it('saved user password is properly hashed', async function() {
+      const user = await UserModel.findOne({ username: userData.username });
+      const comparison = await compare(userData.password, user.password);
       expect(comparison).to.be.true;
-    })
+    });
+  });
+  describe('logIn test', function() {
+    const userData = {
+      username: internet.userName(),
+      password: internet.password()
+    };
+    before('populate DB', function(done) {
+      request(server)
+        .post('/user/signup')
+        .send(userData)
+        .set('Content-Type', 'application/json')
+        .end(() => {
+          console.log('db populated');
+          done();
+        });
+    });
+    after('clean db', function() {
+      UserModel.remove({}, () => console.log('db cleaned of users'));
+    });
+    it('redirects to 401 if password invalid', async function() {
+      await request(server)
+        .post('/user/login')
+        .send({ username: userData.username, password: internet.password() })
+        .set('Content-Type', 'application/json')
+        .expect(302)
+        .expect('Location', '/401');
+    });
+    it('redirects to todos if password valid', async function() {
+      await request(server)
+        .post('/user/login')
+        .send(userData)
+        .set('Content-Type', 'application/json')
+        .expect(302)
+        .expect('Location', '/todos');
+    });
   });
 });

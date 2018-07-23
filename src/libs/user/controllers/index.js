@@ -1,4 +1,4 @@
 module.exports = {
-  signUp: require('sign_up'),
-  logIn: require('log_in')
+  signUp: require('./sign_up'),
+  logIn: require('./log_in')
 };
