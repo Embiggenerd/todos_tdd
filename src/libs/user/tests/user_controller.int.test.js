@@ -8,7 +8,7 @@ const app = require('../../../app');
 const UserModel = require('../user_model');
 const testDB = 'mongodb://localhost:27017/todo_tdd_test';
 
-describe('User routers test', function() {
+describe('User controllers test', function() {
   it('app module is defined', function() {
     assert.isDefined(app);
   });
@@ -41,11 +41,8 @@ describe('User routers test', function() {
         .set('Content-Type', 'application/json')
         .expect(302)
         .expect('Location', '/login');
-
-      const foundUser = await UserModel.find({ username: userData.username });
     });
     it('returns 400 for username already exists', async function() {
-      const foundUser = await UserModel.find({ username: userData.username });
       await request(server)
         .post('/user/signup')
         .send(userData)
@@ -58,6 +55,7 @@ describe('User routers test', function() {
       expect(comparison).to.be.true;
     });
   });
+
   describe('logIn test', function() {
     const userData = {
       username: internet.userName(),
