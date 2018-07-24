@@ -1,4 +1,4 @@
 module.exports = {
-  signUp: require('./submit_todo'),
-  logIn: require('./get_todos')
+  submitTodo: require('./submit_todo'),
+  getTodo: require('./get_todos')
 };
