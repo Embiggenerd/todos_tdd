@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 const { signUp, logIn } = require('./libs/user/controllers');
-const { submitTodo } = require('./libs/todos/controllers')
+const { submitTodo, getTodos } = require('./libs/todos/controllers');
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use(
 
 app.post('/user/signup', signUp);
 app.post('/user/login', logIn);
-app.post('/todos/submit', submitTodo)
+app.post('/todos/submit', submitTodo);
+app.get('/todos/get', getTodos);
 
 module.exports = app;
