@@ -7,6 +7,7 @@ const { compare } = require('bcrypt');
 const app = require('../../../app');
 const UserModel = require('../user_model');
 const testDB = 'mongodb://localhost:27017/todo_tdd_test';
+mongoose.Promise = global.Promise;
 
 describe('User controllers test', function() {
   it('app module is defined', function() {
@@ -16,15 +17,21 @@ describe('User controllers test', function() {
   let server;
 
   before('connect to db, run server', async function() {
-    server = await app.listen(3001);
+    this.timeout(20000)
+    try {
+      server = await app.listen(3001);
     await mongoose.connect(
       testDB,
       { useNewUrlParser: true }
     );
-    UserModel.remove({}, () => console.log('db cleaned of users'));
+    } catch(e){
+      throw new Error(e)
+    }
+    
   });
 
   after('close connection, server', function(done) {
+    UserModel.remove({});
     mongoose.connection.close();
     server.close(done);
   });

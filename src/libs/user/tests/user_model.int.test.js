@@ -5,6 +5,7 @@ const { internet } = require('faker');
 const UserModel = require('../user_model');
 
 const testDB = 'mongodb://localhost:27017/todo_tdd_test';
+mongoose.Promise = global.Promise;
 
 describe('User Model test', function() {
   it('UserModel module is defined', function() {
@@ -12,12 +13,18 @@ describe('User Model test', function() {
   });
 
   before('Clear db, start connection', async function() {
-    await mongoose.connect(
-      testDB,
-      { useNewUrlParser: true },
-      () => console.log('Connected to test db')
-    );
-    await UserModel.remove({}, () => console.log('DB cleaned of users'));
+    this.timeout(20000)
+    try{
+      await mongoose.connect(
+        testDB,
+        { useNewUrlParser: true },
+        () => console.log('Connected to test db')
+      );
+      await UserModel.remove({}, () => console.log('DB cleaned of users'));
+    } catch(e){
+      throw new Error(e)
+    }
+    
   });
 
   afterEach('Clear users from db between tests', async function() {

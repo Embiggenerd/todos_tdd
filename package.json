@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha 'src/libs/**/*.test.js'",
+    "test:user": "mocha 'src/libs/user/tests/*.test.js'",
     "test:user_controllers": "mocha 'src/libs/**/user_controller*.test.js'",
     "test:user_services": "mocha 'src/libs/**/user_services*.test.js'",
     "test:todos:services": "mocha 'src/libs/todos/**/todos_services*.test.js'",
