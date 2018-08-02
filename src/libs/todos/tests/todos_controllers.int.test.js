@@ -1,22 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
-const request = require('supertest');
-const { expect, assert } = require('chai');
-const { internet, lorem } = require('faker');
-const { waterfall, series } = require('async');
+const request = require("supertest");
+const session = require("supertest-session");
+const { expect, assert } = require("chai");
+const { internet, lorem } = require("faker");
+const { waterfall, series } = require("async");
 
-const app = require('../../../app');
-const TodosModel = require('../todos_model');
-const testDB = 'mongodb://localhost:27017/todo_tdd_test';
+const app = require("../../../app");
+const TodosModel = require("../todos_model");
+const testDB = "mongodb://localhost:27017/todo_tdd_test";
 
-describe('Todos controller test', function() {
-  it('app module is defined', function() {
+describe("Todos controller test", function() {
+  it("app module is defined", function() {
     assert.isDefined(app);
   });
 
   let server;
+  let testSession;
 
-  before('connect to db, run server', async function() {
+  before("connect to db, run server", async function() {
     server = await app.listen(3002);
     await mongoose.connect(
       testDB,
@@ -25,12 +27,12 @@ describe('Todos controller test', function() {
     await TodosModel.remove({});
   });
 
-  after('close connection, server', function(done) {
+  after("close connection, server", function(done) {
     mongoose.connection.close();
     server.close(done);
   });
 
-  describe('submit_todo test', function() {
+  describe("submit_todo test, unauthenticated", function() {
     // const userId = ObjectId();
     const todoData = {
       user: ObjectId().toString(),
@@ -42,75 +44,170 @@ describe('Todos controller test', function() {
       todo: lorem.sentences(1),
       closed: false
     };
-    it('returns submitted todo for valid req', async function() {
+    it("returns 401 for valid req, no authorization", async function() {
       await request(server)
-        .post('/todos/submit')
+        .post("/todos/submit")
         .send(todoData)
-        .set('Content-Type', 'application/json')
-        .set('accept', 'application/json')
+        .set("Content-Type", "application/json")
+        .set("accept", "application/json")
+        .expect(res => {
+          assert.deepEqual(res.body, {});
+        })
+        .expect(401);
+    });
+
+    it("returns 500 for invalid data", async function() {
+      await request(server)
+        .post("/todos/submit")
+        .send(badTodoData)
+        .set("Content-Type", "application/json")
+        .set("Accept", "application/json")
+        .expect(res => {
+          assert.deepEqual(res.body, {});
+        })
+        .expect(401);
+    });
+  });
+
+  describe("submit_todo test, authenticated", function() {
+    testSession = session(app);
+    let authedSession;
+    const userData = {
+      username: internet.userName(),
+      password: internet.password()
+    };
+    //const {username, password} = userData
+    // const userId = ObjectId();
+    const todoData = {
+      // user: ObjectId().toString(),
+      todo: lorem.sentences(1),
+      closed: false
+    };
+    const badTodoData = {
+      todo: "",
+      closed: false
+    };
+    before("signUp, signIn for session", async function() {
+      await testSession
+        .post("/user/signup")
+        .send(userData)
+        .expect(302)
+        .expect("Location", "/login");
+
+      await testSession
+        .post("/user/login")
+        .send(userData)
+        .expect(302)
+        .expect("Location", "/todos");
+      authedSession = testSession;
+    });
+
+    it("returns submitted todo for valid req", async function() {
+      await authedSession
+        .post("/todos/submit")
+        .send(todoData)
+        .set("Content-Type", "application/json")
+        .set("accept", "application/json")
         .expect(res => {
           assert.deepInclude(res.body, todoData);
         })
         .expect(200)
-        .expect('Content-Type', /json/);
+        .expect("Content-Type", /json/);
     });
 
-    it('returns 500 for invalid data', async function() {
-      await request(server)
-        .post('/todos/submit')
+    it("returns 500 for invalid data", async function() {
+      await authedSession
+        .post("/todos/submit")
         .send(badTodoData)
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
+        .set("Content-Type", "application/json")
+        .set("Accept", "application/json")
         .expect(500)
         .expect(res => {
-          assert(
-            res.body,
-            `ValidationError: user validation failed: use: Cast to ObjectID failed for value "123" at path "user"`
-          );
+          assert.include(res.error.text, "ValidationError: user validation failed: todo: Path `todo` is required")
         });
     });
   });
-  describe('get_todos test', function() {
+  describe("get_todos test", function() {
+    testSession = session(app);
+    let authedSession;
     const todoData = {
       user: ObjectId().toString(),
       todo: lorem.sentences(1),
       closed: false
     };
-    before('clear db of todos', async function() {
+    const userData = {
+      username: internet.userName(),
+      password: internet.password()
+    };
+
+    before("signUp, signIn for session", async function() {
       await TodosModel.remove({});
+
+      await testSession
+        .post("/user/signup")
+        .send(userData)
+        .expect(302)
+        .expect("Location", "/login");
+
+      await testSession
+        .post("/user/login")
+        .send(userData)
+        .expect(302)
+        .expect("Location", "/todos");
+      authedSession = testSession;
     });
-    it('returns a list of todos', function(done) {
-      this.timeout(10000);
-      waterfall(
-        [
-          function(cb) {
-            request(server)
-              .post('/todos/submit')
-              .send(todoData)
-              .expect(200);
-          },
-          function(cb) {
-            request(server)
-              .post('/todos/submit')
-              .send(todoData)
-              .expect(200);
-          },
-          function(cb) {
-            request(server)
-              .post('/todos/submit')
-              .send(todoData)
-              .expect(200);
-          },
-          function(cb) {
-            request(server)
-              .get('/todos/get')
-              .expect(res => {
-                console.log('res.body getTodos', res.body);
-              });
-          }
-        ],
-        done()
-      );
+    it("returns a list of todos when authenticated", async function() {
+      await authedSession
+        .post("/todos/submit")
+        .send(todoData)
+        .expect(200);
+      await authedSession
+        .post("/todos/submit")
+        .send(todoData)
+        .expect(200);
+      await authedSession
+        .post("/todos/submit")
+        .send(todoData)
+        .expect(200);
+
+      await authedSession
+        .get("/todos/get")
+        .expect(res => {
+          assert.equal(res.body.todos.length, 3)
+        })
     });
+    // it("returns a list of todos", function(done) {
+    //   this.timeout(10000);
+    //   waterfall(
+    //     [
+    //       function(cb) {
+    //         request(server)
+    //           .post("/todos/submit")
+    //           .send(todoData)
+    //           .expect(200);
+    //       },
+    //       function(cb) {
+    //         request(server)
+    //           .post("/todos/submit")
+    //           .send(todoData)
+    //           .expect(200);
+    //       },
+    //       function(cb) {
+    //         request(server)
+    //           .post("/todos/submit")
+    //           .send(todoData)
+    //           .expect(200);
+    //       },
+    //       function(cb) {
+    //         request(server)
+    //           .get("/todos/get")
+    //           .expect(res => {
+    //             console.log("res.body getTodos", res.body);
+    //           });
+    //       }
+    //     ],
+    //     done()
+    //   );
+    // });
   });
 });
