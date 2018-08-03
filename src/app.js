@@ -11,8 +11,8 @@ const isLoggedIn = require("./libs/middleware/isLoggedIn");
 
 const pathTo = fileName => path.resolve(__dirname, "..", "public", fileName);
 
-app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }))
+// const jsonParser = bodyParser.json();
+// const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(
   session({
@@ -21,6 +21,9 @@ app.use(
     saveUninitialized: true
   })
 );
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+
 
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 app.get("/", (req, res) => {
@@ -32,11 +35,11 @@ app.get("/user/login", (req, res) => {
 app.get("/user/signup", (req, res) => {
   res.sendFile(pathTo("register.html"));
 });
-app.post("/user/signup", signUp);
-app.post("/user/login", logIn);
-app.post("/todos/submit", isLoggedIn, submitTodo);
-app.get("/todos/get", isLoggedIn, getTodos);
-app.get("/logout", async (req, res) => {
+app.post("/user/signup", /*urlencodedParser,*/ signUp);
+app.post("/user/login", /*urlencodedParser,*/ logIn);
+app.post("/todos/submit", /*jsonParser,*/ isLoggedIn, submitTodo);
+app.get("/todos/get", /*jsonParser,*/ isLoggedIn, getTodos);
+app.get("/user/logout", async (req, res) => {
   await req.session.destroy();
   res.redirect("/");
 });

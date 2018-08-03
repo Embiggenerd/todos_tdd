@@ -14,7 +14,7 @@ module.exports = async function(req, res, next) {
 
     const savedUser = await saveUser(username, encryptedPassword);
 
-    res.redirect("/login");
+    res.redirect("/user/login");
   } catch (e) {
     next(e);
   }

@@ -89,13 +89,14 @@ describe("Todos controller test", function() {
     before("signUp, signIn for session", async function() {
       await testSession
         .post("/user/signup")
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(302)
         .expect("Location", "/login");
 
       await testSession
         .post("/user/login")
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(302)
         .expect("Location", "/todos");
