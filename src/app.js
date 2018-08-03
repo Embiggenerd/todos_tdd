@@ -9,7 +9,10 @@ const { submitTodo, getTodos } = require("./libs/todos/controllers");
 const app = express();
 const isLoggedIn = require("./libs/middleware/isLoggedIn");
 
+const pathTo = fileName => path.resolve(__dirname, "..", "public", fileName);
+
 app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(
   session({
@@ -19,13 +22,31 @@ app.use(
   })
 );
 
+app.use(express.static(path.resolve(__dirname, "..", "public")));
+app.get("/", (req, res) => {
+  res.sendFile(pathTo("index.html"));
+});
+app.get("/user/login", (req, res) => {
+  res.sendFile(pathTo("login.html"));
+});
+app.get("/user/signup", (req, res) => {
+  res.sendFile(pathTo("register.html"));
+});
 app.post("/user/signup", signUp);
 app.post("/user/login", logIn);
 app.post("/todos/submit", isLoggedIn, submitTodo);
 app.get("/todos/get", isLoggedIn, getTodos);
+app.get("/logout", async (req, res) => {
+  await req.session.destroy();
+  res.redirect("/");
+});
+
+app.get("/todos", (req, res) => {
+  res.sendFile(pathTo("todos.html"));
+});
 
 app.get("/401", (req, res) => {
-  res.sendStatus(401);
+  res.sendFile(pathTo("401.html"));
 });
 
 module.exports = app;

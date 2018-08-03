@@ -4,7 +4,6 @@ const request = require("supertest");
 const session = require("supertest-session");
 const { expect, assert } = require("chai");
 const { internet, lorem } = require("faker");
-const { waterfall, series } = require("async");
 
 const app = require("../../../app");
 const TodosModel = require("../todos_model");
@@ -44,7 +43,7 @@ describe("Todos controller test", function() {
       todo: lorem.sentences(1),
       closed: false
     };
-    it("returns 401 for valid req, no authorization", async function() {
+    it("redirects 401 for valid req, no authorization", async function() {
       await request(server)
         .post("/todos/submit")
         .send(todoData)
@@ -53,10 +52,11 @@ describe("Todos controller test", function() {
         .expect(res => {
           assert.deepEqual(res.body, {});
         })
-        .expect(401);
+        .expect(302)
+        .expect("Location", "/401");
     });
 
-    it("returns 500 for invalid data", async function() {
+    it("redirects 401 for invalid data, no auth", async function() {
       await request(server)
         .post("/todos/submit")
         .send(badTodoData)
@@ -65,7 +65,8 @@ describe("Todos controller test", function() {
         .expect(res => {
           assert.deepEqual(res.body, {});
         })
-        .expect(401);
+        .expect(302)
+        .expect("Location", "/401");
     });
   });
 
@@ -76,10 +77,8 @@ describe("Todos controller test", function() {
       username: internet.userName(),
       password: internet.password()
     };
-    //const {username, password} = userData
-    // const userId = ObjectId();
+    
     const todoData = {
-      // user: ObjectId().toString(),
       todo: lorem.sentences(1),
       closed: false
     };
@@ -90,6 +89,7 @@ describe("Todos controller test", function() {
     before("signUp, signIn for session", async function() {
       await testSession
         .post("/user/signup")
+        .set('Content-Type', 'application/json')
         .send(userData)
         .expect(302)
         .expect("Location", "/login");
@@ -176,38 +176,5 @@ describe("Todos controller test", function() {
           assert.equal(res.body.todos.length, 3)
         })
     });
-    // it("returns a list of todos", function(done) {
-    //   this.timeout(10000);
-    //   waterfall(
-    //     [
-    //       function(cb) {
-    //         request(server)
-    //           .post("/todos/submit")
-    //           .send(todoData)
-    //           .expect(200);
-    //       },
-    //       function(cb) {
-    //         request(server)
-    //           .post("/todos/submit")
-    //           .send(todoData)
-    //           .expect(200);
-    //       },
-    //       function(cb) {
-    //         request(server)
-    //           .post("/todos/submit")
-    //           .send(todoData)
-    //           .expect(200);
-    //       },
-    //       function(cb) {
-    //         request(server)
-    //           .get("/todos/get")
-    //           .expect(res => {
-    //             console.log("res.body getTodos", res.body);
-    //           });
-    //       }
-    //     ],
-    //     done()
-    //   );
-    // });
   });
 });

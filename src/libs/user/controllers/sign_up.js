@@ -2,6 +2,8 @@ const { userExists, encryptPassword, saveUser } = require("../services");
 
 module.exports = async function(req, res, next) {
   const { username, password } = req.body;
+  console.log('body', req.body)
+  console.log('pass and user at controller', password, username)
   try {
     let existence = await userExists(username)
     if (existence) {

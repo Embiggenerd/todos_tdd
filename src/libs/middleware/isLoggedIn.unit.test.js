@@ -11,11 +11,11 @@ describe('authentication middleware unit test', function() {
       }
     }
     const res = {
-      sendStatus: spy()
+      redirect: spy()
     }
     const next = spy()
     isLoggedIn(req, res, next)
-    expect(res.sendStatus.notCalled).to.be.true
+    expect(res.redirect.notCalled).to.be.true
     expect(next.calledOnce).to.be.true
   })
   it('sendStatus with 401 called if not authenticated', function() {
@@ -25,12 +25,12 @@ describe('authentication middleware unit test', function() {
       }
     }
     const res = {
-      sendStatus: spy()
+      redirect: spy()
     }
     const next = spy()
     isLoggedIn(req, res, next)
-    expect(res.sendStatus.calledOnce).to.be.true
+    expect(res.redirect.calledOnce).to.be.true
     expect(next.notCalled).to.be.true
-    expect(res.sendStatus.firstCall.args[0]).to.equal(401);
+    expect(res.redirect.firstCall.args[0]).to.equal('/401');
   })
 })
