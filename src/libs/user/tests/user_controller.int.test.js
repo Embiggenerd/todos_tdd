@@ -47,7 +47,7 @@ describe('User controllers test', function() {
         .send(userData)
         .set('Content-Type', 'application/json')
         .expect(302)
-        .expect('Location', '/login');
+        .expect('Location', '/user/login');
     });
     it('returns 400 for username already exists', async function() {
       await request(server)

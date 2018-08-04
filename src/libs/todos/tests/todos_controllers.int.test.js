@@ -92,7 +92,7 @@ describe("Todos controller test", function() {
         .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(302)
-        .expect("Location", "/login");
+        .expect("Location", "/user/login");
 
       await testSession
         .post("/user/login")
@@ -148,7 +148,7 @@ describe("Todos controller test", function() {
         .post("/user/signup")
         .send(userData)
         .expect(302)
-        .expect("Location", "/login");
+        .expect("Location", "/user/login");
 
       await testSession
         .post("/user/login")
