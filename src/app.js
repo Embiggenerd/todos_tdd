@@ -45,7 +45,7 @@ app.get("/user/logout", async (req, res) => {
   res.redirect("/");
 });
 
-app.get("/todos", (req, res) => {
+app.get("/todos", isLoggedIn, (req, res) => {
   res.sendFile(pathTo("todos.html"));
 });
 
