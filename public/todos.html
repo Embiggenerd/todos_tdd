@@ -10,14 +10,28 @@
 </head>
 
 <body>
-<h1>Welcome to test driven todos!</h1>
-<p>here are your todos:
-</p>
-<ul id="todos-list"></ul>
-<form id="todos-form">
-  <input id="todos-input" type="text" name="todos" placeholders="todos"/>
-</form>
-<script src="todos.js"></script>
+  
+  <div class="header">
+    <h1>Welcome to test driven todos!</h1>
+  </div>
+
+  <div class="sidebar">
+    <a href="/user/logout">Logout</a>
+    <a href="/">Home</a>
+  </div>
+
+  <div class="content">
+    <p>here are your todos:
+    </p>
+    <ul id="todos-list"></ul>
+    <form id="todos-form">
+      <input id="todos-input" type="text" name="todos" placeholders="todos" />
+    </form>
+  </div>
+
+  <div class="footer"></div>
+
+  <script src="todos.js"></script>
 </body>
 
 </html>
