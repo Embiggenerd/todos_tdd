@@ -34,7 +34,6 @@ describe("todos_model test", function() {
     };
     const newTodo = new TodosModel(todoData);
     const savedTodo = await newTodo.save();
-    console.log("savedTodo1", savedTodo);
     assert.include(savedTodo, todoData);
   });
   it("Finds a todo", async function() {

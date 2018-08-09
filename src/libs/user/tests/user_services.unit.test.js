@@ -32,7 +32,6 @@ describe('User Services:', () => {
       };
       const userServices = UserServices(UserModelMock);
       const actual = await userServices.userExists(username);
-      console.log('actual', actual);
       const expected = true;
 
       expect(countDocuments.calledOnce).to.be.true;
@@ -49,7 +48,6 @@ describe('User Services:', () => {
 
       const userServices = UserServices(UserModelMock);
       const actual = await userServices.userExists(username);
-      console.log('actual', actual);
       const expected = false;
 
       expect(countDocuments.calledOnce).to.be.true;

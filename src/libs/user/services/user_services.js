@@ -15,7 +15,6 @@ const userExists = UserModel => async username => {
 };
 
 const encryptPassword = UserModel => password => {
-  console.log("pazzword:", password);
   return hash(password, 2);
 };
 

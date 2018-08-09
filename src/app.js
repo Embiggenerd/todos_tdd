@@ -11,9 +11,6 @@ const isLoggedIn = require("./libs/middleware/isLoggedIn");
 
 const pathTo = fileName => path.resolve(__dirname, "..", "public", fileName);
 
-// const jsonParser = bodyParser.json();
-// const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
 app.use(
   session({
     secret: "our little s...",
@@ -36,10 +33,10 @@ app.get("/user/login", (req, res) => {
 app.get("/user/signup", (req, res) => {
   res.sendFile(pathTo("register.html"));
 });
-app.post("/user/signup", /*urlencodedParser,*/ signUp);
-app.post("/user/login", /*urlencodedParser,*/ logIn);
-app.post("/todos/submit", /*jsonParser,*/ isLoggedIn, submitTodo);
-app.get("/todos/get", /*jsonParser,*/ isLoggedIn, getTodos);
+app.post("/user/signup", signUp);
+app.post("/user/login", logIn);
+app.post("/todos/submit", isLoggedIn, submitTodo);
+app.get("/todos/get", isLoggedIn, getTodos);
 app.get("/user/logout", async (req, res) => {
   await req.session.destroy();
   res.redirect("/");

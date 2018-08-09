@@ -18,7 +18,7 @@ describe('User Model test', function() {
       await mongoose.connect(
         testDB,
         { useNewUrlParser: true },
-        () => console.log('Connected to test db')
+        () => ('Connected to test db')
       );
       await UserModel.remove({}, () => console.log('DB cleaned of users'));
     } catch(e){

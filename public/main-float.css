@@ -64,9 +64,7 @@ div {
   border-color: var(--main-border-color);
   height: 100%;
 }
-.main > div {
-  /* margin: .5%; */
-}
+
 .content {
   margin-left: 13em;
   margin-right: 13em;
@@ -125,10 +123,12 @@ input {
   padding: 20%;
   text-align: center;
 }
+
 .todos-wrapper {
   width: 100%;
   text-align: center;
 }
+
 footer {
   clear: both;
   padding: 1%;
