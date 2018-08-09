@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todos</title>
-  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/main-float.css">
 </head>
 
 <body>
-  
-  <div class="header">
-    <h1>Welcome to test driven todos!</h1>
+  <div class="layout">
+
+    <header class="header">
+      <h1>Welcome to test driven todos!</h1>
+    </header>
+
+    <div class="main">
+      <div class="sidebar">
+        <a href="/">Home</a>
+        <a href="/user/logout">Log out</a>
+        <a href="/user/login">Log in</a>
+        <a href="/todos">Your todos</a>
+      </div>
+
+      <div class="advertisement">
+        <h1>ADS</h1>
+      </div>
+
+      <div class="content">
+
+      <div class="todos-wrapper">
+          <hX>Todo:</hX>
+          <ol id="todos-list"></ol>
+      </div>
+        
+        <div class="form-wrapper">
+          <form id="todos-form">
+            <label for="todos-input">Add Todo</label>
+            <input id="todos-input" type="text" name="todos" placeholders="todos" />
+            <input class="submit-button" type="submit" value="submit">
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+    <footer>By Igor Atakhanovr</footer>
+
   </div>
 
-  <div class="sidebar">
-    <a href="/user/logout">Logout</a>
-    <a href="/">Home</a>
-  </div>
-
-  <div class="content">
-    <p>here are your todos:
-    </p>
-    <ul id="todos-list"></ul>
-    <form id="todos-form">
-      <input id="todos-input" type="text" name="todos" placeholders="todos" />
-    </form>
-  </div>
-
-  <div class="footer"></div>
 
   <script src="todos.js"></script>
 </body>

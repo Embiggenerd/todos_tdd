@@ -4,18 +4,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="main.css">
+  <title>Todos</title>
+  <link rel="stylesheet" href="/main-float.css">
 </head>
 
 <body>
-<form action="/user/login" method="POST">
-  <input type="text" name="username" placeholder="username">
-  <input type="password" name="password" placeholder="password">
-  <input type="submit" value="submit">
-</form>
-<br>
-<a href="/user/signup">Register</a>
+  <div class="layout">
+
+    <header class="header">
+      <h1>Welcome to test driven todos!</h1>
+    </header>
+
+    <div class="main">
+      <div class="sidebar">
+        <a href="/">Home</a>
+        <a href="/user/signup">Register</a>
+        <a href="/todos">Your todos</a>
+      </div>
+
+      <div class="advertisement">
+        <h1>ADS</h1>
+      </div>
+
+      <div class="content">
+        <div class="form-wrapper">
+          <h3>Login with your name and password</h3>
+          <form action="/user/login" method="POST">
+            <label for="login-username">Username</label>
+            <input id="login-username"type="text" name="username" placeholder="username">
+            <label for="login-password">Password</label>
+
+            <input id="login-password" type="password" name="password" placeholder="password">
+            <input class="submit-button" type="submit" value="submit">
+          </form>
+          <p>If you can't remember your password, too bad!</p>
+        </div>
+
+      </div>
+
+      
+
+    </div>
+    <footer>By Igor Atakhanovr</footer>
+
+  </div>
+
+
+
 </body>
 
 </html>

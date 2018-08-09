@@ -60,6 +60,7 @@
       })
         .then(res => res.json())
         .then(json => {
+          input.value = ""
           console.log("rez", json)
           state.addTodo(json);
           console.log('newState', state.todos)
