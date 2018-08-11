@@ -9,7 +9,21 @@ const getTodos = TodosModel => async user => {
   return foundTodos;
 };
 
+const toggleClosed = TodosModel => async id => {
+  const foundTodos = await TodosModel.findById(id)
+  foundTodos.closed = !foundTodos.closed
+  savedTodo = await foundTodos.save()
+  return savedTodo
+}
+
+const deleteTodo = TodosModel => async id => {
+  const deletedTodo = await TodosModel.findOneAndDelete(id)
+  return deletedTodo
+}
+
 module.exports = TodosModel => ({
+  deleteTodo: deleteTodo(TodosModel),
+  toggleClosed: toggleClosed(TodosModel),
   submitTodo: submitTodo(TodosModel),
   getTodos: getTodos(TodosModel)
 });

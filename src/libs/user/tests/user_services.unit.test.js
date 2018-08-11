@@ -1,16 +1,16 @@
-const UserServices = require('../services/user_services');
-const { expect, assert } = require('chai');
-const { spy, stub, mock } = require('sinon');
-const { internet } = require('faker');
-const { hash, compare } = require('bcrypt');
-const { ObjectId } = require('mongoose').Types;
+const UserServices = require("../services/user_services");
+const { expect, assert } = require("chai");
+const { spy, stub, mock } = require("sinon");
+const { internet } = require("faker");
+const { hash, compare } = require("bcrypt");
+const { ObjectId } = require("mongoose").Types;
 
-describe('User Services:', () => {
-  it('UserServices module is defined', () => {
+describe("User Services:", () => {
+  it("UserServices module is defined", () => {
     assert.isDefined(UserServices);
   });
-  describe('saveUser test', function() {
-    it('Invoked save method on model', () => {
+  describe("saveUser test", function() {
+    it("Invoked save method on model", () => {
       const save = spy();
       const UserModelMock = function() {
         return {
@@ -22,8 +22,8 @@ describe('User Services:', () => {
       assert(save.calledOnce);
     });
   });
-  describe('userExists test', function() {
-    it('If user exists, returns true', async function() {
+  describe("userExists test", function() {
+    it("If user exists, returns true", async function() {
       const countDocuments = stub().returns(1);
       const username = internet.userName();
 
@@ -38,7 +38,7 @@ describe('User Services:', () => {
       expect(countDocuments.firstCall.args[0]).to.deep.equal({ username });
       expect(actual).to.equal(expected);
     });
-    it('If user does not exist, returns false', async function() {
+    it("If user does not exist, returns false", async function() {
       const countDocuments = stub().returns(0);
       const username = internet.userName();
 
@@ -56,8 +56,8 @@ describe('User Services:', () => {
     });
   });
 
-  describe('encryptPassword test', function() {
-    it('returns the hash of the arg', async function() {
+  describe("encryptPassword test", function() {
+    it("returns the hash of the arg", async function() {
       const password = internet.password();
 
       const userServices = UserServices({});
@@ -67,8 +67,8 @@ describe('User Services:', () => {
       expect(actual).to.equal(expected);
     });
   });
-  describe('validateUser test', function() {
-    it('returns undefined if user not found in database', async function() {
+  describe("validateUser test", function() {
+    it("returns undefined if user not found in database", async function() {
       const UserModelMock = {
         findOne: stub().returns(false)
       };
@@ -102,7 +102,7 @@ describe('User Services:', () => {
       const expected = undefined;
       expect(actual).to.equal(expected);
     });
-    it('returns user id when passwords match', async function() {
+    it("returns user id and username when passwords match", async function() {
       const userData = {
         username: internet.userName(),
         password: internet.password()
@@ -121,12 +121,12 @@ describe('User Services:', () => {
         userData.username,
         userData.password
       );
-      const expected = id;
-      expect(actual).to.equal(expected);
+      const expected = { id, username: userData.username };
+      expect(actual).to.deep.equal(expected);
     });
   });
-  describe('loginUser test', function() {
-    it('returns user id on req.session.userId property', function() {
+  describe("loginUser test", function() {
+    it("returns user id on req.session.userId property", function() {
       const req = {
         session: {
           userId: undefined
@@ -140,4 +140,20 @@ describe('User Services:', () => {
       expect(actual).to.equal(expected);
     });
   });
+  describe("logoutUser test", function() {
+    it('calls destroy on session', function(){
+      const destroy = spy()
+      const req = {
+        session: {
+          destroy
+        }
+      }
+      const UserModelMock = {}
+      const userServices = UserServices(UserModelMock)
+      userServices.logoutUser(req)
+      const actual = destroy.calledOnce
+      const expected = true
+      expect(actual).to.equal(expected)
+    })
+  })
 });

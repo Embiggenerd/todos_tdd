@@ -24,7 +24,7 @@ const validateUser = UserModel => async (username, password) => {
   if (foundUser) {
     const passwordsMatch = await compare(password, foundUser.password);
     if (passwordsMatch) {
-      payload = foundUser.id;
+      payload = { id: foundUser.id, username: foundUser.username }
     }
   }
   return payload;
@@ -32,10 +32,14 @@ const validateUser = UserModel => async (username, password) => {
 
 const loginUser = UserModel => (userId, req) => (req.session.userId = userId);
 
+const logoutUser = UserModel => req => (req.session.destroy());
+
+
 module.exports = UserModel => ({
   saveUser: saveUser(UserModel),
   userExists: userExists(UserModel),
   encryptPassword: encryptPassword(UserModel),
   validateUser: validateUser(UserModel),
-  loginUser: loginUser(UserModel)
+  loginUser: loginUser(UserModel),
+  logoutUser: logoutUser(UserModel)
 });

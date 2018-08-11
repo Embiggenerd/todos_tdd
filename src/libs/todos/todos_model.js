@@ -6,4 +6,4 @@ const TodosSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, required: true }
 });
 
-module.exports = mongoose.model("user", TodosSchema);
+module.exports = mongoose.model("todo", TodosSchema);
