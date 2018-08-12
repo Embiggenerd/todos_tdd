@@ -140,7 +140,7 @@ describe("User Services:", () => {
       expect(actual).to.equal(expected);
     });
   });
-  describe("logoutUser test", function() {
+  describe("logOut test", function() {
     it('calls destroy on session', function(){
       const destroy = spy()
       const req = {
@@ -150,7 +150,7 @@ describe("User Services:", () => {
       }
       const UserModelMock = {}
       const userServices = UserServices(UserModelMock)
-      userServices.logoutUser(req)
+      userServices.logOut(req)
       const actual = destroy.calledOnce
       const expected = true
       expect(actual).to.equal(expected)

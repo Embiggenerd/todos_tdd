@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 
-const { signUp, logIn, logoutUser } = require("./libs/user/controllers");
+const { signUp, logIn, logOut } = require("./libs/user/controllers");
 const {
   submitTodo,
   getTodos,
@@ -39,7 +39,7 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 // });
 app.post("/user/signup", signUp);
 app.post("/user/login", logIn);
-app.get("/user/logout", isLoggedIn, logoutUser)
+app.get("/user/logout", isLoggedIn, logOut)
 app.post("/todos/toggleClosed", isLoggedIn, toggleClosed);
 app.post("/todos/submit", isLoggedIn, submitTodo);
 app.get("/todos/get", isLoggedIn, getTodos);

@@ -160,6 +160,7 @@ describe("Todos controller test", function() {
         .expect(200);
       authedSession = testSession;
     });
+
     it("returns a list of todos when authenticated", async function() {
       await authedSession
         .post("/todos/submit")
@@ -184,7 +185,7 @@ describe("Todos controller test", function() {
   describe("toggle_closed test", function() {
     testSession = session(app);
     let authedSession;
-    let returnedTodo = {}
+    let returnedTodo = {};
     const userData = {
       username: internet.userName(),
       password: internet.password()
@@ -194,10 +195,12 @@ describe("Todos controller test", function() {
       todo: lorem.sentences(1),
       closed: false
     };
+
     const badTodoData = {
       todo: "",
       closed: false
     };
+
     before("signUp, signIn for session", async function() {
       await testSession
         .post("/user/signup")
@@ -219,45 +222,43 @@ describe("Todos controller test", function() {
         .set("accept", "application/json")
         .expect(res => {
           assert.deepInclude(res.body.todo, todoData);
-          returnedTodo = res.body.todo
+          returnedTodo = res.body.todo;
         })
-        .expect(200)
-        
-      await authedSession
-        .get("/todos/get")
-        
+        .expect(200);
     });
-    it('flips closed property on todo', async function(){
+
+    it("flips closed property on todo", async function() {
       await authedSession
         .post("/todos/toggleClosed")
-        .send({id:returnedTodo._id})
+        .send({ id: returnedTodo._id })
         .set("Content-Type", "application/json")
         .set("accept", "application/json")
         .expect(res => {
-          assert.equal(res.body.todo.closed, !returnedTodo.closed)
+          assert.equal(res.body.todo.closed, !returnedTodo.closed);
         })
         .expect(200)
         .expect("Content-Type", /json/);
 
-    })
+      await authedSession.get("/todos/get").expect(res => {
+        assert.equal(res.body.todos[0].closed, !returnedTodo.closed);
+      });
+    });
   });
+
   describe("delete_todo test", function() {
     testSession = session(app);
     let authedSession;
-    let returnedTodo = {}
+    let returnedTodo = {};
     const userData = {
       username: internet.userName(),
       password: internet.password()
     };
-    
+
     const todoData = {
       todo: lorem.sentences(1),
       closed: false
     };
-    const badTodoData = {
-      todo: "",
-      closed: false
-    };
+    
     before("signUp, signIn for session", async function() {
       await testSession
         .post("/user/signup")
@@ -270,6 +271,7 @@ describe("Todos controller test", function() {
         .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
         .send(userData)
         .expect(200);
+
       authedSession = testSession;
 
       await authedSession
@@ -279,27 +281,27 @@ describe("Todos controller test", function() {
         .set("accept", "application/json")
         .expect(res => {
           assert.deepInclude(res.body.todo, todoData);
-          returnedTodo = res.body.todo
+          returnedTodo = res.body.todo;
         })
         .expect(200)
         .expect("Content-Type", /json/);
     });
-    it('returns the right id', async function(){
+    it("returns the right id", async function() {
       await authedSession
         .post("/todos/delete")
-        .send({id:returnedTodo.id})
+        .send({ id: returnedTodo._id })
         .set("Content-Type", "application/json")
         .set("accept", "application/json")
         .expect(res => {
-          assert.deepInclude(res.body.todo, returnedTodo._id)
+          assert.deepInclude(res.body.todo, { _id: returnedTodo._id });
         })
         .expect(200)
         .expect("Content-Type", /json/);
+    });
+    it("actually deletes correct todo", async function(){
+      await authedSession.get("/todos/get").expect(res => {
+        assert.equal(res.body.todos.length, 0)
+      });
     })
-    it('deleted the right todo', async function(){
-      await authedSession
-        .get("/todos/get")
-        .expect(assert.equal(res.body.todos.length, 0));
-    })
-  })
+  });
 });

@@ -68,13 +68,13 @@ describe("Todos services test:", function() {
   });
   describe('deleteTodo test', function(){
     const id = ObjectId()
-    const findOneAndDelete = spy()
-    const TodosModelMock = { findOneAndDelete }
-    it('calls findOneAndDelete() on model with id', async function(){
+    const findByIdAndDelete = spy()
+    const TodosModelMock = { findByIdAndDelete }
+    it('calls findByIdAndDelete() on model with id', async function(){
       const todosServices = TodosServices(TodosModelMock)
       const deleted = await todosServices.deleteTodo(id)
       const expected = id
-      const actual = findOneAndDelete.firstCall.args[0]
+      const actual = findByIdAndDelete.firstCall.args[0]
       expect(actual).to.equal(id)
     })
   })

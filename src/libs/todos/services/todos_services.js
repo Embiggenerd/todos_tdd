@@ -17,7 +17,7 @@ const toggleClosed = TodosModel => async id => {
 }
 
 const deleteTodo = TodosModel => async id => {
-  const deletedTodo = await TodosModel.findOneAndDelete(id)
+  const deletedTodo = await TodosModel.findByIdAndDelete(id)
   return deletedTodo
 }
 

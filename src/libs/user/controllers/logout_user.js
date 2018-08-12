@@ -1,7 +1,8 @@
-const { logoutUser } = require("../services");
-module.exports = async (req, res, next) => {
+const { logOut } = require("../services");
+module.exports = (req, res, next) => {
   try {
-    await logoutUser(req);
+    logOut(req);
+    res.json({})
   } catch (e) {
     next(e);
   }
