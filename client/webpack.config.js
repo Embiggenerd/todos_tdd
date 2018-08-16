@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const {resolve} = require('path')
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -18,10 +20,11 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin()
   ],
-  resolve: {
-    extensions: ['*', '.js', '.jsx']
-  },
+  // resolve: {
+  //   extensions: ['*', '.js', '.jsx']
+  // },
   devServer: {
-    contentBase: './dist'
+    contentBase: resolve(__dirname,'dist'),
+    hot: true
   }
 }
