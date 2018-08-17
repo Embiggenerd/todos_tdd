@@ -1,24 +1,24 @@
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const session = require("express-session");
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
-const { signUp, logIn, logOut } = require("./libs/user/controllers");
+const { signUp, logIn, logOut } = require('./libs/user/controllers');
 const {
   submitTodo,
   getTodos,
   toggleClosed,
   deleteTodo
-} = require("./libs/todos/controllers");
+} = require('./libs/todos/controllers');
 
 const app = express();
-const isLoggedIn = require("./libs/middleware/isLoggedIn");
+const isLoggedIn = require('./libs/middleware/isLoggedIn');
 
-const pathTo = fileName => path.resolve(__dirname, "..", "public", fileName);
+const pathTo = fileName => path.resolve(__dirname, '..', 'public', fileName);
 
 app.use(
   session({
-    secret: "our little s...",
+    secret: 'our little s...',
     resave: false,
     saveUninitialized: true
   })
@@ -27,7 +27,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.resolve(__dirname, "..", "public")));
+app.use(express.static(path.resolve(__dirname, '..', 'public')));
 // app.get("/", (req, res) => {
 //   res.sendFile(pathTo("index.html"));
 // });
@@ -37,13 +37,13 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 // app.get("/user/signup", (req, res) => {
 //   res.sendFile(pathTo("register.html"));
 // });
-app.post("/user/signup", signUp);
-app.post("/user/login", logIn);
-app.get("/user/logout", isLoggedIn, logOut)
-app.post("/todos/toggleClosed", isLoggedIn, toggleClosed);
-app.post("/todos/submit", isLoggedIn, submitTodo);
-app.get("/todos/get", isLoggedIn, getTodos);
-app.post("/todos/delete", isLoggedIn, deleteTodo)
+app.post('/user/signup', signUp);
+app.post('/user/login', logIn);
+app.get('/user/logout', isLoggedIn, logOut);
+app.post('/todos/toggleClosed', isLoggedIn, toggleClosed);
+app.post('/todos/submit', isLoggedIn, submitTodo);
+app.get('/todos/get', isLoggedIn, getTodos);
+app.post('/todos/delete', isLoggedIn, deleteTodo);
 // app.get("/user/logout", async (req, res) => {
 //   await req.session.destroy();
 //   res.redirect("/");

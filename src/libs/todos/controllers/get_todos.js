@@ -1,5 +1,9 @@
 const { getTodos } = require('../services');
 module.exports = async (req, res, next) => {
-  const foundTodos = await getTodos(req.session.userId);
-  res.json({todos: foundTodos});
+  try {
+    const foundTodos = await getTodos(req.session.userId);
+    res.json({ todos: foundTodos });
+  } catch (e) {
+    next(e);
+  }
 };
