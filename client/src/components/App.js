@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
+import './main-float.css'
 
-import Loading from './Loading';
+import Loading from "./Loading";
+import Content from "./Content";
+import Header from "./Header";
+import Footer from "./Footer";
 
 class App extends Component {
   state = {
     loading: true,
     auth: false,
     todos: [],
-    error: ''
+    error: ""
   };
 
   getTodos() {
-    axios('http://localhost:3000/todos/get')
+    axios("http://localhost:3000/todos/get")
       .then(res => {
         this.setState({
           auth: true,
@@ -25,9 +29,17 @@ class App extends Component {
   }
 
   renderContent() {
-    if (this.state.loading) {
+    const { loading, todos, auth, error } = this.state;
+    if (loading) {
       return <Loading />;
     }
+    return (
+      <div>
+        <Header />
+        <Content auth={auth} todos={todos} error={error} />
+        <Footer />
+      </div>
+    );
   }
 
   componentDidMount() {
