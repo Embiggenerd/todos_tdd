@@ -9,7 +9,7 @@ html {
 }
 
 a {
-  color:#396a93;
+  color: #396a93;
   text-decoration: none;
 }
 body {
@@ -28,6 +28,9 @@ div {
   padding: 1%;
 }
 
+#app {
+  height: 100%;
+}
 .layout {
   z-index: -1;
   height: 100%;
@@ -38,8 +41,8 @@ div {
 }
 
 .main {
-  padding: .5%;
-  background-color: #D0D0D0;
+  padding: 0.5%;
+  background-color: #d0d0d0;
   color: black;
   display: flex;
   justify-content: flex-start;
@@ -47,24 +50,24 @@ div {
   flex: 1;
   border-style: solid;
   border-width: 5px;
-  border-color:#ff5700;
+  border-color: #ff5700;
 }
 
 .main > div {
-  margin: .5%;
+  margin: 0.5%;
 }
 
 .content {
   color: #264662;
   background-color: white;
-  flex:1;
+  flex: 1;
   padding-left: 5%;
-  display:flex;
+  display: flex;
   align-items: flex-start;
 }
 
 .sidebar {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   line-height: 1.6;
   flex: 0 0 12em;
   order: -1;
@@ -72,15 +75,22 @@ div {
   flex-direction: column;
 }
 
+.submit-btn {
+  width: 70px;
+  height: 25px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--submit-btn-border-color);
+}
+
 .advertisement {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   flex: 0 0 12em;
   order: 1;
 }
 
-
 .form-wrapper {
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 10%;

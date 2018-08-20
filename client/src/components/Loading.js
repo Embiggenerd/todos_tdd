@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-const Loading = props => {
+const loading = props => {
   return <h1>Loading...</h1>;
 };
 
-export default Loading;
+export default loading;

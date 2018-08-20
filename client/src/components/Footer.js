@@ -1,5 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-export default () => {
-  return <header></header>
-}
+const footer = () => {
+  return (
+    <footer>
+      <p>by Igor Atakhanov</p>
+    </footer>
+  );
+};
+export default footer;

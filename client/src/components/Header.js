@@ -1,5 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-export default () => {
-  return <header></header>
-}
+const header = () => {
+  return (
+    <header className="header">
+      <h1>Welcome to test driven todos!</h1>
+    </header>
+  );
+};
+export default header;

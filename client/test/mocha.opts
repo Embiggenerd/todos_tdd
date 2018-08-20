@@ -1,3 +1,4 @@
 --require test/.setup.js
 --compilers js:babel-register
+--require ignore-styles
 --exit

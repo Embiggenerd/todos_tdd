@@ -1,13 +1,13 @@
 :root {
   --body-bg-color: steelblue;
   --body-color: white;
-  --main-bg-color: #D0D0D0;
+  --main-bg-color: #d0d0d0;
   --main-color: black;
   --main-border-color: #ff5700;
   --content-bg-color: white;
   --content-color: #264662;
-  --sidebar-bg-color: #E8E8E8;
-  --advertisement-bg-color: #E8E8E8;
+  --sidebar-bg-color: #e8e8e8;
+  --advertisement-bg-color: #e8e8e8;
   --input-border-color: #ff5700;
   --submit-btn-border-color: #ff5700;
   --a-color: #396a93;
@@ -26,7 +26,7 @@ html {
 }
 
 a {
-  color:var(--a-color);
+  color: var(--a-color);
   text-decoration: none;
 }
 body {
@@ -39,16 +39,20 @@ body {
 header {
   text-align: center;
   padding: 20px;
-  
 }
 
 div {
   padding: 1%;
 }
 
+#app {
+  height: 100%;
+}
+
 .layout {
   z-index: -1;
   height: 100%;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
   border-style: solid;
@@ -56,7 +60,7 @@ div {
 }
 
 .main {
-  padding: .5%;
+  padding: 0.5%;
   background-color: var(--main-bg-color);
   color: var(--main-color);
   border-style: solid;
@@ -72,7 +76,7 @@ div {
   color: var(--content-color);
   background-color: var(--content-bg-color);
   padding-left: 5%;
-  display:flex;
+  display: flex;
   align-items: flex-start;
 }
 
@@ -94,7 +98,7 @@ div {
 }
 
 .form-wrapper {
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 10%;
@@ -109,7 +113,7 @@ input {
   border-width: 1px;
   border-color: var(--input-border-color);
 }
-.submit-button {
+.submit-btn {
   width: 70px;
   height: 25px;
   border-style: solid;
