@@ -9,6 +9,10 @@ import Header from './Header';
 import Footer from './Footer';
 import SideBar from './SideBar';
 import Advertisement from './Advertisement';
+import TodosDiv from './TodosDiv';
+import TodosForm from './TodosForm';
+import UserForm from './UserForm';
+
 
 class App extends Component {
   constructor() {
@@ -18,11 +22,20 @@ class App extends Component {
       auth: false,
       todos: [],
       error: '',
-      userFormDisplay: ''
+      userFormDisplay: '',
+      form: {
+        username:'',
+        passwod:'',
+      }
     };
 
     this.handleClickLogin = this.handleClickLogin.bind(this);
     this.handleClickRegister = this.handleClickRegister.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+
+    // this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
+    // this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
+
   }
 
   handleClickLogin(e) {
@@ -37,6 +50,18 @@ class App extends Component {
       userFormDisplay: 'register'
     });
   }
+  handleFormSubmit(url, e) {
+    e.preventDefault()
+    axios.post('http://localhost:3000/{url}', {
+      username: this.state.form.username,
+      password: this.state.form.password
+    })
+  }
+
+  handleFieldChange(key, e) {
+    this.setState({[key]: e.target.value })
+  }
+
   getTodos() {
     axios('http://localhost:3000/todos/get')
       .then(res => {
@@ -49,6 +74,21 @@ class App extends Component {
         this.setState({ error: err });
       })
       .finally(() => this.setState({ loading: false }));
+  }
+
+
+
+  contentChildren(){
+    const { todos, auth, userFormDisplay } = this.state;
+    if (auth) {
+      return (
+        <div className="content">
+          <TodosDiv todos={todos} />
+          <TodosForm />
+        </div>
+      );
+    }
+    return <UserForm whichForm={userFormDisplay} />
   }
 
   renderContent() {
@@ -66,12 +106,10 @@ class App extends Component {
             handleClickLogin={this.handleClickLogin}
           />
           <Advertisement />
-          <Content
-            auth={auth}
-            todos={todos}
-            error={error}
-            userFormDisplay={userFormDisplay}
-          />
+    
+          <Content>
+            {this.contentChildren()}
+          </Content>
         </div>
         <Footer />
       </div>

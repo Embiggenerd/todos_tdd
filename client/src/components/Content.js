@@ -1,23 +1,8 @@
-import React, { Component } from 'react';
-import TodosDiv from './TodosDiv';
-import TodosForm from './TodosForm';
-import UserForm from './UserForm';
+import React, { Component } from "react";
 
 class Content extends Component {
-  renderContent() {
-    const { todos, auth, userFormDisplay } = this.props;
-    if (auth) {
-      return (
-        <div className="content">
-          <TodosDiv todos={todos} />
-          <TodosForm />
-        </div>
-      );
-    }
-    return <UserForm whichForm={userFormDisplay} />;
-  }
   render() {
-    return this.renderContent();
+    return this.props.children;
   }
 }
 
