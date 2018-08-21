@@ -14,7 +14,7 @@ class UserForm extends Component {
           <div className="form-wrapper">
             <h3>Login with your name and password</h3>
             <form>
-              <label for="login-username">Username</label>
+              <label htmlFor="login-username">Username</label>
               <input
                 id="login-username"
                 type="text"
@@ -24,7 +24,7 @@ class UserForm extends Component {
                   this.setState({ username: e.target.value });
                 }}
               />
-              <label for="login-password">Password</label>
+              <label htmlFor="login-password">Password</label>
               <input
                 id="login-password"
                 type="password"
@@ -34,7 +34,7 @@ class UserForm extends Component {
                   this.setState({ password: e.target.value });
                 }}
               />
-              <input class="submit-btn" type="submit" value="submit" />
+              <input className="submit-btn" type="submit" value="submit" />
             </form>
             <p>If you can't remember your password, too bad!</p>
           </div>
@@ -64,7 +64,7 @@ class UserForm extends Component {
                   this.setState({ password: e.target.value });
                 }}
               />
-              <input class="submit-btn" type="submit" value="submit" />
+              <input className="submit-btn" type="submit" value="submit" />
             </form>
             <p>We only store the hashed + salted values of your password!</p>
           </div>

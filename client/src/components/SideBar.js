@@ -6,8 +6,8 @@ class SideBar extends Component {
     if (auth) {
       return (
         <div className="sidebar">
-          <a href="#">Logout</a>
-          <a href="#">Todos</a>
+          <a href="#" id="logout-btn">Logout</a>
+          <a href="#" id="todos-btn">Todos</a>
         </div>
       );
     }
