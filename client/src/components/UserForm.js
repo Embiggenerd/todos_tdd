@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 
 class UserForm extends Component {
-  state = {
-    username: '',
-    password: ''
-  };
   renderForm() {
-    const { whichForm } = this.props;
+    const { whichForm, handleFieldChange, handleFormSubmit } = this.props;
 
     switch (whichForm) {
       case 'login':
         return (
           <div className="form-wrapper">
             <h3>Login with your name and password</h3>
-            <form>
+            <form onSubmit={e => handleFormSubmit(`/user/${whichForm}`, e)}>
               <label htmlFor="login-username">Username</label>
               <input
                 id="login-username"
@@ -21,7 +17,7 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  this.setState({ username: e.target.value });
+                  handleFieldChange('userForm', 'username', e);
                 }}
               />
               <label htmlFor="login-password">Password</label>
@@ -31,7 +27,7 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  this.setState({ password: e.target.value });
+                  handleFieldChange('userForm', 'password', e);
                 }}
               />
               <input className="submit-btn" type="submit" value="submit" />
@@ -39,11 +35,11 @@ class UserForm extends Component {
             <p>If you can't remember your password, too bad!</p>
           </div>
         );
-      case 'register':
+      case 'signup':
         return (
           <div className="form-wrapper">
             <h3>Register with a unique name and password</h3>
-            <form>
+            <form onSubmit={e => handleFormSubmit(`/user/${whichForm}`, e)}>
               <label htmlFor="signup-username">Username</label>
               <input
                 id="signup-username"
@@ -51,7 +47,7 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  this.setState({ username: e.target.value });
+                  handleFieldChange('userForm', 'username', e);
                 }}
               />
               <label htmlFor="signup-password">Password</label>
@@ -61,7 +57,7 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  this.setState({ password: e.target.value });
+                  handleFieldChange('userForm', 'password', e);
                 }}
               />
               <input className="submit-btn" type="submit" value="submit" />

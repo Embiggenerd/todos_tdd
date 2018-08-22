@@ -1,4 +1,4 @@
-const { userExists, encryptPassword, saveUser } = require("../services");
+const { userExists, encryptPassword, saveUser } = require('../services');
 
 module.exports = async function(req, res, next) {
   const { username, password } = req.body;
@@ -7,7 +7,7 @@ module.exports = async function(req, res, next) {
     if (existence) {
       return res.status(400).json({
         error: {
-          name: "YOU DONE GOOFED",
+          name: 'YOU DONE GOOFED',
           message: `${username} is taken!`
         }
       });
@@ -16,10 +16,12 @@ module.exports = async function(req, res, next) {
 
     const savedUser = await saveUser(username, encryptedPassword);
 
-    res.json({user: {
-      id: savedUser.id,
-      username: savedUser.username
-    }});
+    res.json({
+      user: {
+        id: savedUser.id,
+        username: savedUser.username
+      }
+    });
   } catch (e) {
     next(e);
   }

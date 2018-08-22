@@ -1,9 +1,13 @@
 import React from 'react';
 
-const header = () => {
+const header = props => {
+  const { username } = props;
   return (
     <header className="header">
-      <h1>Welcome to test driven todos!</h1>
+      <h1>
+        Welcome to test driven todos
+        {username ? `, ${username}!` : '!'}
+      </h1>
     </header>
   );
 };

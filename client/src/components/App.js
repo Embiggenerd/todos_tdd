@@ -13,7 +13,6 @@ import TodosDiv from './TodosDiv';
 import TodosForm from './TodosForm';
 import UserForm from './UserForm';
 
-
 class App extends Component {
   constructor() {
     super();
@@ -23,43 +22,81 @@ class App extends Component {
       todos: [],
       error: '',
       userFormDisplay: '',
-      form: {
-        username:'',
-        passwod:'',
+      userForm: {
+        username: '',
+        password: ''
+      },
+      username: '',
+      todosForm: {
+        todo: '',
+        closed: false
       }
     };
 
-    this.handleClickLogin = this.handleClickLogin.bind(this);
-    this.handleClickRegister = this.handleClickRegister.bind(this);
+    this.handleSidebarClick = this.handleSidebarClick.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleFieldChange = this.handleFieldChange.bind(this);
 
     // this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
     // this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
-
   }
 
-  handleClickLogin(e) {
+  handleSidebarClick(e, form) {
     e.preventDefault();
     this.setState({
-      userFormDisplay: 'login'
+      userFormDisplay: form
     });
   }
-  handleClickRegister(e) {
-    e.preventDefault();
-    this.setState({
-      userFormDisplay: 'register'
-    });
-  }
+
   handleFormSubmit(url, e) {
-    e.preventDefault()
-    axios.post('http://localhost:3000/{url}', {
-      username: this.state.form.username,
-      password: this.state.form.password
-    })
+    e.preventDefault();
+    const body = url => {
+      if (url === '/todos/post') {
+        return {
+          todo: this.state.todoForm.todo,
+          closed: this.state.todoForm.closed
+        };
+      }
+      return {
+        username: this.state.userForm.username,
+        password: this.state.userForm.password
+      };
+    };
+    console.log('handleFormSubmit called with url', url);
+    console.log('state.userForm is', this.state.userForm);
+    axios
+      .post(`http://localhost:3000${url}`)
+      .then(res => {
+        switch (url) {
+          case '/user/signup':
+            this.setState({ userFormDisplay: '/user/login' });
+          case '/user/login':
+            this.setState({ auth: true, username: res.data.user.username });
+          default:
+        }
+        if (url === '/user/signup') {
+          this.setState({ userFormDisplay: '/user/login' });
+        }
+        if (url === 'login') {
+          this.setState({ auth: true, username: res.data.user.username });
+        }
+      })
+      .catch(e => {
+        console.log('message', e.message);
+        console.log('response', e.response);
+
+        this.setState({ error: e.response.data.error });
+      });
   }
 
-  handleFieldChange(key, e) {
-    this.setState({[key]: e.target.value })
+  handleFieldChange(field, key, e) {
+    if (!field) {
+      return this.setState({ [key]: e.target.value });
+    }
+
+    this.setState({
+      [field]: { ...this.state[field], [key]: e.target.value }
+    });
   }
 
   getTodos() {
@@ -76,40 +113,42 @@ class App extends Component {
       .finally(() => this.setState({ loading: false }));
   }
 
-
-
-  contentChildren(){
+  contentChildren() {
     const { todos, auth, userFormDisplay } = this.state;
     if (auth) {
       return (
         <div className="content">
           <TodosDiv todos={todos} />
-          <TodosForm />
+          <TodosForm
+            handleFieldChange={this.handleFieldChange}
+            handleFormSubmit={this.handleFormSubmit}
+          />
         </div>
       );
     }
-    return <UserForm whichForm={userFormDisplay} />
+    return (
+      <UserForm
+        handleFieldChange={this.handleFieldChange}
+        handleFormSubmit={this.handleFormSubmit}
+        whichForm={userFormDisplay}
+      />
+    );
   }
 
   renderContent() {
-    const { loading, todos, auth, error, userFormDisplay } = this.state;
+    const { loading, auth, username } = this.state;
     if (loading) {
       return <Loading />;
     }
     return (
       <div className="layout">
-        <Header />
+        <Header username={username} />
         <div className="main">
-          <SideBar
-            auth={auth}
-            handleClickRegister={this.handleClickRegister}
-            handleClickLogin={this.handleClickLogin}
-          />
+          <SideBar auth={auth} handleSidebarClick={this.handleSidebarClick} />
+
           <Advertisement />
-    
-          <Content>
-            {this.contentChildren()}
-          </Content>
+
+          <Content>{this.contentChildren()}</Content>
         </div>
         <Footer />
       </div>
@@ -117,6 +156,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('state.userForm on mount', this.state.userForm);
     this.getTodos();
   }
   render() {
