@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 
 class UserForm extends Component {
   renderForm() {
-    const { whichForm, handleFieldChange, handleFormSubmit } = this.props;
+    const {
+      whichForm,
+      handleFieldChange,
+      handleFormSubmit,
+      values
+    } = this.props;
 
     switch (whichForm) {
       case 'login':
         return (
           <div className="form-wrapper">
             <h3>Login with your name and password</h3>
-            <form onSubmit={e => handleFormSubmit(`/user/${whichForm}`, e)}>
+            <form onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}>
               <label htmlFor="login-username">Username</label>
               <input
                 id="login-username"
@@ -17,8 +22,9 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  handleFieldChange('userForm', 'username', e);
+                  handleFieldChange(e, 'username', 'userForm');
                 }}
+                value={values.username}
               />
               <label htmlFor="login-password">Password</label>
               <input
@@ -27,10 +33,16 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  handleFieldChange('userForm', 'password', e);
+                  handleFieldChange(e, 'password', 'userForm');
                 }}
+                value={values.password}
               />
-              <input className="submit-btn" type="submit" value="submit" />
+              <input
+                id="login-btn"
+                className="submit-btn"
+                type="submit"
+                value="submit"
+              />
             </form>
             <p>If you can't remember your password, too bad!</p>
           </div>
@@ -39,7 +51,7 @@ class UserForm extends Component {
         return (
           <div className="form-wrapper">
             <h3>Register with a unique name and password</h3>
-            <form onSubmit={e => handleFormSubmit(`/user/${whichForm}`, e)}>
+            <form onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}>
               <label htmlFor="signup-username">Username</label>
               <input
                 id="signup-username"
@@ -47,8 +59,9 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  handleFieldChange('userForm', 'username', e);
+                  handleFieldChange(e, 'username', 'userForm');
                 }}
+                value={values.username}
               />
               <label htmlFor="signup-password">Password</label>
               <input
@@ -57,10 +70,16 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  handleFieldChange('userForm', 'password', e);
+                  handleFieldChange(e, 'password', 'userForm');
                 }}
+                value={values.password}
               />
-              <input className="submit-btn" type="submit" value="submit" />
+              <input
+                id="signup-btn"
+                className="submit-btn"
+                type="submit"
+                value="submit"
+              />
             </form>
             <p>We only store the hashed + salted values of your password!</p>
           </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 require('promise.prototype.finally').shim();
 import './main-flex.css';
 
@@ -48,38 +49,48 @@ class App extends Component {
     });
   }
 
-  handleFormSubmit(url, e) {
+  handleFormSubmit(e, url) {
     e.preventDefault();
     const body = url => {
-      if (url === '/todos/post') {
+      if (url === '/todos/submit') {
+        console.log('todosForm', {
+          todo: this.state.todosForm.todo,
+          closed: this.state.todosForm.closed
+        });
         return {
-          todo: this.state.todoForm.todo,
-          closed: this.state.todoForm.closed
+          todo: this.state.todosForm.todo,
+          closed: this.state.todosForm.closed
+        };
+      } else {
+        return {
+          username: this.state.userForm.username,
+          password: this.state.userForm.password
         };
       }
-      return {
-        username: this.state.userForm.username,
-        password: this.state.userForm.password
-      };
     };
     console.log('handleFormSubmit called with url', url);
-    console.log('state.userForm is', this.state.userForm);
+    console.log('state is', this.state);
+    console.log('body', body());
     axios
-      .post(`http://localhost:3000${url}`)
+      .post(`http://localhost:3000${url}`, body(url))
       .then(res => {
         switch (url) {
           case '/user/signup':
             this.setState({ userFormDisplay: '/user/login' });
+            break;
           case '/user/login':
-            this.setState({ auth: true, username: res.data.user.username });
-          default:
+            this.setState({
+              auth: true,
+              username: res.data.user.username
+            });
+            break;
+          case '/todos/submit':
+            this.setState({
+              todos: [...this.state.todos, res.data.todo]
+            });
+            break;
         }
-        if (url === '/user/signup') {
-          this.setState({ userFormDisplay: '/user/login' });
-        }
-        if (url === 'login') {
-          this.setState({ auth: true, username: res.data.user.username });
-        }
+        this.setState({ userFormDisplay: 'login' });
       })
       .catch(e => {
         console.log('message', e.message);
@@ -89,7 +100,7 @@ class App extends Component {
       });
   }
 
-  handleFieldChange(field, key, e) {
+  handleFieldChange(e, key, field) {
     if (!field) {
       return this.setState({ [key]: e.target.value });
     }
@@ -114,7 +125,7 @@ class App extends Component {
   }
 
   contentChildren() {
-    const { todos, auth, userFormDisplay } = this.state;
+    const { todos, auth, userFormDisplay, userForm } = this.state;
     if (auth) {
       return (
         <div className="content">
@@ -131,6 +142,7 @@ class App extends Component {
         handleFieldChange={this.handleFieldChange}
         handleFormSubmit={this.handleFormSubmit}
         whichForm={userFormDisplay}
+        values={userForm}
       />
     );
   }

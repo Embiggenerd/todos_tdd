@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cors = require('cors');
 
 const { signUp, logIn, logOut } = require('./libs/user/controllers');
 const {
@@ -16,14 +17,22 @@ const isLoggedIn = require('./libs/middleware/isLoggedIn');
 
 const pathTo = fileName => path.resolve(__dirname, '..', 'public', fileName);
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
+app.use(
+  cors({
+    origin: ['http://localhost:8081'],
+    methods: ['GET', 'POST'],
+    credentials: true
+  })
+);
+
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   next();
+// });
 
 app.use(
   session({

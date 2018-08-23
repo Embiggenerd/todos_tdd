@@ -3,6 +3,8 @@ import { mount, shallow } from 'enzyme';
 import { spy, stub } from 'sinon';
 import App from '../App';
 
+import handleFormSubmitMock from './handleFormSubmitMock';
+
 /**
  * Large test describes the structure and logic of the app.
  * <App/> component is the most important and passes down
@@ -31,6 +33,7 @@ describe('<App />', () => {
       App.prototype.getTodos = function() {
         this.setState({ loading: false });
       };
+      App.prototype.handleFormSubmit = handleFormSubmitMock;
       wrapper = mount(<App />);
     });
     after(function() {
@@ -61,15 +64,47 @@ describe('<App />', () => {
             wrapper.contains("If you can't remember your password, too bad!")
           ).to.equal(true);
         });
+        it('and clicking on login in sidebar displays login form', function() {
+          wrapper.setState({ userFormDisplay: 'signup' });
+          expect(wrapper.find('#login-username')).to.have.length(0);
+          expect(wrapper.find('#login-btn').simulate('click'));
+          expect(wrapper.find('#login-username')).to.have.length(1);
+        });
         it('and clicking on register in sidebar displays register form', function() {
           expect(wrapper.find('#signup-username')).to.have.length(0);
           expect(wrapper.find('#register-btn').simulate('click'));
           expect(wrapper.find('#signup-username')).to.have.length(1);
         });
-        it('and clicking on login in sidebar displays login form', function() {
-          expect(wrapper.find('#login-username')).to.have.length(0);
-          expect(wrapper.find('#login-btn').simulate('click'));
-          expect(wrapper.find('#login-username')).to.have.length(1);
+        describe('and when submitting user info to register', function() {
+          before(function() {
+            wrapper
+              .find('#signup-username')
+              .simulate('change', { target: { value: 'Conor' } });
+            wrapper
+              .find('#signup-password')
+              .simulate('change', { target: { value: 'McGreggor' } });
+            wrapper.find('form').simulate('submit');
+          });
+
+          it('login form is displayed with appropriate values', function() {
+            expect(wrapper.find('#login-username')).to.have.length(1);
+            expect(wrapper.find('#login-username').instance().value).to.equal(
+              'Conor'
+            );
+            expect(wrapper.find('#login-password').instance().value).to.equal(
+              'McGreggor'
+            );
+          });
+          it('and when submitted, log out button is displayed and header contains username', function() {
+            wrapper.find('form').simulate('submit');
+            expect(wrapper.find('#logout-btn')).to.have.length(1);
+            expect(
+              wrapper
+                .find('header')
+                .at(0)
+                .text()
+            ).to.contain('Conor');
+          });
         });
       });
       describe('true,', function() {
@@ -131,6 +166,22 @@ describe('<App />', () => {
           });
           it('and given a form to submit', function() {
             expect(wrapper.find('#todos-form')).to.have.length(1);
+          });
+          describe('and when a todo is submitted', function() {
+            before(function() {
+              wrapper.find('#todos-input').simulate('change', {
+                target: { value: 'enlighten the masses' }
+              });
+              wrapper.find('#todos-form').simulate('submit');
+            });
+            it('it is displayed in the todos list', function() {
+              expect(
+                wrapper
+                  .find('#todos-list')
+                  .at(0)
+                  .text()
+              ).to.contain('enlighten the masses');
+            });
           });
         });
       });
