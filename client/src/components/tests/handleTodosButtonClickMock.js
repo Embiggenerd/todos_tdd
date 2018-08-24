@@ -2,6 +2,7 @@ module.exports = function(id, url) {
   const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
   console.log('lzz');
 
+  
   const toggleClosed = () => {
     const oldTodos = [...this.state.todos];
     oldTodos[getIndex(id, oldTodos)] = Object.assign(
@@ -31,4 +32,5 @@ module.exports = function(id, url) {
       deleteTodo();
       break;
   }
+
 };

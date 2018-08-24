@@ -1,14 +1,14 @@
-import React from 'react';
-import TodoButton from './TodoButton';
+import React from "react";
+import TodoButton from "./TodoButton";
 
 const getStyle = {
-  textDecoration: 'line-through'
+  textDecoration: "line-through"
 };
 
 const TodoUnit = props => {
   const { todo, handleToggleClosed, handleDeleteTodo } = props;
   const getStyle = () => ({
-    textDecoration: todo.closed ? 'line-through' : 'none'
+    textDecoration: todo.closed ? "line-through" : "none"
   });
 
   return (
@@ -21,9 +21,12 @@ const TodoUnit = props => {
           role="toggleClosed"
           todo={todo}
           handleToggleClosed={handleToggleClosed}
+        />
+        <TodoButton
+          todo={todo}
+          role="delete"
           handleDeleteTodo={handleDeleteTodo}
         />
-        <TodoButton role="delete" />
       </div>
     </li>
   );
