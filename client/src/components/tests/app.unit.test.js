@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { spy, stub } from 'sinon';
 import App from '../App';
 
 import handleFormSubmitMock from './handleFormSubmitMock';
+import handleTodosButtonClickMock from './handleTodosButtonClickMock';
 
 /**
  * Large test describes the structure and logic of the app.
@@ -34,6 +34,7 @@ describe('<App />', () => {
         this.setState({ loading: false });
       };
       App.prototype.handleFormSubmit = handleFormSubmitMock;
+      App.prototype.handleTodosButtonClick = handleTodosButtonClickMock;
       wrapper = mount(<App />);
     });
     after(function() {
@@ -140,8 +141,16 @@ describe('<App />', () => {
           it('displayed a list of his todos', function() {
             wrapper.setState({
               todos: [
-                { closed: false, todo: 'cut hair' },
-                { closed: true, todo: 'eat carrots' }
+                {
+                  closed: false,
+                  todo: 'cut hair',
+                  _id: Math.floor(Math.random() * 100)
+                },
+                {
+                  closed: true,
+                  todo: 'eat carrots',
+                  _id: Math.floor(Math.random() * 100)
+                }
               ]
             });
             expect(wrapper.contains('cut hair')).to.equal(true);
@@ -181,6 +190,50 @@ describe('<App />', () => {
                   .at(0)
                   .text()
               ).to.contain('enlighten the masses');
+            });
+            it('and when the done button is pressed, that todo is crossed out', function() {
+              const todoBefore = wrapper.find('.todo-text').at(2);
+              expect(todoBefore.prop('style')).to.deep.equal({
+                textDecoration: 'none'
+              });
+              wrapper
+                .find('#toggle-closed-button')
+                .at(2)
+                .simulate('click');
+              const todoAfter = wrapper.find('.todo-text').at(2);
+              expect(todoAfter.prop('style')).to.deep.equal({
+                textDecoration: 'line-through'
+              });
+            });
+            it('and when it"s clicked again, it is no longer crossed out', function() {
+              wrapper
+                .find('#toggle-closed-button')
+                .at(2)
+                .simulate('click');
+              const todoAfter = wrapper.find('.todo-text').at(2);
+              expect(todoAfter.prop('style')).to.deep.equal({
+                textDecoration: 'none'
+              });
+            });
+            it('and when you click the delete button, the todo is deleted', function() {
+              expect(
+                wrapper
+                  .find('#todos-list')
+                  .at(0)
+                  .text()
+              ).to.contain('enlighten the masses');
+
+              wrapper
+                .find('#delete-button')
+                .at(2)
+                .simulate('click');
+
+              expect(
+                wrapper
+                  .find('.todos-wrapper')
+                  .at(0)
+                  .text()
+              ).to.not.contain('enlighten the masses');
             });
           });
         });

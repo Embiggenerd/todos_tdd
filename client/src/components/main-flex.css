@@ -125,6 +125,11 @@ input {
   width: 100%;
   text-align: center;
 }
+
+.todo-unit {
+  display: flex;
+  justify-content: space-between;
+}
 footer {
   padding: 1%;
   height: 5%;

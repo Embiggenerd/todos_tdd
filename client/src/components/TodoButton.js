@@ -1,21 +1,32 @@
-import React from "react";
+import React from 'react';
 
 const TodoButton = props => {
-  const { closed, role } = props;
+  const { todo, role, handleToggleClosed, handleDeleteTodo } = props;
   const renderButton = () => {
     switch (role) {
-      case "toggleClosed":
+      case 'toggleClosed':
         return (
-          <button className="todos-btn">{closed ? "Undo" : "Done"}</button>
+          <button
+            id="toggle-closed-button"
+            className="todos-btn"
+            onClick={() => handleToggleClosed(todo._id, 'toggleClosed')}
+          >
+            {todo.closed ? 'Undo' : 'Done'}
+          </button>
         );
-      case "delete":
+      case 'delete':
         return (
-          <button className="todos-btn danger-btn">Delete</button>
-        )
+          <button
+            id="delete-button"
+            className="todos-btn danger-btn"
+            onClick={() => handleDeleteTodo(todo._id, 'deleteTodo')}
+          >
+            Delete
+          </button>
+        );
     }
-    
   };
-  return renderButton()
+  return renderButton();
 };
 
 export default TodoButton;

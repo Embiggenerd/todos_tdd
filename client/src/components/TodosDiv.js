@@ -1,12 +1,18 @@
 import React from 'react';
-import TodoUnit from './TodoUnit'
+import TodoUnit from './TodoUnit';
 
 const todosDiv = props => {
-  const { todos } = props;
+  const { todos, handleToggleClosed, handleDeleteTodo } = props;
 
-  const todosList = () => todos.map(todo => <TodoUnit key={todo.todo} closed={todo.closed} todo={todo.todo}/>);
-
-  console.log('length', todos.length);
+  const todosList = () =>
+    todos.map(todo => (
+      <TodoUnit
+        key={todo._id}
+        todo={todo}
+        handleToggleClosed={handleToggleClosed}
+        handleDeleteTodo={handleDeleteTodo}
+      />
+    ));
 
   if (todos.length > 0) {
     return (

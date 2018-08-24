@@ -14,7 +14,8 @@ module.exports = function(e, url) {
           ...this.state.todos,
           {
             todo: this.state.todosForm.todo,
-            closed: this.state.todosForm.closed
+            closed: this.state.todosForm.closed,
+            _id: Math.floor(Math.random() * 1000)
           }
         ]
       });

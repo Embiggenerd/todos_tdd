@@ -37,9 +37,26 @@ class App extends Component {
     this.handleSidebarClick = this.handleSidebarClick.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleTodosButtonClick = this.handleTodosButtonClick.bind(this);
+  }
+  handleTodosButtonClick(id, url) {
+    const body = url => {
+      switch (url) {
+        case 'toggleClosed':
+          return { id };
+      }
+    };
+    console.log('handleToggleCLosed called with id', id);
+    axios.post(`http://localhost:3000/todos/${url}`, body()).then(res => {
+      const findTodoIndex = todos => todos.findIndex(todo => todo._id === id);
+      const oldTodos = [...this.state.todos];
+      oldTodos[findTodoIndex(oldTodos)] = res.data.todo;
+      const newTodos = [...oldTodos];
 
-    // this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
-    // this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
+      this.setState({
+        todos: newTodos
+      });
+    });
   }
 
   handleSidebarClick(e, form) {
@@ -53,10 +70,6 @@ class App extends Component {
     e.preventDefault();
     const body = url => {
       if (url === '/todos/submit') {
-        console.log('todosForm', {
-          todo: this.state.todosForm.todo,
-          closed: this.state.todosForm.closed
-        });
         return {
           todo: this.state.todosForm.todo,
           closed: this.state.todosForm.closed
@@ -68,9 +81,7 @@ class App extends Component {
         };
       }
     };
-    console.log('handleFormSubmit called with url', url);
-    console.log('state is', this.state);
-    console.log('body', body());
+
     axios
       .post(`http://localhost:3000${url}`, body(url))
       .then(res => {
@@ -129,7 +140,11 @@ class App extends Component {
     if (auth) {
       return (
         <div className="content">
-          <TodosDiv todos={todos} />
+          <TodosDiv
+            todos={todos}
+            handleToggleClosed={this.handleTodosButtonClick}
+            handleDeleteTodo={this.handleTodosButtonClick}
+          />
           <TodosForm
             handleFieldChange={this.handleFieldChange}
             handleFormSubmit={this.handleFormSubmit}
@@ -168,8 +183,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('state.userForm on mount', this.state.userForm);
     this.getTodos();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.auth !== prevState.auth) {
+      this.getTodos();
+    }
+    console.log('this.state.todos', this.state.todos);
   }
   render() {
     return this.renderContent();
