@@ -1,4 +1,4 @@
-const { hash, compare } = require("bcrypt");
+const { hash, compare } = require('bcrypt');
 
 const saveUser = UserModel => async (username, password) => {
   const NewUser = new UserModel({ username, password });
@@ -15,6 +15,9 @@ const userExists = UserModel => async username => {
 };
 
 const encryptPassword = UserModel => password => {
+  if (!password) {
+    throw new Error('password is required');
+  }
   return hash(password, 2);
 };
 

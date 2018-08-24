@@ -1,6 +1,4 @@
 module.exports = (req, res, next) => {
-  console.log('req.session', req.session);
-  console.log('req.body', req.body);
   if (req.session.userId) {
     return next();
   }

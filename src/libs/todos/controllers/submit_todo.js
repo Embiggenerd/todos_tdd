@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   const user = req.session.userId;
   try {
     const submittedTodo = await submitTodo(todo, closed, user);
-    res.json({ todo: submittedTodo });
+    return res.json({ todo: submittedTodo });
   } catch (e) {
     next(e);
   }

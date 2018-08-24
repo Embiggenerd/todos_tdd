@@ -1,23 +1,23 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
-const request = require("supertest");
-const session = require("supertest-session");
-const { expect, assert } = require("chai");
-const { internet, lorem } = require("faker");
+const request = require('supertest');
+const session = require('supertest-session');
+const { expect, assert } = require('chai');
+const { internet, lorem } = require('faker');
 
-const app = require("../../../app");
-const TodosModel = require("../todos_model");
-const testDB = "mongodb://localhost:27017/todo_tdd_test";
+const app = require('../../../app');
+const TodosModel = require('../todos_model');
+const testDB = 'mongodb://localhost:27017/todo_tdd_test';
 
-describe("Todos controller test", function() {
-  it("app module is defined", function() {
+describe('Todos controller test', function() {
+  it('app module is defined', function() {
     assert.isDefined(app);
   });
 
   let server;
   let testSession;
 
-  before("connect to db, run server", async function() {
+  before('connect to db, run server', async function() {
     server = await app.listen(3002);
     await mongoose.connect(
       testDB,
@@ -26,12 +26,12 @@ describe("Todos controller test", function() {
     await TodosModel.remove({});
   });
 
-  after("close connection, server", function(done) {
+  after('close connection, server', function(done) {
     mongoose.connection.close();
     server.close(done);
   });
 
-  describe("submit_todo test, unauthenticated", function() {
+  describe('submit_todo test, unauthenticated', function() {
     const todoData = {
       user: ObjectId().toString(),
       todo: lorem.sentences(1),
@@ -43,15 +43,15 @@ describe("Todos controller test", function() {
       closed: false
     };
     const error = {
-      name: "YOU DONE GOOFED",
-      message: "Not authorized!"
+      name: 'YOU DONE GOOFED',
+      message: 'Not authorized!'
     };
-    it("res 401 for valid req, no authorization", async function() {
+    it('res 401 for valid req, no authorization', async function() {
       await request(server)
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.deepEqual(res.body, { error });
         })
@@ -59,12 +59,12 @@ describe("Todos controller test", function() {
       //.expect("Location", "/401");
     });
 
-    it("res 401 for invalid data, no auth", async function() {
+    it('res 401 for invalid data, no auth', async function() {
       await request(server)
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(badTodoData)
-        .set("Content-Type", "application/json")
-        .set("Accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
         .expect(res => {
           assert.deepEqual(res.body, { error });
         })
@@ -73,7 +73,7 @@ describe("Todos controller test", function() {
     });
   });
 
-  describe("submit_todo test, authenticated", function() {
+  describe('submit_todo test, authenticated', function() {
     testSession = session(app);
     let authedSession;
     const userData = {
@@ -86,54 +86,54 @@ describe("Todos controller test", function() {
       closed: false
     };
     const badTodoData = {
-      todo: "",
+      todo: '',
       closed: false
     };
-    before("signUp, signIn for session", async function() {
+    before('signUp, signIn for session', async function() {
       await testSession
-        .post("/user/signup")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/signup')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
 
       await testSession
-        .post("/user/login")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/login')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
       authedSession = testSession;
     });
 
-    it("returns submitted todo for valid req", async function() {
+    it('returns submitted todo for valid req', async function() {
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.deepInclude(res.body.todo, todoData);
         })
         .expect(200)
-        .expect("Content-Type", /json/);
+        .expect('Content-Type', /json/);
     });
 
-    it("returns 500 for invalid data", async function() {
+    it('returns 400 for invalid data', async function() {
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(badTodoData)
-        .set("Content-Type", "application/json")
-        .set("Accept", "application/json")
-        .expect(500)
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .expect(400)
         .expect(res => {
           assert.include(
             res.error.text,
-            "ValidationError: todo validation failed: todo: Path `todo` is required"
+            'todo validation failed: todo: Path `todo` is required.'
           );
         });
     });
   });
 
-  describe("get_todos test", function() {
+  describe('get_todos test', function() {
     testSession = session(app);
     let authedSession;
     const todoData = {
@@ -146,43 +146,43 @@ describe("Todos controller test", function() {
       password: internet.password()
     };
 
-    before("signUp, signIn for session", async function() {
+    before('signUp, signIn for session', async function() {
       await TodosModel.remove({});
 
       await testSession
-        .post("/user/signup")
+        .post('/user/signup')
         .send(userData)
         .expect(200);
 
       await testSession
-        .post("/user/login")
+        .post('/user/login')
         .send(userData)
         .expect(200);
       authedSession = testSession;
     });
 
-    it("returns a list of todos when authenticated", async function() {
+    it('returns a list of todos when authenticated', async function() {
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
         .expect(200);
 
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
         .expect(200);
 
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
         .expect(200);
 
-      await authedSession.get("/todos/get").expect(res => {
+      await authedSession.get('/todos/get').expect(res => {
         assert.equal(res.body.todos.length, 3);
       });
     });
   });
-  describe("toggle_closed test", function() {
+  describe('toggle_closed test', function() {
     testSession = session(app);
     let authedSession;
     let returnedTodo = {};
@@ -197,29 +197,29 @@ describe("Todos controller test", function() {
     };
 
     const badTodoData = {
-      todo: "",
+      todo: '',
       closed: false
     };
 
-    before("signUp, signIn for session", async function() {
+    before('signUp, signIn for session', async function() {
       await testSession
-        .post("/user/signup")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/signup')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
 
       await testSession
-        .post("/user/login")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/login')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
       authedSession = testSession;
 
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.deepInclude(res.body.todo, todoData);
           returnedTodo = res.body.todo;
@@ -227,25 +227,25 @@ describe("Todos controller test", function() {
         .expect(200);
     });
 
-    it("flips closed property on todo", async function() {
+    it('flips closed property on todo', async function() {
       await authedSession
-        .post("/todos/toggleClosed")
+        .post('/todos/toggleClosed')
         .send({ id: returnedTodo._id })
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.equal(res.body.todo.closed, !returnedTodo.closed);
         })
         .expect(200)
-        .expect("Content-Type", /json/);
+        .expect('Content-Type', /json/);
 
-      await authedSession.get("/todos/get").expect(res => {
+      await authedSession.get('/todos/get').expect(res => {
         assert.equal(res.body.todos[0].closed, !returnedTodo.closed);
       });
     });
   });
 
-  describe("delete_todo test", function() {
+  describe('delete_todo test', function() {
     testSession = session(app);
     let authedSession;
     let returnedTodo = {};
@@ -258,50 +258,50 @@ describe("Todos controller test", function() {
       todo: lorem.sentences(1),
       closed: false
     };
-    
-    before("signUp, signIn for session", async function() {
+
+    before('signUp, signIn for session', async function() {
       await testSession
-        .post("/user/signup")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/signup')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
 
       await testSession
-        .post("/user/login")
-        .set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        .post('/user/login')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         .send(userData)
         .expect(200);
 
       authedSession = testSession;
 
       await authedSession
-        .post("/todos/submit")
+        .post('/todos/submit')
         .send(todoData)
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.deepInclude(res.body.todo, todoData);
           returnedTodo = res.body.todo;
         })
         .expect(200)
-        .expect("Content-Type", /json/);
+        .expect('Content-Type', /json/);
     });
-    it("returns the right id", async function() {
+    it('returns the right id', async function() {
       await authedSession
-        .post("/todos/delete")
+        .post('/todos/deleteTodo')
         .send({ id: returnedTodo._id })
-        .set("Content-Type", "application/json")
-        .set("accept", "application/json")
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
         .expect(res => {
           assert.deepInclude(res.body.todo, { _id: returnedTodo._id });
         })
         .expect(200)
-        .expect("Content-Type", /json/);
+        .expect('Content-Type', /json/);
     });
-    it("actually deletes correct todo", async function(){
-      await authedSession.get("/todos/get").expect(res => {
-        assert.equal(res.body.todos.length, 0)
+    it('actually deletes correct todo', async function() {
+      await authedSession.get('/todos/get').expect(res => {
+        assert.equal(res.body.todos.length, 0);
       });
-    })
+    });
   });
 });

@@ -40,23 +40,71 @@ class App extends Component {
     this.handleTodosButtonClick = this.handleTodosButtonClick.bind(this);
   }
   handleTodosButtonClick(id, url) {
-    const body = url => {
-      switch (url) {
-        case 'toggleClosed':
-          return { id };
-      }
-    };
-    console.log('handleToggleCLosed called with id', id);
-    axios.post(`http://localhost:3000/todos/${url}`, body()).then(res => {
-      const findTodoIndex = todos => todos.findIndex(todo => todo._id === id);
-      const oldTodos = [...this.state.todos];
-      oldTodos[findTodoIndex(oldTodos)] = res.data.todo;
-      const newTodos = [...oldTodos];
+    // const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
 
-      this.setState({
-        todos: newTodos
+    // const toggleClosed = () => {
+    //   console.log('res.data.todo.closed', res.data.todo.closed);
+    //   const oldTodos = [...this.state.todos];
+    //   oldTodos[getIndex(id, oldTodos)] = Object.assign(
+    //     oldTodos[getIndex(id, oldTodos)],
+    //     { closed: res.data.todo.closed }
+    //   );
+    //   const newTodos = [...oldTodos];
+    //   this.setState({
+    //     todos: newTodos
+    //   });
+    // };
+    // const deleteTodo = () => {
+    //   const todoIndex = getIndex(id, this.state.todos);
+    //   const newTodos = this.state.todos
+    //     .slice(0, todoIndex)
+    //     .concat(this.state.todos.slice(todoIndex + 1));
+    //   this.setState({
+    //     todos: newTodos
+    //   });
+    // };
+
+    axios
+      .post(`http://localhost:3000/todos/${url}`, { id })
+      .then(res => {
+        console.log('todobutton post called with res.data', res.data);
+        const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
+
+        const toggleClosed = res => {
+          console.log('res.data.todo.closed', res.data.todo.closed);
+          const oldTodos = [...this.state.todos];
+          oldTodos[getIndex(id, oldTodos)] = Object.assign(
+            oldTodos[getIndex(id, oldTodos)],
+            { closed: res.data.todo.closed }
+          );
+          const newTodos = [...oldTodos];
+          this.setState({
+            todos: newTodos
+          });
+        };
+        const deleteTodo = res => {
+          console.log('id of todo to delete', res.data.todo._id);
+          const todoIndex = getIndex(res.data.todo._id, this.state.todos);
+          const newTodos = this.state.todos
+            .slice(0, todoIndex)
+            .concat(this.state.todos.slice(todoIndex + 1));
+          this.setState({
+            todos: newTodos
+          });
+        };
+
+        switch (url) {
+          case 'toggleClosed':
+            toggleClosed(res);
+            break;
+          case 'deleteTodo':
+            deleteTodo(res);
+            break;
+        }
+      })
+      .catch(e => {
+        this.setState({ error: e.response.data.error });
       });
-    });
   }
 
   handleSidebarClick(e, form) {
@@ -104,9 +152,6 @@ class App extends Component {
         this.setState({ userFormDisplay: 'login' });
       })
       .catch(e => {
-        console.log('message', e.message);
-        console.log('response', e.response);
-
         this.setState({ error: e.response.data.error });
       });
   }
@@ -189,7 +234,7 @@ class App extends Component {
     if (this.state.auth !== prevState.auth) {
       this.getTodos();
     }
-    console.log('this.state.todos', this.state.todos);
+    console.log('this.state', this.state);
   }
   render() {
     return this.renderContent();

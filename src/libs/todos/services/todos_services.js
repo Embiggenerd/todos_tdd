@@ -1,7 +1,11 @@
 const submitTodo = TodosModel => async (todo, closed, user) => {
+  let payload;
   const newTodo = new TodosModel({ todo, closed, user });
   const savedTodo = await newTodo.save();
-  return savedTodo;
+  if (savedTodo) {
+    payload = savedTodo;
+  }
+  return payload;
 };
 
 const getTodos = TodosModel => async user => {
@@ -10,16 +14,16 @@ const getTodos = TodosModel => async user => {
 };
 
 const toggleClosed = TodosModel => async id => {
-  const foundTodos = await TodosModel.findById(id)
-  foundTodos.closed = !foundTodos.closed
-  savedTodo = await foundTodos.save()
-  return savedTodo
-}
+  const foundTodos = await TodosModel.findById(id);
+  foundTodos.closed = !foundTodos.closed;
+  savedTodo = await foundTodos.save();
+  return savedTodo;
+};
 
 const deleteTodo = TodosModel => async id => {
-  const deletedTodo = await TodosModel.findByIdAndDelete(id)
-  return deletedTodo
-}
+  const deletedTodo = await TodosModel.findByIdAndDelete(id);
+  return deletedTodo;
+};
 
 module.exports = TodosModel => ({
   deleteTodo: deleteTodo(TodosModel),
