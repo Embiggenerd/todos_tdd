@@ -13,6 +13,7 @@ import Advertisement from './Advertisement';
 import TodosDiv from './TodosDiv';
 import TodosForm from './TodosForm';
 import UserForm from './UserForm';
+import ErrorModal from './ErrorModal';
 
 class App extends Component {
   constructor() {
