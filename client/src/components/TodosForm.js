@@ -15,6 +15,7 @@ class TodosForm extends Component {
             type="text"
             name="todos"
             placeholder="todos"
+            maxlength="27"
             onChange={e => handleFieldChange(e, 'todo', 'todosForm')}
           />
           <input className="submit-btn" type="submit" value="submit" />

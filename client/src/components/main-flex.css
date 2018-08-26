@@ -13,7 +13,6 @@ a {
   text-decoration: none;
 }
 body {
-  height: 100%;
   background: steelblue;
   color: white;
   text-decoration: none;
@@ -25,16 +24,43 @@ header {
 }
 
 div {
-  padding: 1%;
+  padding: .5%;
 }
 
-#app {
-  height: 100%;
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
+
+input[type=text] input[type=password] {
+  min-width: 250px;
+}
+#todos-input {
+  width: 200px;
+}
+
+#todos-list {
+  max-width: 500px;
+}
+
+/* #app {
+  
+
+} */
+
+#todos-form {
+  display:flex;
+  flex-direction: column;
+}
+
+
 
 .layout {
   z-index: -1;
   height: 100%;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
   border-style: solid;
@@ -42,6 +68,7 @@ div {
 }
 
 .main {
+  min-height: 420px;
   padding: 0.5%;
   background-color: #d0d0d0;
   color: black;
@@ -59,12 +86,13 @@ div {
 }
 
 .content {
+  display:flex;
+  flex-direction: row;
   color: #264662;
   background-color: white;
   flex: 1;
   padding-left: 5%;
-  display: flex;
-  align-items: space-between;
+  justify-content: space-between;
 }
 
 .sidebar {
@@ -85,8 +113,12 @@ div {
 }
 
 .advertisement {
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
   background-color: #e8e8e8;
   flex: 0 0 12em;
+  flex-direction: column;
   order: 1;
 }
 
@@ -122,15 +154,83 @@ input {
   text-align: center;
 }
 .todos-wrapper {
-  width: 100%;
+  min-width: 390px;
+  max-width: 470px;
   text-align: center;
 }
 
 .todo-unit {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
 }
+
+.todo-text {
+  width: 100%;
+  text-align: left;
+}
+
+.modal {
+  color: black;
+  padding: 12px;
+  background: white;
+  border: thick red solid;
+  min-height: 200px;
+  min-width: 420px;
+  height: 25%;
+  width: 45%;
+  text-align: center;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.click-catcher, .click-catcher--open {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.click-catcher--open {
+  display: flex;
+}
+
 footer {
   padding: 1%;
-  height: 5%;
+  height: 4%;
+}
+
+@media screen and (max-width: 1284px) {
+  form {
+    flex-direction:column
+  }
+  .content {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 890px) {
+  .main {
+    flex-direction: column
+  }
+  .sidebar {
+    flex-direction: row;
+    flex: 0 0 2em;
+  }
+  .sidebar > a {
+    margin-left: 10px;
+    height: 15px;
+  }
+
+  .advertisement {
+    flex-direction: row;
+  }
+
+  .content {
+    align-items: center;
+  }
 }

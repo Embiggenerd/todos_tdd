@@ -47,30 +47,6 @@ class App extends Component {
   }
 
   handleTodosButtonClick(id, url) {
-    // const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
-
-    // const toggleClosed = () => {
-    //   console.log('res.data.todo.closed', res.data.todo.closed);
-    //   const oldTodos = [...this.state.todos];
-    //   oldTodos[getIndex(id, oldTodos)] = Object.assign(
-    //     oldTodos[getIndex(id, oldTodos)],
-    //     { closed: res.data.todo.closed }
-    //   );
-    //   const newTodos = [...oldTodos];
-    //   this.setState({
-    //     todos: newTodos
-    //   });
-    // };
-    // const deleteTodo = () => {
-    //   const todoIndex = getIndex(id, this.state.todos);
-    //   const newTodos = this.state.todos
-    //     .slice(0, todoIndex)
-    //     .concat(this.state.todos.slice(todoIndex + 1));
-    //   this.setState({
-    //     todos: newTodos
-    //   });
-    // };
-
     axios
       .post(`http://localhost:3000/todos/${url}`, { id })
       .then(res => {
@@ -132,6 +108,7 @@ class App extends Component {
 
   handleFormSubmit(e, url) {
     e.preventDefault();
+    e.persist()
     const body = url => {
       if (url === "/todos/submit") {
         return {
@@ -156,12 +133,20 @@ class App extends Component {
           case "/user/login":
             this.setState({
               auth: true,
-              username: res.data.user.username
+              username: res.data.user.username,
+              // userForm: {
+              //   username: '',
+              //   password: ''
+              // }
             });
+
             break;
           case "/todos/submit":
             this.setState({
-              todos: [...this.state.todos, res.data.todo]
+              todos: [...this.state.todos, res.data.todo],
+              // todosForm: {
+              //   todo: ''
+              // }
             });
             break;
         }
@@ -169,7 +154,8 @@ class App extends Component {
       })
       .catch(e => {
         this.setState({ error: e.response.data.error });
-      });
+      })
+      .finally(() => e.target.value = '')
   }
 
   handleFieldChange(e, key, field) {
