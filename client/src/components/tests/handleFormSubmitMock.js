@@ -1,6 +1,6 @@
 module.exports = function(e, url) {
   // e.prevetDefault();
-  console.log(this.state);
+  // console.log(this.state);
   switch (url) {
     case '/user/signup':
       this.setState({ userFormDisplay: '/user/login' });

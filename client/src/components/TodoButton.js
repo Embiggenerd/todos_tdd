@@ -20,7 +20,7 @@ const TodoButton = props => {
             id="delete-button"
             className="todos-btn danger-btn"
             onClick={() => {
-              console.log("deleteButtons todo", todo);
+              {/* console.log("deleteButtons todo", todo); */}
               handleDeleteTodo(todo._id, "deleteTodo");
             }}
           >

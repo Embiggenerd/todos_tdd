@@ -1,6 +1,6 @@
 module.exports = function(id, url) {
   const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
-  console.log('lzz');
+  // console.log('lzz');
 
   
   const toggleClosed = () => {
@@ -15,7 +15,7 @@ module.exports = function(id, url) {
     });
   };
   const deleteTodo = () => {
-    console.log('deleteTodo called');
+    // console.log('deleteTodo called');
     const todoIndex = getIndex(id, this.state.todos);
     const newTodos = this.state.todos
       .slice(0, todoIndex)

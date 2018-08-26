@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 axios.defaults.withCredentials = true;
-require('promise.prototype.finally').shim();
-import './main-flex.css';
+require("promise.prototype.finally").shim();
+import "./main-flex.css";
 
-import Loading from './Loading';
-import Content from './Content';
-import Header from './Header';
-import Footer from './Footer';
-import SideBar from './SideBar';
-import Advertisement from './Advertisement';
-import TodosDiv from './TodosDiv';
-import TodosForm from './TodosForm';
-import UserForm from './UserForm';
-import ErrorModal from './ErrorModal';
+import Loading from "./Loading";
+import Content from "./Content";
+import Header from "./Header";
+import Footer from "./Footer";
+import SideBar from "./SideBar";
+import Advertisement from "./Advertisement";
+import TodosDiv from "./TodosDiv";
+import TodosForm from "./TodosForm";
+import UserForm from "./UserForm";
+import ErrorModal from "./ErrorModal";
 
 class App extends Component {
   constructor() {
@@ -22,15 +22,15 @@ class App extends Component {
       loading: true,
       auth: false,
       todos: [],
-      error: '',
-      userFormDisplay: '',
+      error: "",
+      userFormDisplay: "",
       userForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       },
-      username: '',
+      username: "",
       todosForm: {
-        todo: '',
+        todo: "",
         closed: false
       }
     };
@@ -39,7 +39,13 @@ class App extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleTodosButtonClick = this.handleTodosButtonClick.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
+
+  handleCloseModal(){
+    this.setState({error:''})
+  }
+
   handleTodosButtonClick(id, url) {
     // const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
 
@@ -68,11 +74,11 @@ class App extends Component {
     axios
       .post(`http://localhost:3000/todos/${url}`, { id })
       .then(res => {
-        console.log('todobutton post called with res.data', res.data);
+        // console.log("todobutton post called with res.data", res.data);
         const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
 
         const toggleClosed = res => {
-          console.log('res.data.todo.closed', res.data.todo.closed);
+          console.log("res.data.todo.closed", res.data.todo.closed);
           const oldTodos = [...this.state.todos];
           oldTodos[getIndex(id, oldTodos)] = Object.assign(
             oldTodos[getIndex(id, oldTodos)],
@@ -84,7 +90,7 @@ class App extends Component {
           });
         };
         const deleteTodo = res => {
-          console.log('id of todo to delete', res.data.todo._id);
+          // console.log("id of todo to delete", res.data.todo._id);
           const todoIndex = getIndex(res.data.todo._id, this.state.todos);
           const newTodos = this.state.todos
             .slice(0, todoIndex)
@@ -95,10 +101,10 @@ class App extends Component {
         };
 
         switch (url) {
-          case 'toggleClosed':
+          case "toggleClosed":
             toggleClosed(res);
             break;
-          case 'deleteTodo':
+          case "deleteTodo":
             deleteTodo(res);
             break;
         }
@@ -110,15 +116,24 @@ class App extends Component {
 
   handleSidebarClick(e, form) {
     e.preventDefault();
-    this.setState({
-      userFormDisplay: form
-    });
+
+    if (form === "logout") {
+      axios("http://localhost:3000/user/logout")
+        .then(res => {
+          this.setState({ auth: false, userFormDisplay:'' });
+        })
+        .catch(e => {});
+    } else {
+      this.setState({
+        userFormDisplay: form
+      });
+    }
   }
 
   handleFormSubmit(e, url) {
     e.preventDefault();
     const body = url => {
-      if (url === '/todos/submit') {
+      if (url === "/todos/submit") {
         return {
           todo: this.state.todosForm.todo,
           closed: this.state.todosForm.closed
@@ -135,22 +150,22 @@ class App extends Component {
       .post(`http://localhost:3000${url}`, body(url))
       .then(res => {
         switch (url) {
-          case '/user/signup':
-            this.setState({ userFormDisplay: '/user/login' });
+          case "/user/signup":
+            this.setState({ userFormDisplay: "/user/login" });
             break;
-          case '/user/login':
+          case "/user/login":
             this.setState({
               auth: true,
               username: res.data.user.username
             });
             break;
-          case '/todos/submit':
+          case "/todos/submit":
             this.setState({
               todos: [...this.state.todos, res.data.todo]
             });
             break;
         }
-        this.setState({ userFormDisplay: 'login' });
+        this.setState({ userFormDisplay: "login" });
       })
       .catch(e => {
         this.setState({ error: e.response.data.error });
@@ -168,16 +183,14 @@ class App extends Component {
   }
 
   getTodos() {
-    axios('http://localhost:3000/todos/get')
+    axios("http://localhost:3000/todos/get")
       .then(res => {
         this.setState({
           auth: true,
           todos: res.data.todos
         });
       })
-      .catch(err => {
-        this.setState({ error: err });
-      })
+      .catch(() => {})
       .finally(() => this.setState({ loading: false }));
   }
 
@@ -209,13 +222,13 @@ class App extends Component {
   }
 
   renderContent() {
-    const { loading, auth, username } = this.state;
+    const { loading, auth, username, error } = this.state;
     if (loading) {
       return <Loading />;
     }
     return (
       <div className="layout">
-        <Header username={username} />
+        <Header auth={auth} username={username} />
         <div className="main">
           <SideBar auth={auth} handleSidebarClick={this.handleSidebarClick} />
 
@@ -224,6 +237,10 @@ class App extends Component {
           <Content>{this.contentChildren()}</Content>
         </div>
         <Footer />
+        <ErrorModal
+          onClose={this.handleCloseModal}
+          error={error}
+        />
       </div>
     );
   }
@@ -235,7 +252,7 @@ class App extends Component {
     if (this.state.auth !== prevState.auth) {
       this.getTodos();
     }
-    console.log('this.state', this.state);
+    console.log("this.state", this.state);
   }
   render() {
     return this.renderContent();
