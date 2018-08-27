@@ -1,62 +1,56 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-/**
- * The react tree refers to the script tag the higher level component
- * returns. It simply serves as a node to appendchild our real modal
- * box to, which receives props from the parent. That we need a 
- * parent node, but it must not have styling, is why we return
- * a script tag.
- * 
- * ModalBox returns a click catcher that wraps the display div. It takes up
- * the entire viewport when state.error is truthy, and simply returns state.error = ''
- * when clicked, which flips the display att from flex back to none.
- * 
- * The ModalBox is always rendered, it's styling is simply correlated to the
- * truthiness of a state.error. That we render a new node is simply to avoid
- * its display being affected by the react tree, though we still need to have 
- * a reference in the tree.
+/*
+* We return a script tag so that React has something to reference in the
+* tree. However, we create a node and reactDOM render onto it so that
+* it is independent of the rest of the tree. We need to create, append
+* node only once, we do it in componentDidMount. On every props change, 
+* after update, we call reactRender again with new props.
+* 
+* componentWillUnmount contains a bug fix where new nodes were unnecessarily
+* appended.
  */
 
 let node = null;
 
 class ErrorModal extends Component {
-  state = {}
+
+  componentDidUpdate(){
+      ReactDOM.render(<ModalBox {...this.props} />, node)
   
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if(node) {
-      ReactDOM.render(<ModalBox {...nextProps} />, node)
-    }
-    return nextProps;
   }
 
   componentDidMount(){
     node = document.createElement("div")
     document.body.appendChild(node);
-    ReactDOM.render(<ModalBox {...this.props} />, node)
   }
-
-  componentWillUnmount(){
-    ReactDOM.unmountComponentAtNode(node)
-    node.parentNode && node.parentNode.removeChild(node)
-  }
-
-  render(){
-    return <script />
-  }
-}
-
-const ModalBox = (props) => {
-  const { error, onClose } = props
   
-  return(
-    <div className={error ? 'click-catcher--open': 'click-catcher'} onClick={onClose}>
-    <div className="modal">
-      <h3>{error.name}</h3>
-      <p>{error.message}</p>
-    </div>
-    </div>
-  )
+
+  componentWillUnmount() {
+    ReactDOM.unmountComponentAtNode(node);
+    node.parentNode && node.parentNode.removeChild(node);
+  }
+
+  render() {
+    return <script />;
+  }
 }
 
-export default ErrorModal
+const ModalBox = props => {
+  const { error, onClose } = props;
+
+  return (
+    <div
+      className={error ? "click-catcher--open" : "click-catcher"}
+      onClick={onClose}
+    >
+      <div className="modal">
+        <h3>{error.name}</h3>
+        <p>{error.message}</p>
+      </div>
+    </div>
+  );
+};
+
+export default ErrorModal;

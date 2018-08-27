@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class TodosForm extends Component {
   render() {
-    const { handleFieldChange, handleFormSubmit } = this.props;
+    const { handleFieldChange, handleFormSubmit, todoVal } = this.props;
     return (
       <div className="form-wrapper">
         <form
@@ -15,7 +15,8 @@ class TodosForm extends Component {
             type="text"
             name="todos"
             placeholder="todos"
-            maxlength="27"
+            maxLength="27"
+            value={todoVal}
             onChange={e => handleFieldChange(e, 'todo', 'todosForm')}
           />
           <input className="submit-btn" type="submit" value="submit" />

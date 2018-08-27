@@ -1,6 +1,6 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import App from "../App";
+import App from "../../App";
 
 import handleFormSubmitMock from "./handleFormSubmitMock";
 import handleTodosButtonClickMock from "./handleTodosButtonClickMock";
