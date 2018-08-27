@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 /*
 * We return a script tag so that React has something to reference in the
@@ -9,23 +9,36 @@ import ReactDOM from "react-dom";
 * after update, we call reactRender again with new props.
 * 
 * componentWillUnmount contains a bug fix where new nodes were unnecessarily
-* appended.
+* appended when <Loading/> component is mounted and layout tree is unmounted
+
+* We specifiy a shouldComponentUpdate in this case because react does not 
+* compare props when deciding to update, it only checks if there is an update.
+* Since the reference for this is in the layout tree, and the props are passed
+* when that tree is rerendered on its update, our props register an update.
+* We compare relevant props to mitigate this inefficiency. 
+* 
  */
 
 let node = null;
 
 class ErrorModal extends Component {
-
-  componentDidUpdate(){
-      ReactDOM.render(<ModalBox {...this.props} />, node)
-  
+  shouldComponentUpdate(nextProps) {
+    if (this.props.error !== nextProps.error) {
+      return true;
+    }
+    return false;
+  }
+  componentDidUpdate(prevProps) {
+    console.log('modal updated');
+    ReactDOM.render(<ModalBox {...this.props} />, node);
   }
 
-  componentDidMount(){
-    node = document.createElement("div")
+  componentDidMount() {
+    console.log('modal mounted');
+
+    node = document.createElement('div');
     document.body.appendChild(node);
   }
-  
 
   componentWillUnmount() {
     ReactDOM.unmountComponentAtNode(node);
@@ -42,7 +55,7 @@ const ModalBox = props => {
 
   return (
     <div
-      className={error ? "click-catcher--open" : "click-catcher"}
+      className={error ? 'click-catcher--open' : 'click-catcher'}
       onClick={onClose}
     >
       <div className="modal">

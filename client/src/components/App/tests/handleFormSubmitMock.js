@@ -1,5 +1,4 @@
 module.exports = function(e, url) {
-  // e.prevetDefault();
   // console.log(this.state);
   switch (url) {
     case '/user/signup':
@@ -22,5 +21,5 @@ module.exports = function(e, url) {
       break;
   }
   this.setState({ userFormDisplay: 'login' });
-  console.log('statesies', this.state);
+  // console.log('statesies', this.state);
 };

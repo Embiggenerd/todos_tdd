@@ -45,7 +45,7 @@ app.get('/todos/get', isLoggedIn, getTodos);
 app.post('/todos/deleteTodo', isLoggedIn, deleteTodo);
 app.use((err, req, res, next) => {
   if (err.name) {
-    const fullError = res.status(400).json({
+    res.status(400).json({
       error: {
         name: 'SOMEBODY GOOFED',
         message: `${err.message}!`
