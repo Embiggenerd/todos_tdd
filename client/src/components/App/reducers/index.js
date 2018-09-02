@@ -27,15 +27,19 @@ const todosReducer = (state = [], action) => {
         .slice(0, indexToDelete)
         .concat(state.slice(indexToDelete + 1));
     case ADD_TODO:
-      return [...state, action.todo]
+      return [...state, action.todo];
+    default:
+      return state;
   }
 };
 
 const userFormDisplayReducer = (state = "", action) => {
-  const {type, display } = action
+  const { type, display } = action;
   switch (type) {
     case USER_DISPLAY_FORM:
       return display;
+    default:
+      return state;
   }
 };
 
@@ -43,25 +47,36 @@ const authReducer = (state = false, action) => {
   switch (action.type) {
     case AUTH:
       return action.auth;
+    default:
+      return state;
   }
 };
 
-const userFormReducer = (state={username:'', password:''}, action)=> {
-  const {type, username, password} = action
-  switch(type) {
+const userFormReducer = (state = { username: "", password: "" }, action) => {
+  const { type, username, password } = action;
+  switch (type) {
     case USER_FORM:
-    return {
-      username, password
-    }
+      return {
+        username,
+        password
+      };
+    default:
+      return state;
   }
-}
+};
 
-const usernameReducer = (state ='', action) => {
-  const { type, username } = actio 
-  switch(type) {
+const usernameReducer = (state = "", action) => {
+  const { type, username } = actio;
+  switch (type) {
     case USERNAME:
-      return username
+      return username;
+    default:
+      return state;
   }
+};
+
+const todosFormReducer = (state={todo:'', closed: false}) => {
+  
 }
 
 export default combineReducers({
@@ -70,7 +85,8 @@ export default combineReducers({
   userSubmitFormDisplay: userFormDisplayReducer,
   auth: authReducer,
   userForm: userFormReducer,
-  username: usernameReducer
+  username: usernameReducer,
+  todosForm: todosFormReducer
 });
 
 // const toggleClosed = res => {
