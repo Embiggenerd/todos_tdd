@@ -101,7 +101,7 @@ export const handleFormSubmit = (e, url) => {
       case '/user/signup':
         dispatch({
           type: USER_FORM_DISPLAY,
-          display: '/user/login'
+          display: "login"
         });
         // this.setState({ userFormDisplay: '/user/login' });
         break;
@@ -146,10 +146,17 @@ export const handleFormSubmit = (e, url) => {
         // });
         break;
     }
+<<<<<<< HEAD
     dispatch({
       type: USER_FORM_DISPLAY,
       display: 'login'
     });
+=======
+    // dispatch({
+    //   type: USER_FORM_DISPLAY,
+    //   display: "login"
+    // });
+>>>>>>> cd7d14ae64d0462d60d35222ff564f8eb994fb1b
     // this.setState({ userFormDisplay: "login" });
   };
 };
