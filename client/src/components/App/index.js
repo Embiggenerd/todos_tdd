@@ -108,6 +108,7 @@ class App extends Component {
   handleFormSubmit(e, url) {
     e.preventDefault();
     e.persist();
+    console.log('handleSubmit called with url', url);
     const body = url => {
       if (url === '/todos/submit') {
         return {
@@ -127,7 +128,7 @@ class App extends Component {
       .then(res => {
         switch (url) {
           case '/user/signup':
-            this.setState({ userFormDisplay: '/user/login' });
+            this.setState({ userFormDisplay: 'login' });
             break;
           case '/user/login':
             this.setState({
@@ -149,7 +150,7 @@ class App extends Component {
             });
             break;
         }
-        this.setState({ userFormDisplay: 'login' });
+        // this.setState({ userFormDisplay: 'login' });
       })
       .catch(e => {
         this.setState({ error: e.response.data.error });
@@ -240,6 +241,8 @@ class App extends Component {
     if (this.state.auth !== prevState.auth) {
       this.getTodos();
     }
+
+    console.log(this.state);
   }
   render() {
     return this.renderContent();
