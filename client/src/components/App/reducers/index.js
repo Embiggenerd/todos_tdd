@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import {
   ERROR,
   TOGGLE_CLOSED,
@@ -8,7 +8,7 @@ import {
   USER_FORM,
   ADD_TODO,
   USERNAME
-} from "../constants";
+} from '../constants';
 
 const getIndex = (_id, arr) => arr.findIndex(item => item._id === id);
 
@@ -27,12 +27,12 @@ const todosReducer = (state = [], action) => {
         .slice(0, indexToDelete)
         .concat(state.slice(indexToDelete + 1));
     case ADD_TODO:
-      return [...state, action.todo]
+      return [...state, action.todo];
   }
 };
 
-const userFormDisplayReducer = (state = "", action) => {
-  const {type, display } = action
+const userFormDisplayReducer = (state = '', action) => {
+  const { type, display } = action;
   switch (type) {
     case USER_DISPLAY_FORM:
       return display;
@@ -46,23 +46,24 @@ const authReducer = (state = false, action) => {
   }
 };
 
-const userFormReducer = (state={username:'', password:''}, action)=> {
-  const {type, username, password} = action
-  switch(type) {
+const userFormReducer = (state = { username: '', password: '' }, action) => {
+  const { type, username, password } = action;
+  switch (type) {
     case USER_FORM:
-    return {
-      username, password
-    }
+      return {
+        username,
+        password
+      };
   }
-}
+};
 
-const usernameReducer = (state ='', action) => {
-  const { type, username } = actio 
-  switch(type) {
+const usernameReducer = (state = '', action) => {
+  const { type, username } = actio;
+  switch (type) {
     case USERNAME:
-      return username
+      return username;
   }
-}
+};
 
 export default combineReducers({
   todos: todosReducer,

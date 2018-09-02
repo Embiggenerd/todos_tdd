@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ERROR,
   DELETE_TODO,
-  TOGLE_CLOSED,
+  TOGGLE_CLOSED,
   AUTH,
   USER_FORM_DISPLAY,
   USERNAME,
   ADD_TODO,
   USER_FORM,
   TODOS_FORM
-} from "../constants";
+} from '../constants';
 const getIndex = (id, arr) => arr.findIndex(item => item._id === id);
 
 export const handleTodosButtonClick = (id, url) => {
@@ -24,12 +24,12 @@ export const handleTodosButtonClick = (id, url) => {
       });
     }
     switch (url) {
-      case "toggleClosed":
+      case 'toggleClosed':
         disatch({
           type: TOGGLE_CLOSED,
           todo: res.data.todo
         });
-      case "deleteTodo":
+      case 'deleteTodo':
         dispatch({
           type: DELETE_TODO,
           todoToDelete: res.data.todo
@@ -42,9 +42,9 @@ export const handleSidebarClick = (e, form) => {
   e.preventDefault();
   return async dispatch => {
     let res;
-    if (form === "logout") {
+    if (form === 'logout') {
       try {
-        res = axios("http://localhost:3000/user/logout");
+        res = axios('http://localhost:3000/user/logout');
       } catch (e) {
         return dispatch({
           type: ERROR,
@@ -57,7 +57,7 @@ export const handleSidebarClick = (e, form) => {
       });
       dispatch({
         type: USER_FORM_DISPLAY,
-        display: ""
+        display: ''
       });
     } else {
       dispatch({
@@ -75,7 +75,7 @@ export const handleFormSubmit = (e, url) => {
   let res;
   return async (dispatch, getState) => {
     const body = url => {
-      if (url === "/todos/submit") {
+      if (url === '/todos/submit') {
         return {
           todo: getState().todosForm.todo,
           closed: getState().todosForm.closed
@@ -95,17 +95,17 @@ export const handleFormSubmit = (e, url) => {
         error: e.response.data.error
       });
     } finally {
-      e.target.value = "";
+      e.target.value = '';
     }
     switch (url) {
-      case "/user/signup":
+      case '/user/signup':
         dispatch({
           type: USER_FORM_DISPLAY,
-          display: "/user/login"
+          display: '/user/login'
         });
         // this.setState({ userFormDisplay: '/user/login' });
         break;
-      case "/user/login":
+      case '/user/login':
         dispatch({
           type: AUTH,
           auth: true
@@ -116,8 +116,8 @@ export const handleFormSubmit = (e, url) => {
         });
         dispatch({
           type: USER_FORM,
-          username: "",
-          password: ""
+          username: '',
+          password: ''
         });
         // this.setState({
         //   auth: true,
@@ -129,14 +129,14 @@ export const handleFormSubmit = (e, url) => {
         // });
 
         break;
-      case "/todos/submit":
+      case '/todos/submit':
         dispatch({
           type: ADD_TODO,
           todo: res.data.todo
         });
         dispatch({
           type: TODOS_FORM,
-          todo: ""
+          todo: ''
         });
         // this.setState({
         //   todos: [...this.state.todos, res.data.todo],
@@ -148,7 +148,7 @@ export const handleFormSubmit = (e, url) => {
     }
     dispatch({
       type: USER_FORM_DISPLAY,
-      display: "login"
+      display: 'login'
     });
     // this.setState({ userFormDisplay: "login" });
   };
