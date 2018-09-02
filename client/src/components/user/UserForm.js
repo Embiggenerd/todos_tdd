@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PASSWORD, USER_FORM } from '../constants'
 
 class UserForm extends Component {
   renderForm() {

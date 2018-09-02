@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TODO, TODOS_FORM } from '../constants'
 
 class TodosForm extends Component {
   render() {
@@ -17,7 +18,7 @@ class TodosForm extends Component {
             placeholder="todos"
             maxLength="27"
             value={todoVal}
-            onChange={e => handleFieldChange(e, 'todo', 'todosForm')}
+            onChange={e => handleFieldChange(e, TODO, TODOS_FORM)}
           />
           <input className="submit-btn" type="submit" value="submit" />
         </form>
