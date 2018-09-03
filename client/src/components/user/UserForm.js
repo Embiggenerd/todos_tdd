@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PASSWORD, USER_FORM } from '../constants'
+import { PASSWORD, USER_FORM, USERNAME } from '../App/constants';
 
 class UserForm extends Component {
   renderForm() {
@@ -23,7 +23,7 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  handleFieldChange(e, 'username', 'userForm');
+                  handleFieldChange(e, USERNAME, USER_FORM);
                 }}
                 value={values.username}
               />
@@ -34,7 +34,7 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  handleFieldChange(e, 'password', 'userForm');
+                  handleFieldChange(e, PASSWORD, USER_FORM);
                 }}
                 value={values.password}
               />

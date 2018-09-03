@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TODO, TODOS_FORM } from '../constants'
+import { TODO, TODOS_FORM } from '../App/constants';
 
 class TodosForm extends Component {
   render() {

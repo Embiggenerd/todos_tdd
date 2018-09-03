@@ -7,19 +7,25 @@ import {
   USER_FORM_DISPLAY,
   USER_FORM,
   ADD_TODO,
-  USERNAME
+  USERNAME,
+  TODOS_FORM,
+  GET_TODOS,
+  LOADING
 } from '../constants';
 
 const getIndex = (_id, arr) => arr.findIndex(item => item._id === id);
 
 const todosReducer = (state = [], action) => {
-  const { _id, closed } = action.todo;
+  // const { _id, closed } = action.todo;
   switch (action.type) {
     case TOGGLE_CLOSED:
       const todos = [...state];
-      todos[geIndex(id, state)] = Object.assign(oldTodos[geIndex(_id, state)], {
-        closed
-      });
+      todos[geIndex(id, state)] = Object.assign(
+        oldTodos[geIndex(action.todo._id, state)],
+        {
+          closed: action.todo.closed
+        }
+      );
       return todos;
     case DELETE_TODO:
       const indexToDelete = getIndex(_id, state);
@@ -28,6 +34,8 @@ const todosReducer = (state = [], action) => {
         .concat(state.slice(indexToDelete + 1));
     case ADD_TODO:
       return [...state, action.todo];
+    case GET_TODOS:
+      return action.todos;
     default:
       return state;
   }
@@ -36,7 +44,7 @@ const todosReducer = (state = [], action) => {
 const userFormDisplayReducer = (state = '', action) => {
   const { type, display } = action;
   switch (type) {
-    case USER_DISPLAY_FORM:
+    case USER_FORM_DISPLAY:
       return display;
     default:
       return state;
@@ -52,13 +60,17 @@ const authReducer = (state = false, action) => {
   }
 };
 
-const userFormReducer = (state = { username: '', password: '' }, action) => {
-  const { type, username, password } = action;
+const formReducer = (state = {}, action) => {
+  const { type, username, password, todo } = action;
   switch (type) {
     case USER_FORM:
       return {
         username,
         password
+      };
+    case TODOS_FORM:
+      return {
+        todo
       };
     default:
       return state;
@@ -66,7 +78,7 @@ const userFormReducer = (state = { username: '', password: '' }, action) => {
 };
 
 const usernameReducer = (state = '', action) => {
-  const { type, username } = actio;
+  const { type, username } = action;
   switch (type) {
     case USERNAME:
       return username;
@@ -75,36 +87,33 @@ const usernameReducer = (state = '', action) => {
   }
 };
 
-const todosFormReducer = (state = { todo: '', closed: false }) => {};
+const errorReducer = (state = {}, action) => {
+  const { type, error } = action;
+  switch (type) {
+    case ERROR:
+      return error;
+    default:
+      return state;
+  }
+};
+
+const loadingReducer = (state = true, action) => {
+  const { type, loading } = action;
+  switch (type) {
+    case LOADING:
+      return loading;
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({
   todos: todosReducer,
   auth: authReducer,
-  userSubmitFormDisplay: userFormDisplayReducer,
-  auth: authReducer,
-  userForm: userFormReducer,
+  userFormDisplay: userFormDisplayReducer,
+  userForm: formReducer,
   username: usernameReducer,
-  todosForm: todosFormReducer
+  todosForm: formReducer,
+  error: errorReducer,
+  loading: loadingReducer
 });
-
-// const toggleClosed = res => {
-//   console.log("res.data.todo.closed", res.data.todo.closed);
-//   const oldTodos = [...this.state.todos];
-//   oldTodos[getIndex(id, oldTodos)] = Object.assign(
-//     oldTodos[getIndex(id, oldTodos)],
-//     { closed: res.data.todo.closed }
-//   );
-//   const newTodos = [...oldTodos];
-//   this.setState({
-//     todos: newTodos
-//   });
-// };
-// const deleteTodo = res => {
-//   const todoIndex = getIndex(res.data.todo._id, this.state.todos);
-//   const newTodos = this.state.todos
-//     .slice(0, todoIndex)
-//     .concat(this.state.todos.slice(todoIndex + 1));
-//   this.setState({
-//     todos: newTodos
-//   });
-// };
