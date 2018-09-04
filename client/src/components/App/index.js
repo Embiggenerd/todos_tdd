@@ -299,6 +299,7 @@ const mapDispatchToProps = {
   getTodos,
   handleCloseModal
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
