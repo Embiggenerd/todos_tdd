@@ -7,7 +7,9 @@ const todosList = props => {
   }
   return (
     <div className="todos-wrapper">
-      <ol id="todos-list">{props.children}</ol>
+      <ol data-test-id="todos-list" id="todos-list">
+        {props.children}
+      </ol>
     </div>
   );
 };

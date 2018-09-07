@@ -23,3 +23,5 @@ export const PASSWORD = 'password';
 export const LOADING = 'loading';
 
 export const GET_TODOS = 'getTodos';
+
+export const TODO = 'todo';

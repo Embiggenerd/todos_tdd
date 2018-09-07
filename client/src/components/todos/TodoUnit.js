@@ -1,14 +1,14 @@
 import React from 'react';
 import { TodoButton } from './index.js';
 
-const TodoUnit = props => {
-  const { todo, handleToggleClosed, handleDeleteTodo } = props;
+const TodoUnit = ({ todo, handleToggleClosed, handleDeleteTodo, index }) => {
+  // const { todo, handleToggleClosed, handleDeleteTodo, index } = props;
   const getStyle = () => ({
     textDecoration: todo.closed ? 'line-through' : 'none'
   });
 
   return (
-    <li className="todo-li">
+    <li data-test-is={`todos-li-${index}`} className="todo-li">
       <div className="todo-unit">
         <p style={getStyle()} className="todo-text">
           {todo.todo}

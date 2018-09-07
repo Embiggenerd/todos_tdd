@@ -7,6 +7,7 @@ class TodosForm extends Component {
     return (
       <div className="form-wrapper">
         <form
+          data-test-id="todos-form"
           id="todos-form"
           onSubmit={e => handleFormSubmit(e, '/todos/submit')}
         >

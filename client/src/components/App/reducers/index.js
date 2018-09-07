@@ -10,32 +10,37 @@ import {
   USERNAME,
   TODOS_FORM,
   GET_TODOS,
-  LOADING
+  LOADING,
+  PASSWORD
 } from '../constants';
 
-const getIndex = (_id, arr) => arr.findIndex(item => item._id === id);
+const getIndex = (_id, arr) => arr.findIndex(item => item._id === _id);
 
 const todosReducer = (state = [], action) => {
-  // const { _id, closed } = action.todo;
-  switch (action.type) {
+  const { type, todo } = action;
+  switch (type) {
     case TOGGLE_CLOSED:
+      console.log('TOGGL_CLOSED reducer called');
+
       const todos = [...state];
-      todos[geIndex(id, state)] = Object.assign(
-        oldTodos[geIndex(action.todo._id, state)],
+      todos[getIndex(todo._id, state)] = Object.assign(
+        todos[getIndex(todo._id, state)],
         {
-          closed: action.todo.closed
+          closed: todo.closed
         }
       );
       return todos;
     case DELETE_TODO:
-      const indexToDelete = getIndex(_id, state);
+      console.log('DELET_TODO reducer called');
+      const indexToDelete = getIndex(todo._id, state);
       return state
         .slice(0, indexToDelete)
         .concat(state.slice(indexToDelete + 1));
     case ADD_TODO:
-      return [...state, action.todo];
+      return [...state, todo];
     case GET_TODOS:
-      return action.todos;
+      console.log('get_todos reducer called with action', action);
+      return [...action.todos];
     default:
       return state;
   }
@@ -60,17 +65,55 @@ const authReducer = (state = false, action) => {
   }
 };
 
-const formReducer = (state = {}, action) => {
-  const { type, username, password, todo } = action;
+// const todosFormReducer = (state = { todo: '', closed: false }, action) => {
+//   const { type, text, key } = action;
+//   switch (type) {
+//     case TODOS_FORM:
+//       return {
+//         [key]: text,
+//         closed: false
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+const passwordFormReducer = (state = '', action) => {
+  switch (action.key) {
+    case PASSWORD:
+      return action.text;
+    default:
+      return state;
+  }
+};
+
+const usernameFormReducer = (state = '', action) => {
+  switch (action.key) {
+    case USERNAME:
+      return action.text;
+    default:
+      return state;
+  }
+};
+const userFormReducer = (state = { username: '', password: '' }, action) => {
+  const { type, text, key } = action;
   switch (type) {
     case USER_FORM:
       return {
-        username,
-        password
+        password: passwordFormReducer(state.password, { key, text }),
+        username: usernameFormReducer(state.username, { key, text })
       };
+    default:
+      return state;
+  }
+};
+
+const todosFormReducer = (state = { todo: '' }, action) => {
+  switch (action.type) {
     case TODOS_FORM:
       return {
-        todo
+        [action.key]: action.text,
+        closed: false
       };
     default:
       return state;
@@ -111,9 +154,9 @@ export default combineReducers({
   todos: todosReducer,
   auth: authReducer,
   userFormDisplay: userFormDisplayReducer,
-  userForm: formReducer,
+  userForm: userFormReducer,
   username: usernameReducer,
-  todosForm: formReducer,
+  todosForm: todosFormReducer,
   error: errorReducer,
   loading: loadingReducer
 });

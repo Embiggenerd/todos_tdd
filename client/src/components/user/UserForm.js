@@ -9,6 +9,7 @@ class UserForm extends Component {
       handleFormSubmit,
       values
     } = this.props;
+    console.log('values passed to userForm', values);
 
     switch (whichForm) {
       case 'login':
@@ -60,7 +61,7 @@ class UserForm extends Component {
                 name="username"
                 placeholder="username"
                 onChange={e => {
-                  handleFieldChange(e, 'username', 'userForm');
+                  handleFieldChange(e, USERNAME, USER_FORM);
                 }}
                 value={values.username}
               />
@@ -71,7 +72,7 @@ class UserForm extends Component {
                 name="password"
                 placeholder="password"
                 onChange={e => {
-                  handleFieldChange(e, 'password', 'userForm');
+                  handleFieldChange(e, PASSWORD, USER_FORM);
                 }}
                 value={values.password}
               />
@@ -86,7 +87,7 @@ class UserForm extends Component {
           </div>
         );
       default:
-        return <h1>Please login or register</h1>;
+        return <h1 data-test-id="user-greeting">Please login or register</h1>;
     }
   }
 

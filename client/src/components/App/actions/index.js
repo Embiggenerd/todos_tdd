@@ -9,10 +9,13 @@ import {
   ADD_TODO,
   USER_FORM,
   TODOS_FORM,
-  LOADING
+  LOADING,
+  TODO,
+  GET_TODOS
 } from '../constants';
 
 export const handleTodosButtonClick = (id, url) => {
+  console.log('handleTodosButtonCLick called with ', id, url);
   return async dispatch => {
     let res;
     try {
@@ -24,16 +27,18 @@ export const handleTodosButtonClick = (id, url) => {
       });
     }
     switch (url) {
-      case 'toggleClosed':
-        disatch({
+      case TOGGLE_CLOSED:
+        dispatch({
           type: TOGGLE_CLOSED,
           todo: res.data.todo
         });
-      case 'deleteTodo':
+        break;
+      case DELETE_TODO:
         dispatch({
           type: DELETE_TODO,
-          todoToDelete: res.data.todo
+          todo: res.data.todo
         });
+        break;
     }
   };
 };
@@ -69,8 +74,7 @@ export const handleSidebarClick = (e, form) => {
 
 export const handleFormSubmit = (e, url) => {
   e.preventDefault();
-  e.persist();
-
+  // e.persist();
   let res;
   return async (dispatch, getState) => {
     const body = url => {
@@ -87,14 +91,19 @@ export const handleFormSubmit = (e, url) => {
       }
     };
     try {
-      res = axios.post(`http://localhost:3000${url}`, body(url));
+      res = await axios.post(`http://localhost:3000${url}`, body(url));
+      console.log('userLogin res.data1', res.data);
     } catch (e) {
       return dispatch({
         type: ERROR,
         error: e.response.data.error
       });
     } finally {
-      e.target.value = '';
+      dispatch({
+        type: TODOS_FORM,
+        key: TODO,
+        text: ''
+      });
     }
     switch (url) {
       case '/user/signup':
@@ -104,6 +113,7 @@ export const handleFormSubmit = (e, url) => {
         });
         break;
       case '/user/login':
+        console.log('userLogin res.data2', res.data);
         dispatch({
           type: AUTH,
           auth: true
@@ -124,17 +134,13 @@ export const handleFormSubmit = (e, url) => {
           type: ADD_TODO,
           todo: res.data.todo
         });
-        dispatch({
-          type: TODOS_FORM,
-          todo: ''
-        });
-
         break;
     }
   };
 };
 
 export const handleFieldChange = (e, key, field) => {
+  console.log('handleFieldChange called', e.target.value, key, field);
   return dispatch => {
     if (!field) {
       return dispatch({
@@ -163,11 +169,12 @@ export const getTodos = () => {
         type: GET_TODOS,
         todos: res.data.todos
       });
-    } catch (e) {
-      return dispatch({
-        type: ERROR,
-        error: e.response.data.error
+      console.log('getTodos action creator called with action,', {
+        type: GET_TODOS,
+        todos: res.data.todos
       });
+    } catch (e) {
+      return console.log('getTodoserror', e);
     } finally {
       dispatch({
         type: LOADING,
