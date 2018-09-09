@@ -26,5 +26,5 @@ module.exports = {
     contentBase: resolve(__dirname, 'dist'),
     hot: true
   },
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'inline-cheap-module-source-map'
 };
