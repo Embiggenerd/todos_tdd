@@ -20,7 +20,7 @@ const render = state =>
   );
 
 describe('before getTodos is called', function() {
-  it('loading screen is present', function() {
+  test('loading screen is present', function() {
     const component = render({});
 
     expect(component.find('[data-test-id="loading-screen"]').exists()).to.equal(
@@ -31,7 +31,7 @@ describe('before getTodos is called', function() {
 });
 
 describe('after getTodos is called', function() {
-  it('loading screen goes away', function() {
+  test('loading screen goes away', function() {
     const component = render({ loading: false });
     expect(component.find('[data-test-id="loading-screen"]').exists()).to.equal(
       false

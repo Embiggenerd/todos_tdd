@@ -8,7 +8,8 @@
     "test:frontend": "mocha 'src/**/*.test.js' --compilers js:babel-register --exit",
     "test": "mocha 'src/**/*.test.js'",
     "test2": "mocha 'src/**/*int2.test.js'",
-    "test3": "mocha 'src/**/*int3.test.js'"
+    "test3": "mocha 'src/**/*int3.test.js'",
+    "test4": "jest 'src/**/*int2.test.js'"
   },
   "author": "",
   "license": "ISC",
@@ -44,6 +45,7 @@
     "babel-runtime": "^6.26.0",
     "chai": "^4.1.2",
     "css-loader": "^1.0.0",
+    "jest": "^23.6.0",
     "jsdom": "^11.12.0",
     "mocha": "^5.2.0",
     "promise.prototype.finally": "^3.1.0",
@@ -54,5 +56,17 @@
     "redux-thunk": "^2.3.0",
     "sinon": "^6.1.5",
     "style-loader": "^0.22.1"
-  }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/components/**/*.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "setupFiles": [
+      "<rootDir>/test/setupTests.js"
+    ]
+}
 }

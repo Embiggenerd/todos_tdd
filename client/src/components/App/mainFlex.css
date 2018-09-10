@@ -35,10 +35,12 @@
   --user_form--justify-content: space-around;
 
   --layout--z-index: -1;
-  --layout--min-height: 500px;
+  --desktop--layout--min-height: 600px;
+  --desktop--layout--min-width: 930px;
   --layout--border: solid 5px white;
 
-  --main--min-height: 420px;
+  --desktop--main--min-height: 420px;
+  --desktop--main--min-width: 912px;
   --main--background-color: #d0d0d0;
   --main--color: black;
   --main--flex: 1;
@@ -103,6 +105,8 @@
   --tablet--content--align-items: center;
 
   --phone--main--flex-direction: column;
+  --phone--main--min-width: 400px;
+
   --phone--sidebar--flex-direction: row;
   --phone--sidebar--flex: 0 0 2em;
 
@@ -110,6 +114,8 @@
   --phone--sidebar--link--height: 15px;
 
   --phone--advertisement--flex-direction: row;
+
+  --phone--layout--min-width: 500px;
 }
 
 * {
@@ -184,7 +190,7 @@
 
 .click_catcher--open,
 .click-catcher,
-.layout,
+/* .layout, */
 .form-wrapper {
   height: var(--common--desktop--height);
 }
@@ -218,12 +224,14 @@
 
 .layout {
   z-index: var(--layout--z-index);
-  min-height: var(--layout--min-height);
+  min-width: var(--desktop--layout--min-width);
+  min-height: var(--desktop--layout--min-height);
   border: var(--layout--border);
 }
 
 .main {
-  min-height: var(--main--min-height);
+  min-height: var(--desktop--main--min-height);
+  min-width: var(--desktop--main--min-width);
   background-color: var(--main--background-color);
   color: var(--main--color);
   justify-content: flex-start;
@@ -310,7 +318,7 @@
   height: var(--footer--height);
 }
 
-@media screen and (max-width: 1284px) {
+@media screen and (max-width: 1084px) {
   .user_form {
     flex-direction: var(--tablet--user_form--flex-direction);
   }
@@ -320,11 +328,18 @@
     justify-content: var(--tablet--content--justify-content);
     align-items: var(--tablet--content--align-items);
   }
+
+
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 750px) {
   .main {
     flex-direction: var(--phone--main--flex-direction);
+    min-width: var(--phone--main--min-width);
+  }
+
+  .layout {
+    min-width: var(--phone--layout--min-width);
   }
 
   .sidebar {
