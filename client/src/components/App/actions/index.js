@@ -169,12 +169,12 @@ export const getTodos = () => {
         type: GET_TODOS,
         todos: res.data.todos
       });
-      console.log('getTodos action creator called with action,', {
-        type: GET_TODOS,
-        todos: res.data.todos
-      });
+      // console.log('getTodos action creator called with action,', {
+      //   type: GET_TODOS,
+      //   todos: res.data.todos
+      // });
     } catch (e) {
-      return console.log('getTodoserror', e);
+      // console.log('getTodoserror', e);
     } finally {
       dispatch({
         type: LOADING,

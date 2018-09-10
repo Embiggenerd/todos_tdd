@@ -55,7 +55,7 @@ const ModalBox = props => {
 
   return (
     <div
-      className={error ? 'click-catcher--open' : 'click-catcher'}
+      className={error ? 'click_catcher--open' : 'click_catcher'}
       onClick={onClose}
     >
       <div className="modal">

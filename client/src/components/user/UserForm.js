@@ -14,11 +14,18 @@ class UserForm extends Component {
     switch (whichForm) {
       case 'login':
         return (
-          <div className="form-wrapper">
+          <div className="form_wrapper">
             <h3>Login with your name and password</h3>
-            <form onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}>
-              <label htmlFor="login-username">Username</label>
+            <form
+              className="user_form"
+              data-test-id="login-form"
+              onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}
+            >
+              <label className="label" htmlFor="login-username">
+                Username
+              </label>
               <input
+                className="user_form--input"
                 id="login-username"
                 type="text"
                 name="username"
@@ -28,8 +35,11 @@ class UserForm extends Component {
                 }}
                 value={values.username}
               />
-              <label htmlFor="login-password">Password</label>
+              <label className="label" htmlFor="login-password">
+                Password
+              </label>
               <input
+                className="user_form--input"
                 id="login-password"
                 type="password"
                 name="password"
@@ -41,7 +51,7 @@ class UserForm extends Component {
               />
               <input
                 id="login-btn"
-                className="submit-btn"
+                className="button button--user_submit"
                 type="submit"
                 value="submit"
               />
@@ -51,11 +61,18 @@ class UserForm extends Component {
         );
       case 'signup':
         return (
-          <div className="form-wrapper">
+          <div className="form_wrapper">
             <h3>Register with a unique name and password</h3>
-            <form onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}>
-              <label htmlFor="signup-username">Username</label>
+            <form
+              className="user_form"
+              data-test-id="signup-form"
+              onSubmit={e => handleFormSubmit(e, `/user/${whichForm}`)}
+            >
+              <label className="label" htmlFor="signup-username">
+                Username
+              </label>
               <input
+                className="user_form--input"
                 id="signup-username"
                 type="text"
                 name="username"
@@ -65,8 +82,11 @@ class UserForm extends Component {
                 }}
                 value={values.username}
               />
-              <label htmlFor="signup-password">Password</label>
+              <label className="label" htmlFor="signup-password">
+                Password
+              </label>
               <input
+                className="user_form--input"
                 id="signup-password"
                 type="password"
                 name="password"
@@ -77,8 +97,8 @@ class UserForm extends Component {
                 value={values.password}
               />
               <input
-                id="signup-btn"
-                className="submit-btn"
+                // id="signup-btn"
+                className="button button--user_submit"
                 type="submit"
                 value="submit"
               />

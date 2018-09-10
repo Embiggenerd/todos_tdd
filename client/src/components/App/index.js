@@ -25,7 +25,7 @@ import { UserForm } from '../user';
 import { ErrorModal } from '../modals';
 
 class App extends Component {
-  contentChildren() {
+  renderContent() {
     const {
       todos,
       auth,
@@ -68,7 +68,7 @@ class App extends Component {
     );
   }
 
-  renderContent() {
+  renderLayout() {
     const {
       loading,
       auth,
@@ -88,7 +88,7 @@ class App extends Component {
 
           <Advertisement />
 
-          <Content>{this.contentChildren()}</Content>
+          <Content>{this.renderContent()}</Content>
         </div>
         <Footer />
         <ErrorModal onClose={handleCloseModal} error={error} />
@@ -97,16 +97,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    console.log('loadz', this.props);
     this.props.getTodos();
   }
   componentDidUpdate(prevProps) {
     if (this.props.auth !== prevProps.auth) {
       this.props.getTodos();
     }
+    console.log('loadz', this.props);
   }
   render() {
-    return this.renderContent();
+    return this.renderLayout();
   }
 }
 

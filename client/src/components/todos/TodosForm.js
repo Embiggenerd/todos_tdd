@@ -5,14 +5,16 @@ class TodosForm extends Component {
   render() {
     const { handleFieldChange, handleFormSubmit, todoVal } = this.props;
     return (
-      <div className="form-wrapper">
+      <div className="form_wrapper">
         <form
+          className="todos_form"
           data-test-id="todos-form"
           id="todos-form"
           onSubmit={e => handleFormSubmit(e, '/todos/submit')}
         >
           <label htmlFor="todos-input">Add Todo</label>
           <input
+            className="todos_form--input"
             id="todos-input"
             type="text"
             name="todos"
@@ -21,7 +23,7 @@ class TodosForm extends Component {
             value={todoVal}
             onChange={e => handleFieldChange(e, TODO, TODOS_FORM)}
           />
-          <input className="submit-btn" type="submit" value="submit" />
+          <input className="button" type="submit" value="submit" />
         </form>
       </div>
     );

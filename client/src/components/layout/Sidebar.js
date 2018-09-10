@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class SideBar extends Component {
   render() {
@@ -7,28 +7,30 @@ class SideBar extends Component {
       return (
         <div className="sidebar">
           <a
+            className="sidebar--link"
             href="#"
             id="logout-btn"
-            onClick={e => handleSidebarClick(e, "logout")}
+            onClick={e => handleSidebarClick(e, 'logout')}
           >
             Logout
           </a>
-          
         </div>
       );
     }
     return (
       <div className="sidebar">
         <a
+          className="sidebar--link"
           href="#"
-          onClick={e => handleSidebarClick(e, "login")}
+          onClick={e => handleSidebarClick(e, 'login')}
           id="login-btn"
         >
           Login
         </a>
         <a
+          className="sidebar--link"
           href="#"
-          onClick={e => handleSidebarClick(e, "signup")}
+          onClick={e => handleSidebarClick(e, 'signup')}
           id="register-btn"
         >
           Register

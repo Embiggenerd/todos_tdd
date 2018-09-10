@@ -8,9 +8,9 @@ const TodoUnit = ({ todo, handleToggleClosed, handleDeleteTodo, index }) => {
   });
 
   return (
-    <li data-test-is={`todos-li-${index}`} className="todo-li">
-      <div className="todo-unit">
-        <p style={getStyle()} className="todo-text">
+    <li data-test-id={`todos-li-${index}`} className="todo-li">
+      <div className="todo_unit">
+        <p style={getStyle()} className="todo_unit--text">
           {todo.todo}
         </p>
         <TodoButton

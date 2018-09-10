@@ -9,7 +9,7 @@ const TodoButton = props => {
         return (
           <button
             id="toggle-closed-button"
-            className="todos-btn"
+            className="button"
             onClick={() => handleToggleClosed(todo._id, TOGGLE_CLOSED)}
           >
             {todo.closed ? 'Undo' : 'Done'}
@@ -18,8 +18,9 @@ const TodoButton = props => {
       case 'delete':
         return (
           <button
+            className="button button--danger"
             id="delete-button"
-            className="todos-btn danger-btn"
+            // className="todos-btn danger-btn"
             onClick={() => handleDeleteTodo(todo._id, DELETE_TODO)}
           >
             Delete
