@@ -106,7 +106,6 @@ describe('when unauthorized and login button is clicked', function() {
   });
 });
 
-
 // const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
 
 // describe('connected <App/> test', function() {

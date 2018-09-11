@@ -6,10 +6,10 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development --open 'firefox'",
     "test:frontend": "mocha 'src/**/*.test.js' --compilers js:babel-register --exit",
-    "test": "mocha 'src/**/*.test.js'",
     "test2": "mocha 'src/**/*int2.test.js'",
     "test3": "mocha 'src/**/*int3.test.js'",
-    "test4": "jest 'src/**/*int2.test.js'"
+    "test4": "jest 'src/**/*int2.test.js'",
+    "test":"jest"
   },
   "author": "",
   "license": "ISC",
@@ -68,5 +68,5 @@
     "setupFiles": [
       "<rootDir>/test/setupTests.js"
     ]
-}
+  }
 }
