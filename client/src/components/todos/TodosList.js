@@ -1,17 +1,25 @@
 import React from 'react';
 
-const todosList = props => {
-  const { todos } = props;
+const TodosList = ({ todos, children }) => {
   if (todos.length == 0) {
-    return <div data-test-id="empty-todos-list">Submit a todo!</div>;
+    return (
+      <div className="todos_wrapper">
+        <div
+          className="todos_wrapper--empty-list"
+          data-test-id="empty-todos-list"
+        >
+          Submit a todo!
+        </div>
+      </div>
+    );
   }
   return (
     <div className="todos_wrapper">
-      <ol data-test-id="todos-ist" className="todos_list">
-        {props.children}
+      <ol data-test-id="todos-list" className="todos_list">
+        {children}
       </ol>
     </div>
   );
 };
 
-export default todosList;
+export default TodosList;

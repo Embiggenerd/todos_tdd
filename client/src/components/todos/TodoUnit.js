@@ -2,7 +2,6 @@ import React from 'react';
 import { TodoButton } from './index.js';
 
 const TodoUnit = ({ todo, handleToggleClosed, handleDeleteTodo, index }) => {
-  // const { todo, handleToggleClosed, handleDeleteTodo, index } = props;
   const getStyle = () => ({
     textDecoration: todo.closed ? 'line-through' : 'none'
   });

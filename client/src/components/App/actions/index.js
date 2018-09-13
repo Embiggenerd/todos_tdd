@@ -21,6 +21,7 @@ export const handleTodosButtonClick = (id, url) => {
     try {
       res = await axios.post(`http://localhost:3000/todos/${url}`, { id });
     } catch (e) {
+      console.log('eee', e);
       return dispatch({
         type: ERROR,
         error: e.response.data.error
@@ -48,21 +49,22 @@ export const handleSidebarClick = (e, form) => {
   return async dispatch => {
     if (form === 'logout') {
       try {
-        axios('http://localhost:3000/user/logout');
+        await axios.get('http://localhost:3000/user/logout');
+        console.log('logout action called');
+        dispatch({
+          type: AUTH,
+          auth: false
+        });
+        dispatch({
+          type: USER_FORM_DISPLAY,
+          display: ''
+        });
       } catch (e) {
         return dispatch({
           type: ERROR,
           error: e.response.data.error
         });
       }
-      dispatch({
-        type: AUTH,
-        auth: false
-      });
-      dispatch({
-        type: USER_FORM_DISPLAY,
-        display: ''
-      });
     } else {
       dispatch({
         type: USER_FORM_DISPLAY,
@@ -73,8 +75,8 @@ export const handleSidebarClick = (e, form) => {
 };
 
 export const handleFormSubmit = (e, url) => {
+  console.log('urlz2', url);
   e.preventDefault();
-  // e.persist();
   let res;
   return async (dispatch, getState) => {
     const body = url => {
@@ -94,6 +96,7 @@ export const handleFormSubmit = (e, url) => {
       res = await axios.post(`http://localhost:3000${url}`, body(url));
       console.log('userLogin res.data1', res.data);
     } catch (e) {
+      console.log('eee', e);
       return dispatch({
         type: ERROR,
         error: e.response.data.error
@@ -107,13 +110,19 @@ export const handleFormSubmit = (e, url) => {
     }
     switch (url) {
       case '/user/signup':
-        dispatch({
-          type: USER_FORM_DISPLAY,
-          display: 'login'
-        });
+        console.log('dispatching USER_FORM_DISPLAY ');
+        try {
+          dispatch({
+            type: USER_FORM_DISPLAY,
+            display: 'login'
+          });
+        } catch (e) {
+          console.log('USER_FORM_DISPLAY e', e);
+        }
+
         break;
       case '/user/login':
-        console.log('userLogin res.data2', res.data);
+        // console.log('userLogin res.data2', res.data);
         dispatch({
           type: AUTH,
           auth: true
@@ -160,7 +169,7 @@ export const getTodos = () => {
   return async dispatch => {
     let res;
     try {
-      res = await axios('http://localhost:3000/todos/get');
+      res = await axios.get('http://localhost:3000/todos/get');
       dispatch({
         type: AUTH,
         auth: true
@@ -174,7 +183,7 @@ export const getTodos = () => {
       //   todos: res.data.todos
       // });
     } catch (e) {
-      // console.log('getTodoserror', e);
+      console.log('getTodoserror', e);
     } finally {
       dispatch({
         type: LOADING,

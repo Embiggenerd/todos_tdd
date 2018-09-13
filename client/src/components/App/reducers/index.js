@@ -50,6 +50,7 @@ const userFormDisplayReducer = (state = '', action) => {
   const { type, display } = action;
   switch (type) {
     case USER_FORM_DISPLAY:
+      console.log('USER_FORM_D reducer called', display);
       return display;
     default:
       return state;

@@ -28,14 +28,15 @@ class ErrorModal extends Component {
     }
     return false;
   }
-  componentDidUpdate(prevProps) {
-    console.log('modal updated');
-    ReactDOM.render(<ModalBox {...this.props} />, node);
+  componentDidUpdate() {
+    const { error, onClose } = this.props;
+    ReactDOM.render(
+      <ModalBox onClose={onClose} name={error.name} message={error.message} />,
+      node
+    );
   }
 
   componentDidMount() {
-    console.log('modal mounted');
-
     node = document.createElement('div');
     document.body.appendChild(node);
   }
@@ -50,17 +51,15 @@ class ErrorModal extends Component {
   }
 }
 
-const ModalBox = props => {
-  const { error, onClose } = props;
-
+const ModalBox = ({ name, message, onClose }) => {
   return (
     <div
-      className={error ? 'click_catcher--open' : 'click_catcher'}
+      className={message ? 'click_catcher--open' : 'click_catcher'}
       onClick={onClose}
     >
       <div className="modal">
-        <h3>{error.name}</h3>
-        <p>{error.message}</p>
+        <h3>{name}</h3>
+        <p>{message}</p>
       </div>
     </div>
   );

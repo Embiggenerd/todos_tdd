@@ -9,7 +9,7 @@
     "test2": "mocha 'src/**/*int2.test.js'",
     "test3": "mocha 'src/**/*int3.test.js'",
     "test4": "jest 'src/**/*int2.test.js'",
-    "test":"jest"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -58,9 +58,11 @@
     "style-loader": "^0.22.1"
   },
   "jest": {
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/components/**/*.js"
     ],
+    "coverageDirectory": "./test",
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"

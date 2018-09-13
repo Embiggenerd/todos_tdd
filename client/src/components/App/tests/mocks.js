@@ -4,19 +4,26 @@ export const authedTodosListMockState = {
   todos: [
     {
       todo: 'invent cure',
-      closed: true
+      closed: true,
+      _id: 123
     },
     {
       todo: 'implement cure',
-      closed: false
+      closed: false,
+      id: 124
     }
-  ]
+  ],
+  username: 'Carlos McGregor'
 };
 
 export const authedEmptyTodosListMockState = {
   loading: false,
   auth: true,
   todos: []
+};
+export const unauthedMockState = {
+  loading: false,
+  auth: false
 };
 
 export const unauthedTodosListMockState = {

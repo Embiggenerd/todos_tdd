@@ -21,10 +21,38 @@ import {
   Sidebar
 } from '../layout';
 import { TodosList, TodosForm, TodoUnit } from '../todos';
-import { UserForm } from '../user';
+import { UserFormWrapper } from '../user';
 import { ErrorModal } from '../modals';
 
 class App extends Component {
+  renderLayout() {
+    const {
+      loading,
+      auth,
+      username,
+      error,
+      handleSidebarClick,
+      handleCloseModal
+    } = this.props;
+    if (loading) {
+      return <Loading />;
+    }
+    return (
+      <div className="layout">
+        <Header auth={auth} username={username} />
+        <div className="main">
+          <Sidebar auth={auth} handleSidebarClick={handleSidebarClick} />
+
+          <Advertisement />
+
+          <Content>{this.renderContent()}</Content>
+        </div>
+        <Footer />
+        <ErrorModal onClose={handleCloseModal} error={error} />
+      </div>
+    );
+  }
+
   renderContent() {
     const {
       todos,
@@ -59,7 +87,7 @@ class App extends Component {
       );
     }
     return (
-      <UserForm
+      <UserFormWrapper
         handleFieldChange={handleFieldChange}
         handleFormSubmit={handleFormSubmit}
         whichForm={userFormDisplay}
@@ -68,43 +96,13 @@ class App extends Component {
     );
   }
 
-  renderLayout() {
-    const {
-      loading,
-      auth,
-      username,
-      error,
-      handleSidebarClick,
-      handleCloseModal
-    } = this.props;
-    if (loading) {
-      return <Loading />;
-    }
-    return (
-      <div className="layout">
-        <Header auth={auth} username={username} />
-        <div className="main">
-          <Sidebar auth={auth} handleSidebarClick={handleSidebarClick} />
-
-          <Advertisement />
-
-          <Content>{this.renderContent()}</Content>
-        </div>
-        <Footer />
-        <ErrorModal onClose={handleCloseModal} error={error} />
-      </div>
-    );
-  }
-
   componentDidMount() {
-    console.log('loadz', this.props);
     this.props.getTodos();
   }
   componentDidUpdate(prevProps) {
     if (this.props.auth !== prevProps.auth) {
       this.props.getTodos();
     }
-    console.log('loadz', this.props);
   }
   render() {
     return this.renderLayout();

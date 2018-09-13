@@ -1,43 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import SidebarLink from '../buttons/SidebarLink';
 
-class SideBar extends Component {
-  render() {
-    const { auth, handleSidebarClick } = this.props;
+const SideBar = ({ auth, handleSidebarClick }) => {
+  const renderLinks = () => {
     if (auth) {
-      return (
-        <div className="sidebar">
-          <a
-            className="sidebar--link"
-            href="#"
-            id="logout-btn"
-            onClick={e => handleSidebarClick(e, 'logout')}
-          >
-            Logout
-          </a>
-        </div>
-      );
+      return <SidebarLink role={'logout'} handleClick={handleSidebarClick} />;
     }
-    return (
-      <div className="sidebar">
-        <a
-          className="sidebar--link"
-          href="#"
-          onClick={e => handleSidebarClick(e, 'login')}
-          id="login-btn"
-        >
-          Login
-        </a>
-        <a
-          className="sidebar--link"
-          href="#"
-          onClick={e => handleSidebarClick(e, 'signup')}
-          id="register-btn"
-        >
-          Register
-        </a>
-      </div>
-    );
-  }
-}
+    return [
+      <SidebarLink key={1} role={'signup'} handleClick={handleSidebarClick} />,
+      <SidebarLink key={2} role={'login'} handleClick={handleSidebarClick} />
+    ];
+  };
+
+  return <div className="sidebar">{renderLinks()}</div>;
+};
 
 export default SideBar;

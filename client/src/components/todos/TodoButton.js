@@ -8,7 +8,7 @@ const TodoButton = props => {
       case 'toggleClosed':
         return (
           <button
-            id="toggle-closed-button"
+            data-test-id="toggle-closed-button"
             className="button"
             onClick={() => handleToggleClosed(todo._id, TOGGLE_CLOSED)}
           >
@@ -18,9 +18,8 @@ const TodoButton = props => {
       case 'delete':
         return (
           <button
+            data-test-id="delete-button"
             className="button button--danger"
-            id="delete-button"
-            // className="todos-btn danger-btn"
             onClick={() => handleDeleteTodo(todo._id, DELETE_TODO)}
           >
             Delete

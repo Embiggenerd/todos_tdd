@@ -1,6 +1,6 @@
 import React from 'react';
 
-const advertisement = () => {
+const Advertisement = () => {
   return (
     <div className="advertisement">
       <h1>A</h1>
@@ -10,4 +10,4 @@ const advertisement = () => {
   );
 };
 
-export default advertisement;
+export default Advertisement;

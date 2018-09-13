@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const loading = () => {
-  console.log('loading loaded');
   return <h1 data-test-id="loading-screen">Loading...</h1>;
 };
 

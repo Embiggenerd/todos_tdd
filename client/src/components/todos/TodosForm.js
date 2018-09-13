@@ -9,12 +9,12 @@ class TodosForm extends Component {
         <form
           className="todos_form"
           data-test-id="todos-form"
-          id="todos-form"
           onSubmit={e => handleFormSubmit(e, '/todos/submit')}
         >
           <label htmlFor="todos-input">Add Todo</label>
           <input
             className="todos_form--input"
+            data-test-id="todos-input"
             id="todos-input"
             type="text"
             name="todos"

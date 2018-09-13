@@ -1,10 +1,9 @@
 import React from 'react';
 
-const header = props => {
-  const { username, auth } = props;
+const header = ({ username, auth }) => {
   return (
     <header className="header">
-      <h1>
+      <h1 data-test-id="header">
         Welcome to test driven todos
         {username && auth ? `, ${username}!` : '!'}
       </h1>
