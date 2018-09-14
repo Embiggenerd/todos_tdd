@@ -206,16 +206,6 @@ describe('clicking the toggle closed button', function() {
 });
 
 describe('when the signup button is clicked', function() {
-  // axios.post.mockImplementationOnce(
-  //   (url, body) =>
-  //     new Promise(resolve =>
-  //       resolve({
-  //         data: {
-  //           todo: body
-  //         }
-  //       })
-  //     )
-  // );
   const component = render(unauthedLoginFormMockState);
 
   it('login form goes away', function() {
@@ -227,7 +217,7 @@ describe('when the signup button is clicked', function() {
   });
 });
 
-describe('when signup info is submitted', function() {
+describe('when signup button is clicked', function() {
   const user = {
     username: 'frederico yuang',
     password: 'stars'
@@ -236,7 +226,6 @@ describe('when signup info is submitted', function() {
     new Promise((resolve, reject) => reject({ error: 'hithere' }))
   );
   axios.post.mockImplementation((url, body) => {
-    console.log('urlz', url);
     return new Promise(resolve =>
       resolve({
         data: {
@@ -246,17 +235,13 @@ describe('when signup info is submitted', function() {
     );
   });
   const component = render(unauthedMockState);
-  it('when signup info is is submitted, login form appears', async function() {
-    const props1 = component.find('App').props();
-    console.log('props1', props1);
 
+  it('signup form appears', async function() {
     component.find('[data-test-id="signup-button"]').simulate('click');
-    // flushAllPromises();
-    // component.update();
-    const props1a = component.find('App').props();
-    console.log('props1a', props1a);
     expect(component.find('[data-test-id="signup-form"]').exists()).toBe(true);
+  });
 
+  it('when sign up form is submited, login form appears', async function() {
     const usernameInput = component.find(
       '[data-test-id="signup-username-input"]'
     );
@@ -272,18 +257,21 @@ describe('when signup info is submitted', function() {
     await flushAllPromises();
     component.update();
 
-    const props2 = component.find('App').props();
-    console.log('props2', props2);
     expect(component.find('[data-test-id="login-form"]').exists()).toBe(true);
+  });
+  it('when login form is submitted, empty todos list appears', async function() {
     component.find('[data-test-id="login-form"]').simulate('submit');
 
     await flushAllPromises();
     component.update();
-    const props3 = component.find('App').props();
-    console.log('props3', props3);
 
     expect(component.find('[data-test-id="empty-todos-list"]').exists()).toBe(
       true
+    );
+  });
+  it('and the username appears in the header', function() {
+    expect(component.find('[data-test-id="header"]').text()).toContain(
+      user.username
     );
     axios.post.mockReset();
   });
@@ -319,18 +307,8 @@ describe('when you click the logout button', function() {
 });
 
 describe('when the login button is clicked', function() {
-  // axios.post.mockImplementationOnce(
-  //   (url, body) =>
-  //     new Promise(resolve =>
-  //       resolve({
-  //         data: {
-  //           todo: body
-  //         }
-  //       })
-  //     )
-  // );
   const component = render(unauthedSignupFormMockState);
-  it('login form goes away and signup form appears', function() {
+  it('signup form goes away and login form appears', function() {
     expect(component.find('[data-test-id="signup-form"]').exists()).toBe(true);
 
     component.find('[data-test-id="login-button"]').simulate('click');

@@ -14,14 +14,16 @@ import {
   GET_TODOS
 } from '../constants';
 
+/**
+ * The heavy action creator functions are a deliberate anti pattern
+ */
+
 export const handleTodosButtonClick = (id, url) => {
-  console.log('handleTodosButtonCLick called with ', id, url);
   return async dispatch => {
     let res;
     try {
       res = await axios.post(`http://localhost:3000/todos/${url}`, { id });
     } catch (e) {
-      console.log('eee', e);
       return dispatch({
         type: ERROR,
         error: e.response.data.error
@@ -50,7 +52,6 @@ export const handleSidebarClick = (e, form) => {
     if (form === 'logout') {
       try {
         await axios.get('http://localhost:3000/user/logout');
-        console.log('logout action called');
         dispatch({
           type: AUTH,
           auth: false
@@ -75,7 +76,6 @@ export const handleSidebarClick = (e, form) => {
 };
 
 export const handleFormSubmit = (e, url) => {
-  console.log('urlz2', url);
   e.preventDefault();
   let res;
   return async (dispatch, getState) => {
@@ -94,9 +94,7 @@ export const handleFormSubmit = (e, url) => {
     };
     try {
       res = await axios.post(`http://localhost:3000${url}`, body(url));
-      console.log('userLogin res.data1', res.data);
     } catch (e) {
-      console.log('eee', e);
       return dispatch({
         type: ERROR,
         error: e.response.data.error
@@ -110,19 +108,13 @@ export const handleFormSubmit = (e, url) => {
     }
     switch (url) {
       case '/user/signup':
-        console.log('dispatching USER_FORM_DISPLAY ');
-        try {
-          dispatch({
-            type: USER_FORM_DISPLAY,
-            display: 'login'
-          });
-        } catch (e) {
-          console.log('USER_FORM_DISPLAY e', e);
-        }
+        dispatch({
+          type: USER_FORM_DISPLAY,
+          display: 'login'
+        });
 
         break;
       case '/user/login':
-        // console.log('userLogin res.data2', res.data);
         dispatch({
           type: AUTH,
           auth: true
@@ -149,7 +141,6 @@ export const handleFormSubmit = (e, url) => {
 };
 
 export const handleFieldChange = (e, key, field) => {
-  console.log('handleFieldChange called', e.target.value, key, field);
   return dispatch => {
     if (!field) {
       return dispatch({
@@ -178,12 +169,7 @@ export const getTodos = () => {
         type: GET_TODOS,
         todos: res.data.todos
       });
-      // console.log('getTodos action creator called with action,', {
-      //   type: GET_TODOS,
-      //   todos: res.data.todos
-      // });
     } catch (e) {
-      console.log('getTodoserror', e);
     } finally {
       dispatch({
         type: LOADING,

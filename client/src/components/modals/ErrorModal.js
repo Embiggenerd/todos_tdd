@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Modal from './Modal';
 
 /*
 * We return a script tag so that React has something to reference in the
@@ -21,7 +22,7 @@ import ReactDOM from 'react-dom';
 
 let node = null;
 
-class ErrorModal extends Component {
+class ModalWrapper extends Component {
   shouldComponentUpdate(nextProps) {
     if (this.props.error !== nextProps.error) {
       return true;
@@ -31,7 +32,7 @@ class ErrorModal extends Component {
   componentDidUpdate() {
     const { error, onClose } = this.props;
     ReactDOM.render(
-      <ModalBox onClose={onClose} name={error.name} message={error.message} />,
+      <Modal onClose={onClose} name={error.name} message={error.message} />,
       node
     );
   }
@@ -51,18 +52,4 @@ class ErrorModal extends Component {
   }
 }
 
-const ModalBox = ({ name, message, onClose }) => {
-  return (
-    <div
-      className={message ? 'click_catcher--open' : 'click_catcher'}
-      onClick={onClose}
-    >
-      <div className="modal">
-        <h3>{name}</h3>
-        <p>{message}</p>
-      </div>
-    </div>
-  );
-};
-
-export default ErrorModal;
+export default ModalWrapper;
