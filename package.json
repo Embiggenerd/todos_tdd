@@ -10,13 +10,16 @@
     "test:user:services": "mocha 'src/libs/**/user_services*.test.js' --exit",
     "test:todos:services": "mocha 'src/libs/todos/**/todos_services*.test.js' --exit",
     "test:todos:controllers": "mocha 'src/libs/todos/**/todos_controllers*.test.js' --exit",
-    "test:frontend": "mocha 'client/**/*.test.js' --exit"
+    "test:frontend": "npm test --prefix client",
+    "test:all": "concurrently \"npm test\" \"npm run test:frontend\"",
+    "dev": "concurrently \"nodemon index.js\" \"npm start --prefix client\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "bcrypt": "^3.0.0",
     "chai": "^4.1.2",
+    "concurrently": "^4.0.1",
     "faker": "^4.1.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.1.2",

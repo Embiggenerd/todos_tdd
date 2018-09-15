@@ -1,3 +1,5 @@
 /node_modules/
 /client/node_modules/
 /client/test/lcov-report/
+/client/test/reports/
+/.nyc_output/
