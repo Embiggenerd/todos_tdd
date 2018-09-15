@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development --open 'firefox'",
     "test:frontend": "mocha 'src/**/*.test.js' --compilers js:babel-register --exit",
-    "test": "mocha 'src/**/*.test.js'"
+    "test": "nyc mocha 'src/**/*.test.js' --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,7 @@
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
     "ignore-styles": "^5.0.1",
+    "nyc": "^13.0.1",
     "react-hot-loader": "^4.3.4",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
