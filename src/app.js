@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
+const MongoStore = require('connect-mongo')(session);
 
 const { signUp, logIn, logOut } = require('./libs/user/controllers');
 const {
@@ -15,6 +16,15 @@ const {
 const app = express();
 const isLoggedIn = require('./libs/middleware/isLoggedIn');
 
+const sessionUrl = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return `mongodb://${process.env.PROD_DB_USER}:${
+      process.env.PROD_DB_PASS
+    }@ds161322.mlab.com:61322/todos_tdd_prod`;
+  }
+  return 'mongodb://localhost/todos_tdd_dev';
+};
+
 app.use(
   cors({
     origin: ['http://localhost:8080', 'http://localhost:8081'],
@@ -26,8 +36,9 @@ app.use(
 app.use(
   session({
     secret: 'our little s...',
-    resave: false,
-    saveUninitialized: true
+    store: new MongoStore({
+      url: sessionUrl()
+    })
   })
 );
 
