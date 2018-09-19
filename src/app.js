@@ -34,7 +34,8 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
+app.use(express.static(path.resolve(__dirname, '..', 'dir')));
+app.get('/', isLoggedIn, (req, res, next));
 
 app.post('/user/signup', signUp);
 app.post('/user/login', logIn);
