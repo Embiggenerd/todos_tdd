@@ -3,3 +3,4 @@
 /client/test/lcov-report/
 /client/test/reports/
 /.nyc_output/
+/client/dist/bundle.js
