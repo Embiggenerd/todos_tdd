@@ -34,17 +34,10 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.resolve(__dirname, 'dir')));
-app.get('/', (req, res) => {
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')));
+app.get('/', function(req, res) {
   res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'));
 });
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'index.html'));
-});
-console.log(
-  'path:',
-  path.resolve(__dirname, '..', 'client', 'dist', 'index.html')
-);
 app.post('/user/signup', signUp);
 app.post('/user/login', logIn);
 app.get('/user/logout', isLoggedIn, logOut);
