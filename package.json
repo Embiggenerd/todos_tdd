@@ -13,14 +13,13 @@
     "test:frontend": "npm test --prefix client",
     "test:all": "concurrently \"npm test\" \"npm run test:frontend\"",
     "dev": "concurrently \"nodemon index.js\" \"npm start --prefix client\"",
-    "prod": "concurrently \"NODE_ENV=production node index.js \" \"build:deploy --prefix client\""
+    "build:frontend:deploy": "npm run build:deploy --prefix client",
+    "prod": "concurrently \"NODE_ENV=production node index.js \" \"npm run build:frontend:deploy\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "bcrypt": "^3.0.0",
     "chai": "^4.1.2",
-    "concurrently": "^4.0.1",
     "faker": "^4.1.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.1.2",
@@ -32,6 +31,8 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "bcrypt": "^3.0.0",
+    "concurrently": "^4.0.1",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",

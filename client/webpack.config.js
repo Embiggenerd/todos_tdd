@@ -23,8 +23,13 @@ module.exports = {
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
   devServer: {
+    index: '',
     contentBase: resolve(__dirname, 'dist'),
-    hot: true
+    hot: true,
+    proxy: {
+      context: () => true,
+      '/': 'http://localhost:3000'
+    }
   },
   devtool: 'inline-cheap-module-source-map'
 };

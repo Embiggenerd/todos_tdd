@@ -24,7 +24,7 @@ const port = () => {
 
 mongoose.connect(
   db(),
-  () => console.log(`connected to ${devDB}`)
+  () => console.log(`connected to ${db()}`)
 );
 
 app.listen(port(), () =>

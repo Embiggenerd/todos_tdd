@@ -279,7 +279,7 @@ describe('when signup button is clicked', function() {
 
 describe('when you click the logout button', function() {
   axios.get.mockImplementation(url => {
-    if (url === 'http://localhost:3000/user/logout') {
+    if (url === '/user/logout') {
       return new Promise(resolve => resolve({ hithere: 'hithere' }));
     }
     return new Promise((resolve, reject) => reject({ error: 'hithere' }));

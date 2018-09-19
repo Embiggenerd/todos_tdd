@@ -22,7 +22,7 @@ export const handleTodosButtonClick = (id, url) => {
   return async dispatch => {
     let res;
     try {
-      res = await axios.post(`http://localhost:3000/todos/${url}`, { id });
+      res = await axios.post(`/todos/${url}`, { id });
     } catch (e) {
       return dispatch({
         type: ERROR,
@@ -51,7 +51,8 @@ export const handleSidebarClick = (e, form) => {
   return async dispatch => {
     if (form === 'logout') {
       try {
-        await axios.get('http://localhost:3000/user/logout');
+        await axios.get('/user/logout');
+
         dispatch({
           type: AUTH,
           auth: false
@@ -93,7 +94,7 @@ export const handleFormSubmit = (e, url) => {
       }
     };
     try {
-      res = await axios.post(`http://localhost:3000${url}`, body(url));
+      res = await axios.post(`${url}`, body(url));
     } catch (e) {
       return dispatch({
         type: ERROR,
@@ -160,7 +161,8 @@ export const getTodos = () => {
   return async dispatch => {
     let res;
     try {
-      res = await axios.get('http://localhost:3000/todos/get');
+      res = await axios.get('/todos/get');
+
       dispatch({
         type: AUTH,
         auth: true
