@@ -9,17 +9,14 @@ const prodDB = `mongodb://${process.env.PROD_DB_USER}:${
 }.mlab.com:61322/todos_tdd_prod`;
 
 const db = () => {
-  if (process.env.MODE === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return prodDB;
   }
   return devDB;
 };
 
 const port = () => {
-  if (process.env.MODE === 'production') {
-    return process.env.PORT || 3000;
-  }
-  return 3000;
+  return process.env.PORT || 3000;
 };
 
 mongoose.connect(
