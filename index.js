@@ -6,7 +6,7 @@ const devDB = `mongodb://localhost/todos_tdd_dev`;
 
 const prodDB = `mongodb://${process.env.PROD_DB_USER}:${
   process.env.PROD_DB_PASS
-}.mlab.com:61322/todos_tdd_prod`;
+}@ds161322.mlab.com:61322/todos_tdd_prod`;
 
 const db = () => {
   if (process.env.NODE_ENV === 'production') {
