@@ -55,9 +55,6 @@
     "style-loader": "^0.22.1",
     "webpack": "^4.19.0"
   },
-  "engines": {
-    "node": "8.11.2"
-  },
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
