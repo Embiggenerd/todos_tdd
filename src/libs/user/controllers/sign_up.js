@@ -5,6 +5,7 @@ module.exports = async function(req, res, next) {
   try {
     let existence = await userExists(username);
     if (existence) {
+      console.log(username, 'already exists')
       return res.status(400).json({
         error: {
           name: 'YOU DONE GOOFED',

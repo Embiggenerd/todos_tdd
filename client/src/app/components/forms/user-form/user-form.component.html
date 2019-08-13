@@ -1,0 +1,13 @@
+<h1>Sign up with a unique username and password</h1>
+<div>
+    <label>User Name:
+        <input #username />
+    </label>
+    <label>Password:
+        <input #password />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="signup(username.value, password.value); username.value=''">
+        Sign Up
+    </button>
+</div>

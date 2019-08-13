@@ -99,11 +99,13 @@ class App extends Component {
   componentDidMount() {
     this.props.getTodos();
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.auth !== prevProps.auth) {
       this.props.getTodos();
     }
   }
+  
   render() {
     return this.renderLayout();
   }
