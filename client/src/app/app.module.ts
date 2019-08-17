@@ -7,18 +7,21 @@ import { UserService } from './services/user/user.service';
 import { LogService } from './services/log/log.service';
 import { UserForm } from './components/forms/user-form/user-form.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { ErrorService } from './services/error/error.service';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserForm 
+    UserForm,
+    ErrorComponent 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [UserService, LogService],
+  providers: [UserService, LogService, ErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

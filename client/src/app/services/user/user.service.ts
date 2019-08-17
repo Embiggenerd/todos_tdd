@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { LogService } from '../log/log.service'
 import { User } from '../../models'
+import { ErrorService } from '../error/error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class UserService {
   constructor(
     private http: HttpClient, 
     private logService: LogService,
+    private errorService: ErrorService
     ) {
       this.init()
      }
@@ -24,7 +26,7 @@ export class UserService {
     this.logService.add(`UserService: ${message}`)
   }
 
-  private userUrl = '/user'
+  private userUrl = 'api/user/signup'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -49,23 +51,24 @@ export class UserService {
       // server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    // window.alert(errorMessage);
+    this.errorService.add(errorMessage)
     return throwError(errorMessage);
+  }
+
+  signup(user: User){
+    console.log(user)
+    return this.http.post<User>(this.userUrl, user, this.httpOptions).pipe(
+      tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
+      tap((user:User ) => console.log('user signedup:', user.id, user.username)),
+      catchError(this.handleError)
+    );
   }
 
   // signup(user: User){
   //   console.log(user)
-  //   return this.http.post<User>(this.userUrl, user, this.httpOptions).pipe(
-  //     tap((user: User) => this.log(`Signed up new user w/ username=${user.name}`)),
-  //     tap((user:User ) => console.log('user signedup:', user.id, user.name)),
-  //     catchError(this.handleError)
-  //   );
+  //   return this.http.post<User>('api/user/signup', user, this.httpOptions)
   // }
-
-  signup(user: User){
-    console.log(user)
-    return this.http.post<User>('api/user/signup', user, this.httpOptions)
-  }
 
   init(){
     this.isAuthenticated = false

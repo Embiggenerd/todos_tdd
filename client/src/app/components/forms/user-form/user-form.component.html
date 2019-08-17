@@ -7,7 +7,7 @@
         <input #password />
     </label>
     <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="signup(username.value, password.value); username.value=''">
+    <button (click)="signup(username.value, password.value); username.value=''; password.value=''">
         Sign Up
     </button>
 </div>

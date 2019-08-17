@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { UserService } from './user.service';
 import { LogService } from '../log/log.service'
 import { User } from '../../models'
+import { ErrorService } from '../error/error.service';
 
 describe('UserService', () => {
   let service: UserService
@@ -18,7 +19,7 @@ describe('UserService', () => {
       'get': of(expectedUser),
       'post': of(expectedUser)
     });
-    service = new UserService(<any>httpClientStub, new LogService());
+    service = new UserService(<any>httpClientStub, new LogService, new ErrorService());
   });
 
   it('should be created', () => {
