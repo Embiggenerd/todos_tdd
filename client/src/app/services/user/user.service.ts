@@ -17,7 +17,7 @@ export class UserService {
   constructor(
     private http: HttpClient, 
     private logService: LogService,
-    private errorService: ErrorService
+    // public errorService: ErrorService
     ) {
       this.init()
      }
@@ -42,26 +42,26 @@ export class UserService {
   //     return of(result as T);
   //   };
   // }
-  handleError(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    // window.alert(errorMessage);
-    this.errorService.add(errorMessage)
-    return throwError(errorMessage);
-  }
+  // handleError(error) {
+  //   let errorMessage = '';
+  //   if (error.error instanceof ErrorEvent) {
+  //     // client-side error
+  //     errorMessage = `Error: ${error.error.message}`;
+  //   } else {
+  //     // server-side error
+  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  //   }
+  //   // window.alert(errorMessage);
+  //   this.errorService.add(errorMessage)
+  //   return throwError(errorMessage);
+  // }
 
   signup(user: User){
     console.log(user)
     return this.http.post<User>(this.userUrl, user, this.httpOptions).pipe(
       tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
       tap((user:User ) => console.log('user signedup:', user.id, user.username)),
-      catchError(this.handleError)
+      // catchError(this.handleError)
     );
   }
 

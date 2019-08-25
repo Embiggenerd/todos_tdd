@@ -14,4 +14,9 @@ export class LogService {
   clear() {
     this.messages = [];
   }
+
+  logError(message: string, stack: string) {
+    // Send errors to server here
+    console.log('LoggingService: ' + message);
+}
 }
