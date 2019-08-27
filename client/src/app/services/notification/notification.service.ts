@@ -1,6 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import {
+  MatSnackBar,
+  MatSnackBarConfig
+} from '@angular/material';
+import { ErrorComponent } from 'src/app/components/error/error.component';
 @Injectable({
     providedIn: 'root'
 })
@@ -8,7 +11,8 @@ export class NotificationService {
 
   constructor(
     public snackBar: MatSnackBar,
-    private zone: NgZone) { }
+    private zone: NgZone
+    ) { }
 
   showSuccess(message: string): void {
     // Had an issue with the snackbar being ran outside of angular's zone.
@@ -17,11 +21,17 @@ export class NotificationService {
     });
   }
 
-  showError(message: string): void {
+  // showError(message: string): void {
+  //   let config = new MatSnackBarConfig();
+  //   config.duration = 3500
+  //   this.zone.run(() => {
+  //     this.snackBar.openFromComponent(ErrorComponent);
+  //   });
+  // }
+
+  showError2(){
     this.zone.run(() => {
-      // The second parameter is the text in the button. 
-      // In the third, we send in the css class for the snack bar.
-      this.snackBar.open(message, 'X', {panelClass: ['error']});
+      this.snackBar.openFromComponent(ErrorComponent);
     });
   }
 }

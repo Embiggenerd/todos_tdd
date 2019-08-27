@@ -18,15 +18,17 @@ export class GlobalErrorHandler implements ErrorHandler {
     let stackTrace;
     if (error instanceof HttpErrorResponse) {
       // Server error
-      console.log('httpError')
+      console.log('httpError', error)
       message = errorService.getServerErrorMessage(error);
-      //stackTrace = errorService.getServerErrorStackTrace(error);
-      notifier.showError(message);
+    //   stackTrace = errorService.getServerErrorStackTrace(error);
+      // notifier.showError(message);
+      notifier.showError2()
     } else {
       // Client Error
       console.log('clientError')
       message = errorService.getClientErrorMessage(error);
-      notifier.showError(message);
+      // notifier.showError(message);
+      notifier.showError2()
     }
     // Always log errors
     logger.logError(message, stackTrace);

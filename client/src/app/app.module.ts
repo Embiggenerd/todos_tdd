@@ -23,6 +23,7 @@ import { from } from 'rxjs';
     UserForm,
     ErrorComponent,
   ],
+  entryComponents: [ErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,7 +37,7 @@ import { from } from 'rxjs';
     ErrorService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } }
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ],
   bootstrap: [AppComponent]
 })
