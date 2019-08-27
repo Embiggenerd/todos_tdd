@@ -4,6 +4,7 @@ module.exports = async function(req, res, next) {
   const { username, password } = req.body;
   try {
     let existence = await userExists(username);
+
     if (existence) {
       console.log(username, 'already exists')
       return res.status(400).json({
@@ -13,6 +14,16 @@ module.exports = async function(req, res, next) {
         }
       });
     }
+    
+    if (!username ) {
+      return res.status(400).json({
+        error: {
+          name: 'YOU DONE GOOFED',
+          message: `Username is required!`
+        }
+      });
+    }
+    
     const encryptedPassword = await encryptPassword(password);
 
     const savedUser = await saveUser(username, encryptedPassword);
