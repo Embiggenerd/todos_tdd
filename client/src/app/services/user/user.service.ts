@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { LogService } from '../log/log.service'
-import { User } from '../../models'
-import { ErrorService } from '../error/error.service';
+import { User, A } from '../../models'
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,6 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private logService: LogService,
-    // public errorService: ErrorService
   ) {
     this.init()
   }
@@ -29,6 +27,8 @@ export class UserService {
   private signupUrl = 'api/user/signup'
 
   private loginUrl = 'api/user/login'
+
+  private authUrl = 'api/user/auth'
 
 
   private httpOptions = {
@@ -53,17 +53,26 @@ export class UserService {
     this.isAuthenticated = false
   }
 
-  authenticate(){
+  authenticate() {
     this.isAuthenticated = true
   }
 
-  unAuthenticate(){
+  unAuthenticate() {
     this.isAuthenticated = false
   }
 
-  authAsk(){
+  authAsk() {
     return this.isAuthenticated
   }
 
-
+  checkCookie() {
+    return this.http.get<A>(this.authUrl).pipe(
+      tap((a: A) => {
+        if (a.authenticated) {
+          this.authenticate()
+        } else {
+          this.unAuthenticate()
+        }
+      }))
+  }
 }

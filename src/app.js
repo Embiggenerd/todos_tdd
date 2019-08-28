@@ -5,7 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
 
-const { signUp, logIn, logOut } = require('./libs/user/controllers');
+const { signUp, logIn, logOut, authUser } = require('./libs/user/controllers');
 const {
   submitTodo,
   getTodos,
@@ -49,6 +49,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist', 'todos-td
 app.get('/', function(req, res) {
   res.sendFile(path.resolve(__dirname, '..', 'client', 'dist','todos-tdd', 'index.html'));
 });
+app.get('/user/auth', authUser)
 app.post('/user/signup', signUp);
 app.post('/user/login', logIn);
 app.get('/user/logout', isLoggedIn, logOut);

@@ -16,15 +16,22 @@ export class AppComponent {
 
   ngOnInit(){
     console.log('authenticatedz:', this.userService.authAsk())
-    this.getTodos()
+    this.checkCookie()
+    console.log('authenticatedz2:', this.userService.authAsk())
   }
 
-  getTodos(){
-    this.todosService.getTodos().subscribe((todos: Todo[]) => {
-      this.userService.authenticate()
-      console.log('got todos:', todos)
-      console.log('user is authenticated:', this.userService.authAsk())
+  // getTodos(){
+  //   this.todosService.getTodos().subscribe((todos: Todo[]) => {
+  //     this.userService.authenticate()
+  //     console.log('got todos:', todos)
+  //     console.log('user is authenticated:', this.userService.authAsk())
 
+  //   })
+  // }
+
+  checkCookie(){
+    this.userService.checkCookie().subscribe(()=>{
+      console.log('user is authenticated:', this.userService.authAsk())
     })
   }
 }

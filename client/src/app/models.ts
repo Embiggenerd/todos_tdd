@@ -9,3 +9,7 @@ export class Todo {
     todo: string
     user: string
 }
+
+export class A {
+    authenticated: boolean
+  } 
