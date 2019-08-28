@@ -6,22 +6,11 @@ module.exports = async function(req, res, next) {
     let existence = await userExists(username);
 
     if (existence) {
-      console.log(username, 'already exists')
-      return res.status(400).json({
-        error: {
-          name: 'YOU DONE GOOFED',
-          message: `${username} is taken!`
-        }
-      });
+      throw new Error(`${username} is taken`)
     }
-    
+
     if (!username ) {
-      return res.status(400).json({
-        error: {
-          name: 'YOU DONE GOOFED',
-          message: `Username is required!`
-        }
-      });
+      throw new Error(`Username is required`)
     }
     
     const encryptedPassword = await encryptPassword(password);
@@ -34,6 +23,7 @@ module.exports = async function(req, res, next) {
         username: savedUser.username
       }
     });
+    
   } catch (e) {
     next(e);
   }

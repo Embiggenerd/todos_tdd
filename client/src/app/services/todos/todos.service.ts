@@ -26,7 +26,7 @@ export class TodosService {
 
   todos: Todo[]
 
-  private todoUrl = '/todos'
+  private todoUrl = 'api/todos/get'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -40,7 +40,7 @@ export class TodosService {
 
       // Unauthentiate user if error is 401 
       if (error.status === 401) {
-        this.userService.isAuthenticated = false
+        this.userService.unAuthenticate()
       }
 
       // Let the app keep running by returning an empty result.
@@ -52,7 +52,7 @@ export class TodosService {
     return this.http.get<Todo[]>(this.todoUrl, this.httpOptions).pipe(
       tap((todos: Todo[]) => this.log(`Fetched todos, todos=${JSON.stringify(todos)}`)),
       tap((todos: Todo[]) => this.todos = todos),
-      tap((todos: Todo[]) => { if (todos) { this.userService.isAuthenticated = true } }),
+      tap((todos: Todo[]) => { if (todos) { this.userService.authAsk() === true } }),
       tap(_ => console.log('todosService.todos', this.todos)),
       catchError(this.handleError<Todo[]>('Get Todos'))
     )

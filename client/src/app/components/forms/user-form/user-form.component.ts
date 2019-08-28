@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from '../../../models'
-import { ErrorService } from 'src/app/services/error/error.service';
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -9,7 +9,11 @@ import { ErrorService } from 'src/app/services/error/error.service';
 })
 export class UserForm implements OnInit {
 
-  // whichForm: string
+  private whichForm = 'signup'
+
+  public loginStatement = 'Please log in with your username and password.'
+
+  public signupStatement = 'Please signup with a unique username and password (passwords are never stored in plain text).'
 
   constructor(
     private userService: UserService,
@@ -18,9 +22,41 @@ export class UserForm implements OnInit {
   ngOnInit() {
   }
 
+  sendUserReq(username: string, password: string):void  {
+    if(this.whichForm === 'login') {
+      this.login(username, password)
+      return
+    }
+    this.signup(username, password)
+  }
+  
   signup(username: string, password: string): void {
     const user = { username, password }
-    this.userService.signup(user).subscribe((user: User) => console.log(user))
 
+    this.userService.signup(user).subscribe((user: User) => {
+      this.toggleForm()
+      console.log('signed up:', user)
+    })
+  }
+
+  login(username: string, password: string): void {
+    const user = { username, password }
+
+    this.userService.login(user).subscribe((user: User) => {
+      //this.location.push('/todos')
+      console.log('loggged in:', user)})
+  }
+
+  // Toggles which form we display, which also determines other things
+  toggleForm() {
+    if (this.whichForm === 'signup') {
+      this.whichForm = 'login'
+    } else {
+      this.whichForm = 'signup'
+    }
+  }
+
+  getBtnText():string {
+    return this.whichForm === 'login' ? 'Log in' : 'Sign up'
   }
 }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { TodosService } from './services/todos/todos.service';
+import { Todo } from './models'
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +12,19 @@ export class AppComponent {
   title = 'todos-tdd';
   todos: TodosService
 
-  constructor(private todosService: TodosService){}
+  constructor(private todosService: TodosService, private userService: UserService){}
 
   ngOnInit(){
+    console.log('authenticatedz:', this.userService.authAsk())
     this.getTodos()
   }
 
   getTodos(){
-    this.todosService.getTodos()
+    this.todosService.getTodos().subscribe((todos: Todo[]) => {
+      this.userService.authenticate()
+      console.log('got todos:', todos)
+      console.log('user is authenticated:', this.userService.authAsk())
+
+    })
   }
 }

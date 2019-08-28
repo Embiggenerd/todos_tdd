@@ -11,66 +11,59 @@ import { ErrorService } from '../error/error.service';
   providedIn: 'root'
 })
 export class UserService {
-  
-  isAuthenticated: boolean
+
+  private isAuthenticated: boolean
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private logService: LogService,
     // public errorService: ErrorService
-    ) {
-      this.init()
-     }
+  ) {
+    this.init()
+  }
 
   private log(message: string) {
     this.logService.add(`UserService: ${message}`)
   }
 
-  private userUrl = 'api/user/signup'
+  private signupUrl = 'api/user/signup'
+
+  private loginUrl = 'api/user/login'
+
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  // private handleError<T>(operation = 'operation', result?: T) {
-  //   return (error: Error): Observable<T> => {
-  //     console.log(error)
-  //     // Send error to log service, which talks to backend
-  //     this.log(`${operation} failed: ${error.message}`);
-
-  //     // Let the app keep running by returning an empty result.
-  //     return of(result as T);
-  //   };
-  // }
-  // handleError(error) {
-  //   let errorMessage = '';
-  //   if (error.error instanceof ErrorEvent) {
-  //     // client-side error
-  //     errorMessage = `Error: ${error.error.message}`;
-  //   } else {
-  //     // server-side error
-  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-  //   }
-  //   // window.alert(errorMessage);
-  //   this.errorService.add(errorMessage)
-  //   return throwError(errorMessage);
-  // }
-
-  signup(user: User){
-    console.log(user)
-    return this.http.post<User>(this.userUrl, user, this.httpOptions).pipe(
+  signup(user: User) {
+    return this.http.post<User>(this.signupUrl, user, this.httpOptions).pipe(
       tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
-      tap((user:User ) => console.log('user signedup:', user.id, user.username)),
-      // catchError(this.handleError)
+      tap((user: User) => console.log('user signedup:', user.id, user.username)),
     );
   }
 
-  // signup(user: User){
-  //   console.log(user)
-  //   return this.http.post<User>('api/user/signup', user, this.httpOptions)
-  // }
+  login(user: User) {
+    return this.http.post<User>(this.loginUrl, user, this.httpOptions).pipe(
+      tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
+      tap((user: User) => console.log('user signedup:', user.id, user.username)),
+    )
+  }
 
-  init(){
+  init() {
     this.isAuthenticated = false
   }
+
+  authenticate(){
+    this.isAuthenticated = true
+  }
+
+  unAuthenticate(){
+    this.isAuthenticated = false
+  }
+
+  authAsk(){
+    return this.isAuthenticated
+  }
+
+
 }
