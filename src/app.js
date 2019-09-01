@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
 
+const isLoggedIn = require('./libs/middleware/isLoggedIn');
 const { signUp, logIn, logOut, authUser } = require('./libs/user/controllers');
 const {
   submitTodo,
@@ -14,7 +15,6 @@ const {
 } = require('./libs/todos/controllers');
 
 const app = express();
-const isLoggedIn = require('./libs/middleware/isLoggedIn');
 
 const sessionUrl = () => {
   if (process.env.NODE_ENV === 'production') {

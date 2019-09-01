@@ -68,6 +68,7 @@ export class UserService {
   checkCookie() {
     return this.http.get<A>(this.authUrl).pipe(
       tap((a: A) => {
+        console.log('authGet', a)
         if (a.authenticated) {
           this.authenticate()
         } else {
