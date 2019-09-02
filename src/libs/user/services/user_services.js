@@ -16,7 +16,7 @@ const userExists = UserModel => async username => {
 
 const encryptPassword = UserModel => password => {
   if (!password) {
-    throw new Error('password is required');
+    throw new Error('Password is required');
   }
   return hash(password, 2);
 };

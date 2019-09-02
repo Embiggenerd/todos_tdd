@@ -1,15 +1,15 @@
-<h1 *ngIf="whichForm === 'signup'">{{signupStatement}}</h1>
-<h1 *ngIf="whichForm === 'login'">{{loginStatement}}</h1>
+<h1 *ngIf="whichForm === 'signup'" data-test-id="signup-statement">{{signupStatement}}</h1>
+<h1 *ngIf="whichForm === 'login'" data-test-id="login-statement">{{loginStatement}}</h1>
 
 <div class='user-form'>
     <label>User Name:
-        <input #username />
+        <input data-test-id="username-input" #username />
     </label>
     <label>Password:
-        <input #password />
+        <input data-test-id="password-input" #password />
     </label>
     <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="sendUserReq(username.value, password.value); username.value=''; password.value=''">
+    <button data-test-id="user-submit-button" (click)="sendUserReq(username.value, password.value); username.value=''; password.value=''">
         {{this.getBtnText()}}
     </button>
 </div>

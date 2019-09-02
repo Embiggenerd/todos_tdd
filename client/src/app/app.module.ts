@@ -16,12 +16,14 @@ import { ErrorComponent } from './components/error/error.component';
 import { GlobalErrorHandler } from './classes/globa-error.handler'
 import { ServerErrorInterceptor } from './classes/server-error-interceptor'
 import { from } from 'rxjs';
+import { TodosComponent } from './components/todos/todos/todos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserForm,
     ErrorComponent,
+    TodosComponent,
   ],
   entryComponents: [ErrorComponent],
   imports: [

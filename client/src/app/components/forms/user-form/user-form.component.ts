@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from '../../../models'
 
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -13,23 +16,24 @@ export class UserForm implements OnInit {
 
   public loginStatement = 'Please log in with your username and password.'
 
-  public signupStatement = 'Please signup with a unique username and password (passwords are never stored in plain text).'
+  public signupStatement = 'Please signup with a unique username and password (passwords are never stored in plain text)'
 
   constructor(
     private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
   }
 
-  sendUserReq(username: string, password: string):void  {
-    if(this.whichForm === 'login') {
+  sendUserReq(username: string, password: string): void {
+    if (this.whichForm === 'login') {
       this.login(username, password)
       return
     }
     this.signup(username, password)
   }
-  
+
   signup(username: string, password: string): void {
     const user = { username, password }
 
@@ -43,8 +47,9 @@ export class UserForm implements OnInit {
     const user = { username, password }
 
     this.userService.login(user).subscribe((user: User) => {
-      //this.location.push('/todos')
-      console.log('loggged in:', user)})
+      this.goToTodos()      
+      console.log('loggged in:', user)
+    })
   }
 
   // Toggles which form we display, which also determines other things
@@ -56,7 +61,11 @@ export class UserForm implements OnInit {
     }
   }
 
-  getBtnText():string {
+  getBtnText(): string {
     return this.whichForm === 'login' ? 'Log in' : 'Sign up'
+  }
+
+  goToTodos() {
+    this.router.navigate(['/todos'])
   }
 }

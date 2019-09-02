@@ -1,11 +1,16 @@
 import { browser, by, element } from 'protractor';
+import { BasePage } from './basePage.po'
 
-export class AppPage {
+export class AppPage extends BasePage {
   navigateTo() {
-    return browser.get(browser.baseUrl) as Promise<any>;
-  }
+    return this.navigate('')
+  } 
 
   getTitleText() {
-    return element(by.css('app-root h1')).getText() as Promise<string>;
+    return this.getText('[data-test-id="app-title"]')
+  }
+
+  getCurrentURL(){
+    return this.getURL()
   }
 }
