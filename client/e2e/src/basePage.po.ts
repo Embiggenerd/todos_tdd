@@ -6,14 +6,6 @@ export class BasePage {
     }
 
     getText(dataTestId: string) {
-        // const el =  element(by.css(dataTestId))
-        // let text
-        // browser.wait(protractor.ExpectedConditions.presenceOf(el), 10000)
-        //     .then(() => {
-        //         text = el.getText()
-        //         // elementToClick.click();
-        //     })
-        // return text
         return element(by.css(dataTestId)).getText() as Promise<string>;
     }
 
@@ -37,7 +29,11 @@ export class BasePage {
             })
     }
 
-    getElement(dataTestId){
+    getElement(dataTestId) {
         return element(by.css(dataTestId))
+    }
+
+    exists(dataTestId) {
+        return element(by.css(dataTestId)).isPresent()
     }
 }

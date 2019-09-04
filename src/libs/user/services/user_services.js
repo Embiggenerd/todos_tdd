@@ -35,7 +35,7 @@ const validateUser = UserModel => async (username, password) => {
 
 const loginUser = UserModel => (userId, req) => (req.session.userId = userId);
 
-const logoutUser = UserModel => req => req.session.destroy();
+const logoutUser = UserModel => req => req.session.destroy()
 
 module.exports = UserModel => ({
   saveUser: saveUser(UserModel),

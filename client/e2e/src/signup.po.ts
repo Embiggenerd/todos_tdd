@@ -31,4 +31,11 @@ export class SignupPage extends BasePage {
         return usernameInput.sendKeys(password)
     }
 
+    clickToggleUserFormButton() {
+        return this.clickButton('[data-test-id="toggle-user-form-btn"]')
+    }
+
+    clickLogoutButton(){
+        return this.clickButton('[data-test-id="logout-button"]')
+    }
 }

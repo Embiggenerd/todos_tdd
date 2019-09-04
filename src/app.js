@@ -60,10 +60,8 @@ app.post('/todos/deleteTodo', isLoggedIn, deleteTodo);
 app.use((err, req, res, next) => {
   if (err.name) {
     res.status(400).json({
-      error: {
-        name: 'SOMEBODY GOOFED',
-        message: `${err.message}!`
-      }
+      name: 'SOMEBODY GOOFED',
+      message: `${err.message}!`
     });
   }
 });

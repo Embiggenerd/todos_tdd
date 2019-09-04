@@ -20,9 +20,8 @@ export class TodosComponent implements OnInit {
   }
 
   getTodos(){
+    console.log('gettodos in todos component called')
     this.todosService.getTodos().subscribe((todos:Todo[]) => {
-      
     })
   } 
-
 }

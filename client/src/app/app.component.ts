@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { TodosService } from './services/todos/todos.service';
 import { Todo } from './models'
 import { UserService } from './services/user/user.service';
+import { CookieService } from 'ngx-cookie-service';
+
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -26,14 +28,21 @@ export class AppComponent {
     console.log('authenticatedz2:', this.userService.authAsk())
   }
 
-  // getTodos(){
-  //   this.todosService.getTodos().subscribe((todos: Todo[]) => {
-  //     this.userService.authenticate()
-  //     console.log('got todos:', todos)
-  //     console.log('user is authenticated:', this.userService.authAsk())
-
-  //   })
+  // ngOnChanges(){
+  //   this.checkCookie()
   // }
+
+  logout(){
+    console.log('app.logout 1')
+    this.userService.logout().subscribe((res) => {
+      this.userService.unAuthenticate()
+      this.goToSignup()
+      console.log('logoutres', res)
+    })
+    console.log('app.logout 2')
+
+    // this.userService.unAuthenticate()
+  }
 
   checkCookie() {
     this.userService.checkCookie().subscribe(() => {
@@ -45,7 +54,6 @@ export class AppComponent {
       } else {
         this.goToSignup()
       }
-
     })
   }
 
@@ -55,5 +63,10 @@ export class AppComponent {
 
   goToSignup() {
     this.router.navigate(['/signup'])
+  }
+
+  userIsAuthed(){
+    console.log('userIsAuthed()', this.userService.authAsk())
+    return this.userService.authAsk()
   }
 }

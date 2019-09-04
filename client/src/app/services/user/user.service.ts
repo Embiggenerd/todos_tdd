@@ -1,5 +1,6 @@
 import { Injectable, APP_INITIALIZER } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -30,6 +31,7 @@ export class UserService {
 
   private authUrl = 'api/user/auth'
 
+  private logoutUrl = 'api/user/logout'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -44,9 +46,21 @@ export class UserService {
 
   login(user: User) {
     return this.http.post<User>(this.loginUrl, user, this.httpOptions).pipe(
-      tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
-      tap((user: User) => console.log('user signedup:', user.id, user.username)),
+      tap((user: User) => this.log(`Logged in user w/ username=${user.username}`)),
+      tap((user: User) => console.log('user logged in:', user.id, user.username)),
     )
+  }
+
+  logout() {
+    try {
+      return this.http.get<any>(this.logoutUrl, this.httpOptions).pipe(
+        tap(() => this.log('Logged out user')),
+        tap((res) => console.log('User logged out', res)),
+      )
+    } catch (e) {
+      console.log(e)
+    }
+
   }
 
   init() {

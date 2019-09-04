@@ -5,6 +5,8 @@
   </h1>
 </div>
 
+<button *ngIf="userIsAuthed()" data-test-id="logout-button" (click)="logout()">Logout</button>
+
 <!-- <app-user-form></app-user-form> -->
 
 <router-outlet></router-outlet>

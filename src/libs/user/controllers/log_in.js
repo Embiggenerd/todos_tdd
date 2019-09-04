@@ -11,12 +11,7 @@ module.exports = async (req, res, next) => {
       return res.json({ user: validUser });
     }
 
-    res.status(400).json({
-      error: {
-        name: 'YOU DONE GOOFED',
-        message: 'Click out and try again!'
-      }
-    });
+    throw new Error('Try again')
 
   } catch (e) {
     next(e);

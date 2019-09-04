@@ -14,7 +14,7 @@ export class UserForm implements OnInit {
 
   private whichForm = 'signup'
 
-  public loginStatement = 'Please log in with your username and password.'
+  public loginStatement = 'Please log in with your username and password'
 
   public signupStatement = 'Please signup with a unique username and password (passwords are never stored in plain text)'
 
@@ -47,7 +47,8 @@ export class UserForm implements OnInit {
     const user = { username, password }
 
     this.userService.login(user).subscribe((user: User) => {
-      this.goToTodos()      
+      this.goToTodos() 
+      this.userService.authenticate()     
       console.log('loggged in:', user)
     })
   }
