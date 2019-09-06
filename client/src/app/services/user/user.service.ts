@@ -79,11 +79,12 @@ export class UserService {
     return this.isAuthenticated
   }
 
+  // The server checks the cookie and sends back 
+  // res.authenticated = boolean
   checkCookie() {
-    return this.http.get<A>(this.authUrl).pipe(
-      tap((a: A) => {
-        console.log('authGet', a)
-        if (a.authenticated) {
+    return this.http.get<A>(this.authUrl, this.httpOptions).pipe(
+      tap((res: A) => {
+        if (res.authenticated) {
           this.authenticate()
         } else {
           this.unAuthenticate()
