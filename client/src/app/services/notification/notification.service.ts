@@ -29,7 +29,7 @@ export class NotificationService {
   //   });
   // }
 
-  showError2(){
+  showError(){
     this.zone.run(() => {
       this.snackBar.openFromComponent(ErrorComponent);
     });

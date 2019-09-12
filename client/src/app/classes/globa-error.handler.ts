@@ -4,6 +4,9 @@ import { LogService } from '../services/log/log.service';
 import { ErrorService } from '../services//error/error.service';
 import { NotificationService } from '../services/notification/notification.service';
 
+/**
+ * GlobalErrorHandler 
+ */
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
 
@@ -16,22 +19,15 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     let message;
     let stackTrace;
-    if (error instanceof HttpErrorResponse) {
-      // Server error
-      console.log('httpError', error)
-      message = errorService.getServerErrorMessage(error);
-    //   stackTrace = errorService.getServerErrorStackTrace(error);
-      // notifier.showError(message);
-      notifier.showError2()
-    } else {
-      // Client Error
-      console.log('clientError')
+
+    if (error instanceof HttpErrorResponse) { // Server error
+      errorService.setServerErrorMessage(error)
+      message = errorService.getServerErrorMessage();
+      notifier.showError()
+    } else { // Client Error
       message = errorService.getClientErrorMessage(error);
-      // notifier.showError(message);
-      notifier.showError2()
+      notifier.showError()
     }
-    // Always log errors
     logger.logError(message, stackTrace);
-    console.error(error);
   }
 }

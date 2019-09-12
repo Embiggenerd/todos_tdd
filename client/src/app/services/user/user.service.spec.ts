@@ -1,8 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { LogService } from '../log/log.service'
-
+import { HttpClient } from '@angular/common/http';
 
 import { UserService } from './user.service';
 
@@ -84,7 +82,6 @@ describe('UserService', () => {
             expect(service.authAsk()).toBeTruthy()
           })
 
-
           const req = httpMock.expectOne('api/user/auth');
 
           expect(req.request.method).toEqual('GET');
@@ -105,7 +102,6 @@ describe('UserService', () => {
             expect(service.authAsk()).toBeFalsy()
           })
 
-
           const req = httpMock.expectOne('api/user/auth');
 
           expect(req.request.method).toEqual('GET');
@@ -114,6 +110,4 @@ describe('UserService', () => {
         })()
     })
   })
-
-
 });

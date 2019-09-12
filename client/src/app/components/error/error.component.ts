@@ -7,7 +7,7 @@ import { ErrorService } from 'src/app/services/error/error.service';
   styleUrls: ['./error.component.sass']
 })
 export class ErrorComponent implements OnInit {
-  message: Error
+  message: string
   constructor(private errorService: ErrorService) { }
 
   ngOnInit() {
@@ -19,7 +19,8 @@ export class ErrorComponent implements OnInit {
   }
 
   getErrorMessage() {
-    this.message = this.errorService.error.error.message
+    // this.message = this.errorService.error.error.message
+    this.message = this.errorService.getErrorMessage()
   }
 
   clearErrorMessage(){
