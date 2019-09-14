@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 
+import {ReactiveFormsModule} from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserService } from './services/user/user.service';
@@ -33,6 +34,7 @@ import { TodosComponent } from './components/todos/todos/todos.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
+    ReactiveFormsModule
   ],
   providers: [
     UserService,

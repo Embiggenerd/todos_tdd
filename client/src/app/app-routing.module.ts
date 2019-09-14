@@ -3,8 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TodosComponent } from './components/todos/todos/todos.component'
 import { UserForm } from './components/forms/user-form/user-form.component';
 
-
-const routes: Routes = [
+export const routes: Routes = [
   {path: 'todos', component: TodosComponent},
   {path: 'signup', component: UserForm }
 ];

@@ -1,18 +1,22 @@
 <h1 *ngIf="whichForm === 'signup'" data-test-id="signup-statement">{{signupStatement}}</h1>
 <h1 *ngIf="whichForm === 'login'" data-test-id="login-statement">{{loginStatement}}</h1>
 
-<div class='user-form' data-test-id="user-form">
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" class='user-form' data-test-id="user-form">
+    
     <label>User Name:
-        <input data-test-id="username-input" #username />
+        <input type="text" formControlName="userName" data-test-id="username-input"/>
     </label>
+
     <label>Password:
-        <input data-test-id="password-input" #password />
+        <input type="password" formControlName="password" data-test-id="password-input"/>
     </label>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button data-test-id="user-submit-button" (click)="sendUserReq(username.value, password.value); username.value=''; password.value=''">
+
+    <button type="submit" data-test-id="user-submit-button">
         {{this.getBtnText()}}
     </button>
-    <button data-test-id="toggle-user-form-btn" (click)="toggleForm()">
-        Toggle Form
-    </button>
-</div>
+
+</form>
+
+<button data-test-id="toggle-user-form-btn" (click)="toggleForm()">
+    Toggle Form
+</button>

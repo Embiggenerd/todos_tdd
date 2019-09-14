@@ -66,7 +66,6 @@ export class AppComponent {
   }
 
   userIsAuthed(){
-    console.log('userIsAuthed()', this.userService.authAsk())
     return this.userService.authAsk()
   }
 }
