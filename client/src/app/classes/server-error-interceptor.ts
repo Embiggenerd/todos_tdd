@@ -14,12 +14,14 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          return throwError(error)
-          // refresh token
-        } else {
-          return throwError(error);
-        }
+        return throwError(error)
+
+        // if (error.status === 401) {
+        //   return throwError(error)
+        // }
+        // } else {
+        //   return throwError(error);
+        // }
       })
     );    
   }

@@ -36,4 +36,8 @@ export class BasePage {
     exists(dataTestId) {
         return element(by.css(dataTestId)).isPresent()
     }
+
+    addCookie(name, value) {
+        return browser.addCookie(name, value)
+    }
 }

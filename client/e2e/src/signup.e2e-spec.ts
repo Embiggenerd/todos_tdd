@@ -1,7 +1,5 @@
 import { SignupPage } from './signup.po'
-
 import { internet } from 'faker'
-import { ARIA_DESCRIBER_PROVIDER } from '@angular/cdk/a11y';
 
 describe('Signup Page', () => {
     let page: SignupPage;
@@ -25,7 +23,6 @@ describe('Signup Page', () => {
             page.clickToggleUserFormButton()
             expect(page.getSignupStatement()).toBe('Please signup with a unique username and password (passwords are never stored in plain text)')
         })
-
     })
 
     describe('When submit button is clicked', () => {
@@ -42,7 +39,6 @@ describe('Signup Page', () => {
             page.clickSubmitButton()
             expect(page.getErrorText()).toBe('Password is required!')
         })
-
 
         it('Changes submit statement when good username and password data is submitted', () => {
             page.submitUsername(userName)
@@ -75,12 +71,8 @@ describe('Signup Page', () => {
             })
 
             it('The logout button is not displayed', ()=>{
-                // page.wait(1)
                 expect(page.exists('[data-test-id="logout-button"]')).toBeFalsy()
             })
         })
     })
-
-
-
 })
