@@ -7,7 +7,6 @@ pipeline {
     //     CHROME_BIN = '/bin/google-chrome'
     // }
     
-
     stages {
         stage('deploy to angular'){
             when {
