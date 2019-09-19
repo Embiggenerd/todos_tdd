@@ -9,9 +9,9 @@ pipeline {
     
     stages {
         stage('deploy to angular'){
-            when {
-                branch 'angular'
-            }
+            // when {
+            //     branch 'angular'
+            // }
             steps {
                 dir("folder") {
                     sh "pwd"
