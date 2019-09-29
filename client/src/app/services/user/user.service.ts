@@ -12,28 +12,28 @@ import { User, A } from '../../models'
 })
 export class UserService {
 
-  private isAuthenticated: boolean
+  isAuthenticated: boolean
 
   constructor(
-    private http: HttpClient,
-    private logService: LogService,
+    public http: HttpClient,
+    public logService: LogService,
   ) {
     this.init()
   }
 
-  private log(message: string) {
+  log(message: string) {
     this.logService.add(`UserService: ${message}`)
   }
 
-  private signupUrl = 'api/user/signup'
+  signupUrl = 'api/user/signup'
 
-  private loginUrl = 'api/user/login'
+  loginUrl = 'api/user/login'
 
-  private authUrl = 'api/user/auth'
+  authUrl = 'api/user/auth'
 
-  private logoutUrl = 'api/user/logout'
+  logoutUrl = 'api/user/logout'
 
-  private httpOptions = {
+  httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
@@ -60,7 +60,6 @@ export class UserService {
     } catch (e) {
       console.log(e)
     }
-
   }
 
   init() {

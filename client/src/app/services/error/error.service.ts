@@ -23,7 +23,7 @@ export class ErrorService {
   }
 
   clear() {
-    this.error = undefined
+    this.error = null
   }
 
   getClientErrorMessage(error: Error): string {

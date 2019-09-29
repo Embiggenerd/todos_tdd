@@ -21,14 +21,6 @@ export class NotificationService {
     });
   }
 
-  // showError(message: string): void {
-  //   let config = new MatSnackBarConfig();
-  //   config.duration = 3500
-  //   this.zone.run(() => {
-  //     this.snackBar.openFromComponent(ErrorComponent);
-  //   });
-  // }
-
   showError(){
     this.zone.run(() => {
       this.snackBar.openFromComponent(ErrorComponent);

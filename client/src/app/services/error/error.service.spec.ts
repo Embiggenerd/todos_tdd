@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { ErrorService } from './error.service';
 
-fdescribe('ErrorService', () => {
+describe('ErrorService', () => {
  
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ fdescribe('ErrorService', () => {
     service.add({error:expectedError})
     service.clear()
 
-    expect(service.getError()).toBe(undefined)
+    expect(service.getError()).toBe(null)
   })
 
   it('should get and set server error message', () => {

@@ -1,13 +1,12 @@
 pipeline {
-    agent any
-
-    // tools {nodejs "node"}
-
-    // environment {
-    //     CHROME_BIN = '/bin/google-chrome'
-    // }
-    
+    agent docker {
+      image 'cypress/base:10'
+    }
     stages {
+        stage('build') {
+            sh 'npm ci'
+            sh 'npm run cy:verify'
+        }
         stage('deploy to angular'){
             // when {
             //     branch 'angular'

@@ -19,11 +19,11 @@ export class ErrorComponent implements OnInit {
   }
 
   getErrorMessage() {
-    // this.message = this.errorService.error.error.message
     this.message = this.errorService.getErrorMessage()
   }
 
   clearErrorMessage(){
     this.errorService.clear()
+    this.message = null
   }
 }

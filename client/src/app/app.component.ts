@@ -4,7 +4,6 @@ import { Todo } from './models'
 import { UserService } from './services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 
-
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -14,11 +13,10 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AppComponent {
   title = 'todos-tdd';
-  todos: TodosService
+  // todos: TodosService
 
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute,
     private router: Router,
   ) { }
 
@@ -28,10 +26,6 @@ export class AppComponent {
     console.log('authenticatedz2:', this.userService.authAsk())
   }
 
-  // ngOnChanges(){
-  //   this.checkCookie()
-  // }
-
   logout(){
     console.log('app.logout 1')
     this.userService.logout().subscribe((res) => {
@@ -40,8 +34,6 @@ export class AppComponent {
       console.log('logoutres', res)
     })
     console.log('app.logout 2')
-
-    // this.userService.unAuthenticate()
   }
 
   checkCookie() {
