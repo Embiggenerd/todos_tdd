@@ -20,16 +20,17 @@ describe('ErrorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add error', () => {
+  it('should add error', (done) => {
     const expectedError = {name:'hello', message: 'world'}
     const service: ErrorService = TestBed.get(ErrorService);
     
     service.add({error:expectedError})
     
     expect(service.getError()).toBe(expectedError)
+    done()
   })
   
-  it('should clear error', () => {
+  it('should clear error', (done) => {
     const expectedError = {name:'hello', message: 'world'}
     const service: ErrorService = TestBed.get(ErrorService);
     
@@ -37,9 +38,10 @@ describe('ErrorService', () => {
     service.clear()
 
     expect(service.getError()).toBe(null)
+    done()
   })
 
-  it('should get and set server error message', () => {
+  it('should get and set server error message', (done) => {
     const expectedError = {name:'hello', message: 'world'}
     const httpErrorResponse = new HttpErrorResponse({error:expectedError})
     const service: ErrorService = TestBed.get(ErrorService);
@@ -47,5 +49,6 @@ describe('ErrorService', () => {
     service.setServerErrorMessage(httpErrorResponse)
 
     expect(service.getServerErrorMessage()).toBe(expectedError.message)
+    done()
   })
 });

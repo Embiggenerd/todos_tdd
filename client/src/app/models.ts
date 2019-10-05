@@ -5,6 +5,7 @@ export class User {
 }
 
 export class Todo {
+    _id?: string
     closed: boolean
     todo: string
     user: string

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from '../../../models'
-
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder }
   from '@angular/forms';
 
+import { UserService } from 'src/app/services/user/user.service';
+import { User } from '../../../models'
 
 @Component({
   selector: 'app-user-form',
@@ -60,7 +59,6 @@ export class UserForm implements OnInit {
 
     this.userService.signup(user).subscribe((user: User) => {
       this.toggleForm()
-      console.log('signed up:', user)
     })
   }
 
@@ -70,7 +68,6 @@ export class UserForm implements OnInit {
     this.userService.login(user).subscribe((user: User) => {
       this.goToTodos()
       this.userService.authenticate()
-      console.log('loggged in:', user)
     })
   }
 

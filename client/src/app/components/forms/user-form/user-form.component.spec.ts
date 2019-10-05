@@ -52,7 +52,6 @@ describe('UserFormComponent', () => {
   });
 
   it('should process user input', () => {
-
     const userName = internet.userName()
     const password = internet.password()
 

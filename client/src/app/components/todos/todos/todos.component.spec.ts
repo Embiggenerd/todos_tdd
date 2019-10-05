@@ -3,16 +3,23 @@ import { HttpClientTestingModule,  HttpTestingController } from '@angular/common
 
 
 import { TodosComponent } from './todos.component';
+import { TodosForm } from '../../forms/todos-form/todos-form.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
-describe('TodosComponent', () => {
+fdescribe('TodosComponent', () => {
   let component: TodosComponent;
   let fixture: ComponentFixture<TodosComponent>;
+  let backend: HttpTestingController
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TodosComponent ],
+      declarations: [ 
+        TodosComponent,
+        TodosForm
+       ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        ReactiveFormsModule
       ]
     })
     .compileComponents();
@@ -22,9 +29,19 @@ describe('TodosComponent', () => {
     fixture = TestBed.createComponent(TodosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    backend = TestBed.get(HttpTestingController)
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get todos on init', () => {
+    const req = backend.expectOne('api/todos/get')
+    expect(req.request.method).toEqual('GET')
+  })
+
+  it('displays todos it receives', ()=>{
+    // flush req with preset todos
+  })
 });

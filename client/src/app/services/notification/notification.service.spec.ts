@@ -16,7 +16,6 @@ describe('NotificationService', () => {
   let service: NotificationService
   const errorObj = { error: { name: 'error name', message: 'error message' } }
   let errorService: ErrorService
-  let fixture: ComponentFixture<ErrorComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,17 +44,19 @@ describe('NotificationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should show error', () => {
+  it('should show error', (done) => {
     service.showError()
     const msg = document.querySelector('[data-test-id="error-message"]').textContent
     expect(msg).toContain(errorObj.error.message)
+    done()
   })
 
-  it('should show success message', () => {
+  it('should show success message', (done) => {
     const msg = 'thing was done successfully'
     service.showSuccess(msg)
     const successMsg = document.querySelector('simple-snack-bar > span').textContent
 
     expect(successMsg).toContain(msg)
+    done()
   })
 });

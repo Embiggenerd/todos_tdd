@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)" class="todo-form" data-test-id="todo-form">
+
+    <label>Todo:
+        <input type="textarea" formControlName="todo" data-test-id="todo-input"/>
+    </label>
+
+    <button type="submit" class="submit-btn" data-test-id="todo-submit-button">
+        Submit
+    </button>
+
+</form>

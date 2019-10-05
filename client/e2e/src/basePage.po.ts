@@ -40,4 +40,9 @@ export class BasePage {
     addCookie(name, value) {
         return browser.addCookie(name, value)
     }
+
+    waitForURLChange(url) {
+        var expectedCondition = protractor.ExpectedConditions;
+        return browser.wait(expectedCondition.urlContains(url), 5000);
+    }
 }

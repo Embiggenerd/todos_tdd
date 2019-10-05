@@ -41,13 +41,8 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
-    // appComponent = TestBed.get(AppComponent)
     fixture.detectChanges();
-    // router = TestBed.get(Router)
-    // location = TestBed.get(Location);
-
     httpTestingController = TestBed.get(HttpTestingController)
-    // router.initialNavigation()
   })
 
 
@@ -76,12 +71,11 @@ describe('AppComponent', () => {
     req.flush({});
   })
 
-  it('should go to todos if user is authenticated', () => {
+  it('should go to todos if user is authenticated', async() => {
+    // This test has a race condition that I haven't figured out yet
     const userService = TestBed.get(UserService)
     userService.authenticate()
-
-    fixture.detectChanges()
-
+    
     component.checkCookie()
 
     fixture.detectChanges()
@@ -105,7 +99,7 @@ describe('AppComponent', () => {
     expect(router2.navigate).toHaveBeenCalledWith(['/signup']);
   })
 
-  it('should as if user is authed', () => {
+  it('should ask if user is authed', () => {
     expect(component.userIsAuthed()).toBe(false)
   })
 });

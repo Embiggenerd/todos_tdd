@@ -6,7 +6,12 @@ const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
 
 const isLoggedIn = require('./libs/middleware/isLoggedIn');
-const { signUp, logIn, logOut, authUser } = require('./libs/user/controllers');
+const {
+  signUp,
+  logIn,
+  logOut,
+  authUser
+} = require('./libs/user/controllers');
 const {
   submitTodo,
   getTodos,
@@ -20,7 +25,7 @@ const sessionUrl = () => {
   if (process.env.NODE_ENV === 'production') {
     return `mongodb://${process.env.PROD_DB_USER}:${
       process.env.PROD_DB_PASS
-    }@ds161322.mlab.com:61322/todos_tdd_prod`;
+      }@ds161322.mlab.com:61322/todos_tdd_prod`;
   }
   return 'mongodb://localhost/todos_tdd_dev';
 };
@@ -46,8 +51,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist', 'todos-tdd')));
-app.get('/', function(req, res) {
-  res.sendFile(path.resolve(__dirname, '..', 'client', 'dist','todos-tdd', 'index.html'));
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'todos-tdd', 'index.html'));
 });
 app.get('/user/auth', authUser)
 app.post('/user/signup', signUp);

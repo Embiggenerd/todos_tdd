@@ -38,6 +38,7 @@
     "codelyzer": "^5.0.0",
     "cypress": "^3.4.1",
     "faker": "^4.1.0",
+    "install": "^0.13.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -45,10 +46,12 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "npm": "^6.11.3",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "uuidv4": "^5.0.1"
   }
 }

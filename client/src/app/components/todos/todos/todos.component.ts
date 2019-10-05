@@ -11,6 +11,8 @@ import { Todo } from '../../../models'
 export class TodosComponent implements OnInit {
   // import todos service, call get todos, display todos
 
+  todos: Todo[] = []
+
   constructor(
     private todosService: TodosService
   ) { }
@@ -19,9 +21,23 @@ export class TodosComponent implements OnInit {
     this.getTodos()
   }
 
-  getTodos(){
-    console.log('gettodos in todos component called')
-    this.todosService.getTodos().subscribe((todos:Todo[]) => {
+  getTodos() {
+    this.todosService.getTodos().subscribe((todos: Todo[]) => {
+      this.todos = todos
     })
-  } 
+  }
+
+  deleteTodo(todoToDelete: Todo) {
+    this.todosService.postDeleteTodo(todoToDelete).subscribe((todo) => {
+      console.log('deleteTodoz', todo)
+      this.todos = this.todos.filter(item => item._id != todo._id)
+    })
+  }
+
+  toggleClosed(todo: Todo): void {
+    this.todosService.postToggleClosed(todo).subscribe((todo: Todo) => {
+      const i: number = this.todos.findIndex(item => item._id === todo._id)
+      this.todos[i].closed = todo.closed
+    })
+  }
 }

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 
-import {ReactiveFormsModule} from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserService } from './services/user/user.service';
@@ -18,7 +18,9 @@ import { GlobalErrorHandler } from './classes/globa-error.handler'
 import { ServerErrorInterceptor } from './classes/server-error-interceptor'
 import { from } from 'rxjs';
 import { TodosComponent } from './components/todos/todos/todos.component';
-
+import { TodosForm } from './components/forms/todos-form/todos-form.component';
+import { TodosService } from './services/todos/todos.service';
+import { TodoDetailComponent } from './components/todos/todo-detail/todo-detail.component'
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { TodosComponent } from './components/todos/todos/todos.component';
     UserForm,
     ErrorComponent,
     TodosComponent,
+    TodosForm,
+    TodoDetailComponent,
   ],
   entryComponents: [ErrorComponent],
   imports: [
@@ -34,12 +38,14 @@ import { TodosComponent } from './components/todos/todos/todos.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     UserService,
     LogService,
     ErrorService,
+    TodosService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }

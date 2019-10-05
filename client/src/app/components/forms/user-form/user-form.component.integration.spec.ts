@@ -34,14 +34,12 @@ describe('UserFormComponent', () => {
   let backend: HttpTestingController
   let router: RouterTestingModule
   let userService: UserService
-  // let location: Location
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, HttpClientTestingModule],
       declarations: [UserForm],
       providers: [
-        // { provide: UserService, useValue: userServiceStub },
         UserService,
         { provide: Router, useValue: RouterTestingModule.withRoutes([]), }
       ]
@@ -49,7 +47,6 @@ describe('UserFormComponent', () => {
       .compileComponents();
 
     backend = TestBed.get(HttpTestingController)
-    // location = TestBed.get(Location)
     router = TestBed.get(Router);
     fixture = TestBed.createComponent(UserForm);
     component = fixture.componentInstance;
@@ -102,7 +99,6 @@ describe('UserFormComponent', () => {
 
     expect(inputUserName.value).toBe(userName)
     expect(inputPassword.value).toBe(password)
-
 
     inputPassword.dispatchEvent(inputEvent)
     inputUserName.dispatchEvent(inputEvent)

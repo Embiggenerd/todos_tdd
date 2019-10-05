@@ -15,6 +15,7 @@ export class ErrorService {
   }
 
   getErrorMessage(){
+    // return console.log('getErrorMessagez', this.error)
     return this.error.message
   }
 
@@ -27,6 +28,7 @@ export class ErrorService {
   }
 
   getClientErrorMessage(error: Error): string {
+    console.log('getClientErrorMessagez', error)
     return error.message ?
       error.message :
       error.toString();

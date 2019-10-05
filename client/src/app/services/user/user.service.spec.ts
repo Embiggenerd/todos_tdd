@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { HttpClient } from '@angular/common/http';
 
@@ -8,7 +8,7 @@ describe('UserService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -28,7 +28,7 @@ describe('UserService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Should signup user', () => {
+  it('Should signup user', (done) => {
     inject([HttpTestingController, UserService],
       (httpMock: HttpTestingController, service: UserService) => {
         const expectedUser = {
@@ -47,9 +47,10 @@ describe('UserService', () => {
 
         req.flush(expectedUser);
       })()
+    done()
   })
 
-  it('Should login user', () => {
+  it('Should login user', (done) => {
     inject([HttpTestingController, UserService],
       (httpMock: HttpTestingController, service: UserService) => {
         const expectedUser = {
@@ -67,10 +68,11 @@ describe('UserService', () => {
         expect(req.request.method).toEqual('POST');
         req.flush(expectedUser);
       })()
+    done()
   })
 
   describe('When cookie is checked, and', () => {
-    it('the user is authenticated, user is authorized', () => {
+    it('the user is authenticated, user is authorized', (done) => {
       inject([HttpTestingController, UserService],
         (httpMock: HttpTestingController, service: UserService) => {
           const authedRes = { authenticated: true }
@@ -88,9 +90,10 @@ describe('UserService', () => {
 
           req.flush(authedRes)
         })()
+      done()
     })
 
-    it('the user is unauthenticated, user is not authorized', () => {
+    it('the user is unauthenticated, user is not authorized', (done) => {
       inject([HttpTestingController, UserService],
         (httpMock: HttpTestingController, service: UserService) => {
           const unAuthedRes = { authenticated: false }
@@ -108,6 +111,7 @@ describe('UserService', () => {
 
           req.flush(unAuthedRes)
         })()
+      done()
     })
   })
 });
