@@ -17,7 +17,6 @@ export class TodosForm implements OnInit {
   @Output() newTodoEvent = new EventEmitter<Todo>()
 
   constructor(
-    private todosService: TodosService,
     private formBuilder: FormBuilder
   ) {
     this.form = this.formBuilder.group({
@@ -29,7 +28,7 @@ export class TodosForm implements OnInit {
 
   onSubmit(event: Event) {
     event.preventDefault()
-    this.postTodo(this.form.value.todo)
+    this.outputTodo(this.form.value.todo)
     this.reset()
   }
 
@@ -39,17 +38,5 @@ export class TodosForm implements OnInit {
 
   reset(): void {
     this.form.reset();
-  }
-
-  postTodo(todo: string): void {
-    const Todo = {
-      todo,
-      user: '',
-      closed: false
-    }
-    
-    this.todosService.postTodo(Todo).subscribe((todo: Todo) => {
-      this.outputTodo(todo)
-    })
   }
 }

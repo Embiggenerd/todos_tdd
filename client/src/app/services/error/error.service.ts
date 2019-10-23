@@ -15,8 +15,7 @@ export class ErrorService {
   }
 
   getErrorMessage(){
-    // return console.log('getErrorMessagez', this.error)
-    return this.error.message
+    return this.error.message ? this.error.message : this.error.toString()
   }
 
   getError(){
@@ -27,11 +26,8 @@ export class ErrorService {
     this.error = null
   }
 
-  getClientErrorMessage(error: Error): string {
-    console.log('getClientErrorMessagez', error)
-    return error.message ?
-      error.message :
-      error.toString();
+  getClientErrorMessage(): string {
+    return this.getErrorMessage()
   }
 
   getServerErrorMessage() {
@@ -40,5 +36,9 @@ export class ErrorService {
 
   setServerErrorMessage(error: Error) {
     this.add(error)
+  }
+
+  setClientErrorMessage(error: Error) {
+    this.add({error})
   }
 }

@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserService } from './services/user/user.service';
 import { LogService } from './services/log/log.service';
-import { UserForm } from './components/forms/user-form/user-form.component';
+import { UserForm } from './components/user/user-form/user-form.component';
 import { HttpClientModule, HTTP_INTERCEPTORS, } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,9 +16,8 @@ import { ErrorService } from './services/error/error.service';
 import { ErrorComponent } from './components/error/error.component';
 import { GlobalErrorHandler } from './classes/globa-error.handler'
 import { ServerErrorInterceptor } from './classes/server-error-interceptor'
-import { from } from 'rxjs';
 import { TodosComponent } from './components/todos/todos/todos.component';
-import { TodosForm } from './components/forms/todos-form/todos-form.component';
+import { TodosForm } from './components/todos/todos-form/todos-form.component';
 import { TodosService } from './services/todos/todos.service';
 import { TodoDetailComponent } from './components/todos/todo-detail/todo-detail.component'
 

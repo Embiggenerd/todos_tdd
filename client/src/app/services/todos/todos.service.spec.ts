@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { Todo } from '../../models'
 
@@ -6,9 +6,9 @@ import { TodosService } from './todos.service';
 
 describe('TodosService', () => {
   let service: TodosService
-  let httpTestingController: HttpTestingController
+  let httpMock: HttpTestingController
 
-  const todos:Todo[] = [
+  const mockTodos: Todo[] = [
     {
       closed: false,
       todo: 'buy milk',
@@ -29,64 +29,47 @@ describe('TodosService', () => {
         HttpClientTestingModule,
       ],
       providers: [
-
+        TodosService
       ]
     })
 
     service = TestBed.get(TodosService)
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpMock = TestBed.get(HttpTestingController);
   });
-
-  afterEach(() => {
-    httpTestingController.verify()
-  })
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add todos', () => {
+  it('should get and add todos', (done) => {
 
-    service.add(todos)
-    expect(service.todos).toEqual(todos)
+    const mockReq = httpMock.expectOne(service.getTodosURL);
+
+    mockReq.flush(mockTodos)
+    httpMock.verify();
+    service.todos.subscribe(todos => expect(todos).toEqual(mockTodos))
+    done()
   })
 
-  it('should get todos', () => {
 
-    service.getTodos().subscribe(todosRet => {
-      expect(todosRet).toEqual(todos)
-    })
-    const req = httpTestingController.expectOne('api/todos/get');
-    expect(req.request.method).toEqual('GET');
-    req.flush(todos);
-    expect(service.todos).toEqual(todos)
-  })
-
-  it('should post todo', (done) => {
-    const expectedRes = {
+  it('should post and add todo', (done) => {
+    const mockTodo: Todo = {
       closed: false,
       todo: 'get fit',
       user: 'igor'
     }
-    const todo: Todo = {
-      closed: false,
-      todo: 'get fit',
-      user: 'igor'
-    }
-    service.postTodo(todo).subscribe(res => {
-      expect(res).toEqual(expectedRes)
-    })
+    service.addTodo(mockTodo)
 
-    const req = httpTestingController.expectOne('api/todos/submit');
+    const req = httpMock.expectOne(service.postTodoURL);
     expect(req.request.method).toEqual('POST');
-    req.flush(todo);
+    req.flush(mockTodo);
 
-    expect(service.todos[0]).toEqual(todo)
+    service.todos.subscribe(todos => expect(todos[0]).toEqual(mockTodo))
     done()
   })
 
   it('should toggle todo', (done) => {
-   
+
     const postToggleTodo = {
       closed: true,
       todo: 'buy milk',
@@ -94,17 +77,47 @@ describe('TodosService', () => {
       _id: '1'
     }
 
-    service.add(todos)
+    const reqGet = httpMock.expectOne(service.getTodosURL);
+    expect(reqGet.request.method).toEqual('GET');
+    reqGet.flush(mockTodos);
 
-    service.postToggleClosed(todos[0]).subscribe((todo:Todo) => {
-      expect(todo).toEqual(postToggleTodo)
-    })
+    service.toggleClosed(postToggleTodo)
 
-    const req = httpTestingController.expectOne('api/todos/toggleClosed');
-    expect(req.request.method).toEqual('POST');
-    req.flush(postToggleTodo);
+    const reqPost = httpMock.expectOne(service.toggleCloseURL);
 
-    expect(service.todos[0].closed).toBe(true)
+    reqPost.flush(postToggleTodo)
+    service.todos.subscribe(todos => expect(todos[0].closed).toBe(true))
     done()
   })
+
+  it('should delete todo', (done) => {
+
+    const todoToDelete: Todo = {
+      closed: false,
+      todo: 'train elephants',
+      user: 'igor',
+      _id: '2'
+    }
+
+    const reqGet = httpMock.expectOne(service.getTodosURL);
+    expect(reqGet.request.method).toEqual('GET');
+    reqGet.flush(mockTodos);
+
+    service.deleteTodo(todoToDelete)
+
+    const reqDel = httpMock.expectOne(service.deleteTodoURL);
+
+    reqDel.flush(todoToDelete)
+    service.todos.subscribe(todos => expect(todos.length).toBe(1))
+    done()
+  })
+
+  it('should get todo by id', (done) => {
+    const reqGet = httpMock.expectOne(service.getTodosURL);
+    expect(reqGet.request.method).toEqual('GET');
+    reqGet.flush(mockTodos);
+
+    service.getTodo('1').subscribe(todo => expect(todo).toEqual(mockTodos[0]))
+    done()
+  } )
 })

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TodosComponent } from './components/todos/todos/todos.component'
-import { UserForm } from './components/forms/user-form/user-form.component';
+import { UserForm } from './components/user/user-form/user-form.component';
 import { TodoDetailComponent } from './components/todos/todo-detail/todo-detail.component'
 
 export const routes: Routes = [

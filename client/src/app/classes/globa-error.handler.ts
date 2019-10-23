@@ -25,6 +25,8 @@ export class GlobalErrorHandler implements ErrorHandler {
       message = errorService.getServerErrorMessage();
       notifier.showError()
     } else { // Client Error
+      console.log('clientErrorz', error)
+      errorService.setClientErrorMessage(error)
       message = errorService.getClientErrorMessage(error);
       notifier.showError()
     }

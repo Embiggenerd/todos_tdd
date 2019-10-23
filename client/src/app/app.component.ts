@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { TodosService } from './services/todos/todos.service';
-import { Todo } from './models'
-import { UserService } from './services/user/user.service';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +10,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AppComponent {
   title = 'todos-tdd';
-  // todos: TodosService
 
   constructor(
     private userService: UserService,
@@ -35,7 +31,7 @@ export class AppComponent {
     })
     console.log('app.logout 2')
   }
-
+ 
   checkCookie() {
     this.userService.checkCookie().subscribe(() => {
       const isAuthed = this.userService.authAsk()

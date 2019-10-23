@@ -12,8 +12,7 @@ import { TodosService } from '../../../services/todos/todos.service'
 })
 export class TodoDetailComponent implements OnInit {
 
-  @Input() todo:Todo
-
+  todo: Todo
   constructor(
     private route: ActivatedRoute,
     private todosService: TodosService,
@@ -23,7 +22,6 @@ export class TodoDetailComponent implements OnInit {
   ngOnInit() {
     this.getTodo()
   }
-
 
   getTodo(): void {
     const id = this.route.snapshot.params.id

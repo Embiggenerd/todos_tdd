@@ -1,15 +1,17 @@
 <h2 data-test-id="todos-statement">What you need to do today:</h2>
 
-<ul class="todos-list">
-    <li *ngFor="let todo of todos">
+<ul class="todos-list" data-test-id="todos-list">
+    <li *ngFor="let todo of todosService.todos | async ">
         <a routerLink="/todos/{{todo._id}}">
             <span [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}</span>
         </a>
-        <button class="delete-todo-btn" data-test-id="delte-todo-btn" title="delete"
+        <button class="delete-todo-btn" data-test-id="delete-todo-btn" title="delete"
             (click)="deleteTodo(todo)">x</button>
-        <button class="delete-todo-btn" data-test-id="toggleClosed-todo-btn" title="toggle"
+        <button class="toggleClosed-todo-btn" data-test-id="toggle-closed-btn" title="toggle"
             (click)="toggleClosed(todo)">{{ todo.closed ? 'Undo' : 'Done'}}</button>
     </li>
 </ul>
 
-<app-todos-form></app-todos-form>
+<app-todos-form
+    (newTodoEvent)="postTodo($event)">
+></app-todos-form>
