@@ -51,4 +51,16 @@ describe('ErrorService', () => {
     expect(service.getServerErrorMessage()).toBe(expectedError.message)
     done()
   })
+
+  it('should set and get client error message', (done) => {
+    const expectedError = {name:'hello', message: 'world'}
+    const httpErrorResponse = new HttpErrorResponse({error:expectedError})
+    const service: ErrorService = TestBed.get(ErrorService);
+
+    service.setClientErrorMessage(httpErrorResponse)
+
+    expect(service.getClientErrorMessage()).toBe(expectedError.message)
+    done()
+  })
 });
+ 

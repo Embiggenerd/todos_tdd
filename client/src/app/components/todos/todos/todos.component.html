@@ -1,9 +1,9 @@
 <h2 data-test-id="todos-statement">What you need to do today:</h2>
 
 <ul class="todos-list" data-test-id="todos-list">
-    <li *ngFor="let todo of todosService.todos | async ">
+    <li data-test-id="todo" *ngFor="let todo of todosService.todos | async ">
         <a routerLink="/todos/{{todo._id}}">
-            <span [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}</span>
+            <span data-test-id="todo-text" [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}</span>
         </a>
         <button class="delete-todo-btn" data-test-id="delete-todo-btn" title="delete"
             (click)="deleteTodo(todo)">x</button>

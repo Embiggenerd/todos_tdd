@@ -1,12 +1,12 @@
 <div *ngIf="todo">
 
-    <!-- <h2>{{hero.name | uppercase}} Details</h2> -->
-    <div><span>id: </span>{{todo._id}}</div>
+    <div><span data-test-id="todo-detail-id">id: </span>{{todo._id}}</div>
     <div>
         <label>todo:
-            <input [(ngModel)]="todo.todo" placeholder="todo" />
+            <input data-test-id="todo-detail-input" [(ngModel)]="todo.todo" placeholder="todo" />
         </label>
     </div>
 </div>
-<button (click)="goBack()">go back</button>
-<button (click)="save()">save</button>
+
+<button data-test-id="todo-detail-goback-btn"(click)="goBack()">go back</button>
+<button data-test-id="todo-detail-save-btn" (click)="save()">save</button>

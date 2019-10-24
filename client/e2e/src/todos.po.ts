@@ -35,11 +35,30 @@ export class TodosPage extends BasePage {
 
         for (let i = 0; i < todos.length; i++) {
             todoInput.sendKeys(todos[i])
-            this.clickButton('[data-test-id="todo-submit-btn"]')
+            this.clickButton('[data-test-id="submit-todo-btn"]')
         }
     }
 
     getTodos() {
-        return this.getElement('[data-test-id="todo"]')
+        return this.getElement('[data-test-id="todos-list"]')
+    }
+
+    getTodo(){
+        return this.getElement('[data-test-id="todo-text"]')
+    }
+
+    deleteTodo(){
+        this.clickButton('[data-test-id="delete-todo-btn"')
+    }
+
+    toggleTodo(){
+        this.clickButton('[data-test-id="toggle-closed-btn"]')
+    }
+
+    editTodo(todo:string){
+        const detailInput = this.getElement('[data-test-id="todo-detail-input"]')
+        detailInput.sendKeys(todo)
+
+        this.clickButton('[data-test-id="todo-detail-save-btn"]')
     }
 }
