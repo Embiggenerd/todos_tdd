@@ -1,12 +1,25 @@
-<div *ngIf="todo">
+<div class="todo-detail-wrapper">
 
-    <div><span data-test-id="todo-detail-id">id: </span>{{todo._id}}</div>
-    <div>
-        <label>todo:
-            <input data-test-id="todo-detail-input" [(ngModel)]="todo.todo" placeholder="todo" />
-        </label>
+    <div class="todo-detail" *ngIf="todo">
+        <div class="todo-id-statement">
+            <span data-test-id="todo-detail-id">Editing todo with id: </span>{{todo._id}}
+        </div>
+        <div class="todo-input-wrapper">
+            <label>todo:
+                <input class="todo-detail-input" data-test-id="todo-detail-input" [(ngModel)]="todo.todo"
+                    placeholder="todo" />
+            </label>
+        </div>
     </div>
-</div>
 
-<button data-test-id="todo-detail-goback-btn" (click)="goBack()">go back</button>
-<button data-test-id="todo-detail-save-btn" (click)="save()">save</button>
+    <div class="btns-wrapper">
+        <div class="blocker-div"></div>
+        <button class="todo-detail-save-btn btn" data-test-id="todo-detail-save-btn" (click)="save()">
+            save
+        </button>
+        <button class="todo-detail-goback-btn btn" data-test-id="todo-detail-goback-btn" (click)="goBack()">
+            go back
+        </button>
+    </div>
+
+</div>

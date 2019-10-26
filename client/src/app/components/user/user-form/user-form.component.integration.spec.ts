@@ -204,7 +204,6 @@ describe('UserFormComponent', () => {
     })
 
     fixture.detectChanges()
-
     expect(loginReq.length).toBe(1)
   })
 });
