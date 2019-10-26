@@ -16,6 +16,6 @@ export class LogService {
   }
 
   logError(message: string, stack: string) {
-    console.log('LoggingService: ' + message);
+    console.log('LoggingService: ' + message + stack);
 }
 }

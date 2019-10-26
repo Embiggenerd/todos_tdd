@@ -18,7 +18,10 @@
 
     </form>
 
+    <span class="user-suggestion" *ngIf="whichForm === 'login'" data-test-id="user-suggestion">Not a member yet?</span>
+    <span class="user-suggestion" *ngIf="whichForm === 'signup'" data-test-id="user-suggestion">Already a member?</span>
+
     <button class="btn toggle-user-form-btn" data-test-id="toggle-user-form-btn" (click)="toggleForm()">
-        Toggle Form
+        {{whichForm === 'signup' ? 'Login' : 'Signup'}}
     </button>
 </div>

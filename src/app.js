@@ -16,7 +16,8 @@ const {
   submitTodo,
   getTodos,
   toggleClosed,
-  deleteTodo
+  deleteTodo,
+  editTodo
 } = require('./libs/todos/controllers');
 
 const app = express();
@@ -62,11 +63,14 @@ app.post('/todos/toggleClosed', isLoggedIn, toggleClosed);
 app.post('/todos/submit', isLoggedIn, submitTodo);
 app.get('/todos/get', isLoggedIn, getTodos);
 app.post('/todos/deleteTodo', isLoggedIn, deleteTodo);
+app.post('/todos/editTodo', isLoggedIn, editTodo)
 app.use((err, req, res, next) => {
+  console.log('zzz', err.stack)
   if (err.name) {
     res.status(400).json({
       name: 'SOMEBODY GOOFED',
-      message: `${err.message}!`
+      message: `${err.message}!`,
+      stack: err.stack
     });
   }
 });

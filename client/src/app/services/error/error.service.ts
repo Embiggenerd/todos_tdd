@@ -34,8 +34,16 @@ export class ErrorService {
     return this.getErrorMessage()
   }
 
+  getClientErrorStack(error):string {
+    return error.stack
+  }
+
   setServerErrorMessage(error: Error) {
     this.add(error)
+  }
+
+  getServerErrorStack(error:Error): string {
+    return error.stack
   }
 
   setClientErrorMessage(error: Error) {

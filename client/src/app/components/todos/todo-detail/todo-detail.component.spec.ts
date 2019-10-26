@@ -23,7 +23,9 @@ describe('TodooDetailComponent - no TestBed', () => {
     mockService = jasmine.createSpyObj('TodosService',
       {
         'getTodo': of(expectedTodo),
-        'postTodo': of(expectedTodo)
+        // 'postTodo': of(expectedTodo),
+        'updateTodo': ()=>{}
+        
       });
 
     comp = new TodoDetailComponent(<any>activatedRoute, mockService, location);
@@ -33,12 +35,12 @@ describe('TodooDetailComponent - no TestBed', () => {
   });
 
   it('should expose the todo retrieved from the service', () => {
-    expect(comp.todo).toBe(expectedTodo);
+    expect(comp.todo).toEqual(expectedTodo);
   });
 
   it('should post todo and go back on save', () => {
     comp.save();
-    expect(mockService.postTodo.calls.any()).toBe(true);
+    expect(mockService.updateTodo.calls.any()).toBe(true);
     expect(location.back.calls.any()).toBe(true);
   });
 

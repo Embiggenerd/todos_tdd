@@ -7,9 +7,10 @@
     border:red
     display: grid
     grid-row-gap: 20px
+    grid-column-gap: 0px
     grid-template-columns: repeat(4, 1fr)
     grid-template-rows: repeat(3, 1fr)
-    grid-template-areas: 'statement statement statement statement' 'user-form user-form user-form user-form' '. . . toggle-btn'
+    grid-template-areas: 'statement statement statement statement' 'user-form user-form user-form user-form' '. . suggestion toggle-btn'
     background: white
     padding: 20px
     border-radius: 10px
@@ -31,9 +32,10 @@ input
         outline: none
 
 .toggle-user-form-btn
-    width: 130px
+    width: 100px
     height: 25px
     grid-area: toggle-btn
+
 
 .user-submit-btn
     width: 130px
@@ -51,3 +53,7 @@ input
     min-height: 63px
     grid-area: statement
     
+.user-suggestion
+    grid-area: suggestion
+    min-width: 180px
+    padding-top: 3px

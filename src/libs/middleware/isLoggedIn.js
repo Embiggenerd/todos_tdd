@@ -3,9 +3,7 @@ module.exports = (req, res, next) => {
     return next();
   }
   res.status(401).json({
-    error: {
-      name: 'YOU DONE GOOFED',
-      message: 'Not authorized!'
-    }
+    name: 'YOU DONE GOOFED',
+    message: 'Not authorized!'
   });
 };

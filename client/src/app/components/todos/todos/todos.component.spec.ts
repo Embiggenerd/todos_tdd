@@ -26,6 +26,7 @@ function createNewEvent(eventName) {
 }
 
 describe('TodosComponent', () => {
+
   let component: TodosComponent;
   let fixture: ComponentFixture<TodosComponent>;
   let backend: HttpTestingController
@@ -37,6 +38,7 @@ describe('TodosComponent', () => {
     closed: false,
     user: 'babbles'
   }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -133,5 +135,4 @@ describe('TodosComponent', () => {
     backend.verify()
     done()
   })
-  
 });

@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from './error.service';
 
 describe('ErrorService', () => {
- 
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -21,20 +21,20 @@ describe('ErrorService', () => {
   });
 
   it('should add error', (done) => {
-    const expectedError = {name:'hello', message: 'world'}
+    const expectedError = { name: 'hello', message: 'world' }
     const service: ErrorService = TestBed.get(ErrorService);
-    
-    service.add({error:expectedError})
-    
+
+    service.add({ error: expectedError })
+
     expect(service.getError()).toBe(expectedError)
     done()
   })
-  
+
   it('should clear error', (done) => {
-    const expectedError = {name:'hello', message: 'world'}
+    const expectedError = { name: 'hello', message: 'world' }
     const service: ErrorService = TestBed.get(ErrorService);
-    
-    service.add({error:expectedError})
+
+    service.add({ error: expectedError })
     service.clear()
 
     expect(service.getError()).toBe(null)
@@ -42,8 +42,8 @@ describe('ErrorService', () => {
   })
 
   it('should get and set server error message', (done) => {
-    const expectedError = {name:'hello', message: 'world'}
-    const httpErrorResponse = new HttpErrorResponse({error:expectedError})
+    const expectedError = { name: 'hello', message: 'world' }
+    const httpErrorResponse = new HttpErrorResponse({ error: expectedError })
     const service: ErrorService = TestBed.get(ErrorService);
 
     service.setServerErrorMessage(httpErrorResponse)
@@ -53,14 +53,13 @@ describe('ErrorService', () => {
   })
 
   it('should set and get client error message', (done) => {
-    const expectedError = {name:'hello', message: 'world'}
-    const httpErrorResponse = new HttpErrorResponse({error:expectedError})
+    const expectedError = 'hello world'
+    const err = new Error(expectedError)
     const service: ErrorService = TestBed.get(ErrorService);
 
-    service.setClientErrorMessage(httpErrorResponse)
+    service.setClientErrorMessage(err)
 
-    expect(service.getClientErrorMessage()).toBe(expectedError.message)
+    expect(service.getClientErrorMessage()).toBe(expectedError)
     done()
   })
 });
- 

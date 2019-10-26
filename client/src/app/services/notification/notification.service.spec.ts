@@ -47,6 +47,7 @@ describe('NotificationService', () => {
   it('should show error', (done) => {
     service.showError()
     const msg = document.querySelector('[data-test-id="error-message"]').textContent
+    
     expect(msg).toContain(errorObj.error.message)
     done()
   })

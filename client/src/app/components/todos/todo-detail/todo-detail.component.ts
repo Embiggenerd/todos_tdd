@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, } from '@angular/common';
 
 import { Todo } from '../../../models'
 import { TodosService } from '../../../services/todos/todos.service'
@@ -26,15 +26,18 @@ export class TodoDetailComponent implements OnInit {
   getTodo(): void {
     const id = this.route.snapshot.params.id
     this.todosService.getTodo(id.toString())
-      .subscribe(todo => this.todo = todo);
+      .subscribe(todo => {
+        this.todo = Object.assign({}, todo)
+      });
   }
 
   goBack(): void {
+    console.log('goBack invoked')
     this.location.back();
   }
 
   save(): void {
-    this.todosService.postTodo(this.todo)
-      .subscribe(() => this.goBack());
+    this.todosService.updateTodo(this.todo)
+    this.goBack()
   }
 }

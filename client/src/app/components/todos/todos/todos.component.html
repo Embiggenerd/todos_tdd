@@ -1,17 +1,34 @@
-<h2 data-test-id="todos-statement">What you need to do today:</h2>
+<div class="todos-wrapper">
 
-<ul class="todos-list" data-test-id="todos-list">
-    <li data-test-id="todo" *ngFor="let todo of todosService.todos | async ">
-        <a routerLink="/todos/{{todo._id}}">
-            <span data-test-id="todo-text" [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}</span>
-        </a>
-        <button class="delete-todo-btn" data-test-id="delete-todo-btn" title="delete"
-            (click)="deleteTodo(todo)">x</button>
-        <button class="toggleClosed-todo-btn" data-test-id="toggle-closed-btn" title="toggle"
-            (click)="toggleClosed(todo)">{{ todo.closed ? 'Undo' : 'Done'}}</button>
-    </li>
-</ul>
+    <div class="todos-statement-wrapper">
+        <h2 class="todos-statement" data-test-id="todos-statement">What you need to do today:</h2>
+    </div>
 
-<app-todos-form
-    (newTodoEvent)="postTodo($event)">
-></app-todos-form>
+    <div class="todos-list-wrapper">
+
+        <ol class="todos-list" data-test-id="todos-list">
+            <li data-test-id="todo" *ngFor="let todo of todosService.todos | async ">
+                <a class="todo-text-link" routerLink="/todos/{{todo._id}}">
+                    <span data-test-id="todo-text"
+                        [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}
+                    </span>
+                </a>
+                <button class="delete-todo-btn" data-test-id="delete-todo-btn" title="delete"
+                    (click)="deleteTodo(todo)">
+                    X
+                </button>
+                <button class="toggleClosed-todo-btn" data-test-id="toggle-closed-btn" title="toggle"
+                    (click)="toggleClosed(todo)">
+                    {{ todo.closed ? 'Undo' : 'Done'}}
+                </button>
+            </li>
+        </ol>
+    </div>
+
+    <div class="todos-form-wrapper">
+
+        <app-todos-form class="todos-form" (newTodoEvent)="postTodo($event)">
+        </app-todos-form>
+    </div>
+    
+</div>
