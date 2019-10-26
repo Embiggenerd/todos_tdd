@@ -99,7 +99,6 @@ describe('TodosComponent', () => {
     fixture.detectChanges()
     const todosList = fixture.nativeElement
       .querySelector('[data-test-id="todos-list"]')
-    console.log('lll',todosList.innerText)
     expect(todosList.innerText).toContain('eat birds')
     done()
   })

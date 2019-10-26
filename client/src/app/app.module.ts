@@ -47,7 +47,7 @@ import { TodoDetailComponent } from './components/todos/todo-detail/todo-detail.
     TodosService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { horizontalPosition: 'right', panelClass: 'snackbarPanel', duration: 10500 } }
   ],
   bootstrap: [AppComponent]
 })

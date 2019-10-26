@@ -32,7 +32,6 @@ export class TodoDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    console.log('goBack invoked')
     this.location.back();
   }
 

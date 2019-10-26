@@ -26,7 +26,6 @@ export class GlobalErrorHandler implements ErrorHandler {
       stackTrace = errorService.getServerErrorStack(error)
       notifier.showError()
     } else { // Client Error
-      console.log('clientErrorz', error)
       errorService.setClientErrorMessage(error)
       message = errorService.getClientErrorMessage();
       stackTrace = errorService.getClientErrorStack(error)

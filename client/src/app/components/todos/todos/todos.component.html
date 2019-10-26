@@ -13,11 +13,11 @@
                         [className]="todo.closed ? 'todo-item closed': 'todo-item'">{{todo.todo}}
                     </span>
                 </a>
-                <button class="delete-todo-btn" data-test-id="delete-todo-btn" title="delete"
+                <button class="delete-todo-btn btn" data-test-id="delete-todo-btn" title="delete"
                     (click)="deleteTodo(todo)">
                     X
                 </button>
-                <button class="toggleClosed-todo-btn" data-test-id="toggle-closed-btn" title="toggle"
+                <button class="toggleClosed-todo-btn btn" data-test-id="toggle-closed-btn" title="toggle"
                     (click)="toggleClosed(todo)">
                     {{ todo.closed ? 'Undo' : 'Done'}}
                 </button>
@@ -26,7 +26,6 @@
     </div>
 
     <div class="todos-form-wrapper">
-
         <app-todos-form class="todos-form" (newTodoEvent)="postTodo($event)">
         </app-todos-form>
     </div>

@@ -17,26 +17,19 @@ export class AppComponent {
   ) { }
 
   ngOnInit() {
-    console.log('authenticatedz:', this.userService.authAsk())
     this.checkCookie()
-    console.log('authenticatedz2:', this.userService.authAsk())
   }
 
   logout(){
-    console.log('app.logout 1')
     this.userService.logout().subscribe((res) => {
       this.userService.unAuthenticate()
       this.goToSignup()
-      console.log('logoutres', res)
     })
-    console.log('app.logout 2')
   }
  
   checkCookie() {
     this.userService.checkCookie().subscribe(() => {
       const isAuthed = this.userService.authAsk()
-      console.log('user is authenticated:', isAuthed)
-
       if (isAuthed) {
         this.goToTodos()
       } else {

@@ -40,14 +40,12 @@ export class UserService {
   signup(user: User) {
     return this.http.post<User>(this.signupUrl, user, this.httpOptions).pipe(
       tap((user: User) => this.log(`Signed up new user w/ username=${user.username}`)),
-      tap((user: User) => console.log('user signedup:', user.id, user.username)),
     );
   }
 
   login(user: User) {
     return this.http.post<User>(this.loginUrl, user, this.httpOptions).pipe(
       tap((user: User) => this.log(`Logged in user w/ username=${user.username}`)),
-      tap((user: User) => console.log('user logged in:', user.id, user.username)),
     )
   }
 
@@ -55,7 +53,6 @@ export class UserService {
     try {
       return this.http.get<any>(this.logoutUrl, this.httpOptions).pipe(
         tap(() => this.log('Logged out user')),
-        tap((res) => console.log('User logged out', res)),
       )
     } catch (e) {
       console.log(e)
@@ -79,7 +76,6 @@ export class UserService {
   }
 
   // The server checks the cookie and sends back 
-  // res.authenticated = boolean
   checkCookie() {
     return this.http.get<A>(this.authUrl, this.httpOptions).pipe(
       tap((res: A) => {

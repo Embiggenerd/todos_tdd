@@ -9,7 +9,6 @@ describe('LogService', () => {
     service = TestBed.get(LogService);
   });
   
-
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -30,10 +29,10 @@ describe('LogService', () => {
   })
 
   it('should log message', () => {
-    console.log = jasmine.createSpy("log");
+    spyOn(console, 'log')
+    
     const msg = 'lalala'
     service.logError(msg, '')
-
     const expectedOutput = 'LoggingService: lalala'
 
     expect(console.log).toHaveBeenCalledWith(expectedOutput);

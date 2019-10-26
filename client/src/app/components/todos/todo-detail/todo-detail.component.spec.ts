@@ -23,7 +23,6 @@ describe('TodooDetailComponent - no TestBed', () => {
     mockService = jasmine.createSpyObj('TodosService',
       {
         'getTodo': of(expectedTodo),
-        // 'postTodo': of(expectedTodo),
         'updateTodo': ()=>{}
         
       });

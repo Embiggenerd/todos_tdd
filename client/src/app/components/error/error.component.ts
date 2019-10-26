@@ -23,7 +23,6 @@ export class ErrorComponent implements OnInit {
   }
 
   clearErrorMessage(){
-    console.log('xxxx', 'error.clear called')
     this.errorService.clear()
     this.message = null
   }
