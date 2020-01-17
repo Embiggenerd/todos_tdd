@@ -5,14 +5,14 @@ const { lorem } = require('faker');
 
 const TodosServices = require('../services/todos_services');
 
-describe('Todos services test:', function() {
-  it('UserServices module is defined', function() {
+describe('Todos services test:', function () {
+  it('UserServices module is defined', function () {
     assert.isDefined(TodosServices);
   });
 
-  describe('submitTodo test', function() {
+  describe('submitTodo test', function () {
     const save = spy();
-    const TodosModelMock = function() {
+    const TodosModelMock = function () {
       return {
         save
       };
@@ -23,7 +23,7 @@ describe('Todos services test:', function() {
       closed: true
     };
 
-    it('calls save on TodosModel object', function() {
+    it('calls save on TodosModel object', function () {
       const { user, todo, closed } = todoData;
       const todosServices = TodosServices(TodosModelMock);
       todosServices.submitTodo(todo, closed, user);
@@ -31,7 +31,7 @@ describe('Todos services test:', function() {
     });
   });
 
-  describe('getTodos test', function() {
+  describe('getTodos test', function () {
     const find = spy();
     const TodosModelMock = { find };
     const todoData = {
@@ -40,26 +40,27 @@ describe('Todos services test:', function() {
       closed: true
     };
 
-    it('calls find on TodosModel with user as arg', function() {
+    it('calls find on TodosModel with user as arg', function () {
       const user = todoData.user;
       const todosServices = TodosServices(TodosModelMock);
       todosServices.getTodos(user);
       assert.deepEqual(find.firstCall.args[0], { user: todoData.user });
     });
   });
-  describe('toggleClosed test', function() {
+
+  describe('toggleClosed test', function () {
     const id = ObjectId();
-    const save = function() {
+    const save = function () {
       return this.closed;
     };
     const todo = { closed: true, save };
 
     const findById = stub().returns(todo);
-    const TodosModelMockConstructor = function(func) {
+    const TodosModelMockConstructor = function (func) {
       this.findById = func;
     };
 
-    it('calls Todosmodel.findById on id, flips closed property on todo', async function() {
+    it('calls Todosmodel.findById on id, flips closed property on todo', async function () {
       const TodosModelMock = new TodosModelMockConstructor(findById);
       const todosServices = TodosServices(TodosModelMock);
       const saved = await todosServices.toggleClosed(id);
@@ -67,11 +68,13 @@ describe('Todos services test:', function() {
       assert.equal(findById.firstCall.args[0], id);
     });
   });
-  describe('deleteTodo test', function() {
+
+  describe('deleteTodo test', function () {
     const id = ObjectId();
     const findByIdAndDelete = spy();
     const TodosModelMock = { findByIdAndDelete };
-    it('calls findByIdAndDelete() on model with id', async function() {
+
+    it('calls findByIdAndDelete() on model with id', async function () {
       const todosServices = TodosServices(TodosModelMock);
       await todosServices.deleteTodo(id);
       const expected = id;
@@ -79,4 +82,20 @@ describe('Todos services test:', function() {
       expect(actual).to.equal(expected);
     });
   });
+
+  describe('editTodo test', function () {
+    const id = { _id: ObjectId() }
+    const todo = { todo: lorem.sentences(1) }
+    const config = { new: true }
+    const findOneAndUpdate = spy()
+    const TodosModelMock = { findOneAndUpdate }
+
+    it('calls TodosModel.findOneAndUpdate with filter, update', async function () {
+      const todosServices = TodosServices(TodosModelMock)
+      await todosServices.editTodo(todo.todo, id._id)
+      const expected = [id, todo, config]
+      const actual = findOneAndUpdate.firstCall.args
+      expect(actual).to.eql(expected)
+    })
+  })
 });

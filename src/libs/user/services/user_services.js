@@ -16,7 +16,7 @@ const userExists = UserModel => async username => {
 
 const encryptPassword = UserModel => password => {
   if (!password) {
-    throw new Error('password is required');
+    throw new Error('Password is required');
   }
   return hash(password, 2);
 };
@@ -35,7 +35,7 @@ const validateUser = UserModel => async (username, password) => {
 
 const loginUser = UserModel => (userId, req) => (req.session.userId = userId);
 
-const logoutUser = UserModel => req => req.session.destroy();
+const logoutUser = UserModel => req => req.session.destroy()
 
 module.exports = UserModel => ({
   saveUser: saveUser(UserModel),

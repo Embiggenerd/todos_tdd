@@ -53,10 +53,9 @@ describe('Todos controller test', function() {
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.deepEqual(res.body, { error });
+          assert.deepEqual(res.body, error);
         })
         .expect(401);
-      //.expect("Location", "/401");
     });
 
     it('res 401 for invalid data, no auth', async function() {
@@ -66,10 +65,9 @@ describe('Todos controller test', function() {
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')
         .expect(res => {
-          assert.deepEqual(res.body, { error });
+          assert.deepEqual(res.body, error);
         })
         .expect(401);
-      //.expect("Location", "/401");
     });
   });
 
@@ -111,7 +109,7 @@ describe('Todos controller test', function() {
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.deepInclude(res.body.todo, todoData);
+          assert.deepInclude(res.body, todoData);
         })
         .expect(200)
         .expect('Content-Type', /json/);
@@ -178,11 +176,13 @@ describe('Todos controller test', function() {
         .expect(200);
 
       await authedSession.get('/todos/get').expect(res => {
-        assert.equal(res.body.todos.length, 3);
+        assert.equal(res.body.length, 3);
       });
     });
   });
+
   describe('toggle_closed test', function() {
+
     testSession = session(app);
     let authedSession;
     let returnedTodo = {};
@@ -221,8 +221,9 @@ describe('Todos controller test', function() {
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.deepInclude(res.body.todo, todoData);
-          returnedTodo = res.body.todo;
+          assert.deepInclude(res.body, todoData);
+          returnedTodo = res.body;
+          console.log('returnedTOdo', returnedTodo)
         })
         .expect(200);
     });
@@ -230,17 +231,18 @@ describe('Todos controller test', function() {
     it('flips closed property on todo', async function() {
       await authedSession
         .post('/todos/toggleClosed')
-        .send({ id: returnedTodo._id })
+        .send({ _id: returnedTodo._id })
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.equal(res.body.todo.closed, !returnedTodo.closed);
+          console.log('ggg', res.body, returnedTodo)
+          assert.equal(res.body.closed, !returnedTodo.closed);
         })
         .expect(200)
         .expect('Content-Type', /json/);
 
       await authedSession.get('/todos/get').expect(res => {
-        assert.equal(res.body.todos[0].closed, !returnedTodo.closed);
+        assert.equal(res.body[0].closed, !returnedTodo.closed);
       });
     });
   });
@@ -280,28 +282,92 @@ describe('Todos controller test', function() {
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.deepInclude(res.body.todo, todoData);
-          returnedTodo = res.body.todo;
+          console.log('fff', res.body)
+          assert.deepInclude(res.body, todoData);
+          returnedTodo = res.body;
         })
         .expect(200)
         .expect('Content-Type', /json/);
     });
+
     it('returns the right id', async function() {
       await authedSession
         .post('/todos/deleteTodo')
-        .send({ id: returnedTodo._id })
+        .send({ _id: returnedTodo._id })
         .set('Content-Type', 'application/json')
         .set('accept', 'application/json')
         .expect(res => {
-          assert.deepInclude(res.body.todo, { _id: returnedTodo._id });
+          console.log('returnedTOdo2', returnedTodo)
+          console.log('res.body2', res.body)
+          assert.deepInclude(res.body, { _id: returnedTodo._id });
         })
         .expect(200)
         .expect('Content-Type', /json/);
     });
+
     it('actually deletes correct todo', async function() {
       await authedSession.get('/todos/get').expect(res => {
-        assert.equal(res.body.todos.length, 0);
+        assert.equal(res.body.length, 0);
       });
     });
   });
+  
+  describe('editTodo test', function(){
+    testSession = session(app);
+    let authedSession;
+    const userData = {
+      username: internet.userName(),
+      password: internet.password()
+    };
+
+    const todoData = {
+      todo: lorem.sentences(1),
+      closed: false
+    };
+    const newTodoData = {
+      todo: lorem.sentences(2),
+      closed: false
+    };
+    before('signUp, signIn for session, submit to do to edit', async function() {
+      await testSession
+        .post('/user/signup')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+        .send(userData)
+        .expect(200);
+
+      await testSession
+        .post('/user/login')
+        .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+        .send(userData)
+        .expect(200);
+      authedSession = testSession;
+      
+      await authedSession
+        .post('/todos/submit')
+        .send(todoData)
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
+        .expect(res => {
+          newTodoData._id = res.body._id
+          assert.deepInclude(res.body, todoData);
+        })
+        .expect(200)
+        .expect('Content-Type', /json/);
+    });
+
+    it('edits appropriate todo', async function(){
+      await authedSession
+        .post('/todos/editTodo')
+        .send(newTodoData)
+        .set('Content-Type', 'application/json')
+        .set('accept', 'application/json')
+        .expect(res => {
+          // console.log('iii', res.body)
+
+          assert.deepInclude(res.body, newTodoData);
+        })
+        .expect(200)
+        .expect('Content-Type', /json/);
+    })
+  })
 });

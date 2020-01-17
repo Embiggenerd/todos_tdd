@@ -4,14 +4,15 @@ module.exports = async function(req, res, next) {
   const { username, password } = req.body;
   try {
     let existence = await userExists(username);
+
     if (existence) {
-      return res.status(400).json({
-        error: {
-          name: 'YOU DONE GOOFED',
-          message: `${username} is taken!`
-        }
-      });
+      throw new Error(`${username} is taken`)
     }
+
+    if (!username ) {
+      throw new Error(`Username is required`)
+    }
+    
     const encryptedPassword = await encryptPassword(password);
 
     const savedUser = await saveUser(username, encryptedPassword);
@@ -22,6 +23,7 @@ module.exports = async function(req, res, next) {
         username: savedUser.username
       }
     });
+    
   } catch (e) {
     next(e);
   }

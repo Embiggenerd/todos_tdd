@@ -1,0 +1,9 @@
+<div style="text-align:center">
+  <h1 class="app-title" data-test-id="app-title">
+    Welcome to {{ title }}!
+  </h1>
+</div>
+
+<button class="logout-btn" *ngIf="userIsAuthed()" data-test-id="logout-button" (click)="logout()">Logout</button>
+
+<router-outlet></router-outlet>

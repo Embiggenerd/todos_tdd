@@ -1,0 +1,69 @@
+.todo-detail-wrapper
+    width: 60%
+    min-width: 00px
+    height: 200px
+    margin: auto
+    margin-top: 40px
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: auto
+@media only screen and (min-width: 950px) 
+    .todo-detail-wrapper
+        grid-template-columns: repeat(3, 1fr)
+        grid-template-rows: 1fr
+
+
+.todo-id-statement
+    height: 50px
+    width: 300px
+    font-size: 1.6 em
+    font-weight: bold
+
+
+.todo-input-wrapper
+    height: 80px
+    width: 300px
+    background: white
+    border-radius: 10px
+    padding: 20px
+
+
+input, .btn
+    font: inherit
+
+
+.btn 
+    border-style: solid
+    border-color: black
+    background: white
+    font: inherit
+    float: right
+    margin-left: 20px
+    width: 100px
+
+
+.btns-wrapper
+    display: flex
+    justify-content: center
+    align-items: center
+@media only screen and (min-width: 950px) 
+    .btns-wrapper
+        flex-direction: column
+        justify-content: center
+        align-items: start
+
+
+.todo-detail
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+
+
+.blocker-div
+    height: 50px
+    width: 300px
+@media only screen and (max-width: 950px)
+    .blocker-div
+        height: 00px
+        width: 00px

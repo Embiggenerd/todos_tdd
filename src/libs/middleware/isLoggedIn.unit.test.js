@@ -40,6 +40,6 @@ describe("authentication middleware unit test", function() {
     isLoggedIn(req, res, next);
     expect(json.calledOnce).to.be.true;
     expect(next.notCalled).to.be.true;
-    expect(json.firstCall.args[0]).to.deep.equal({error});
+    expect(json.firstCall.args[0]).to.deep.equal(error);
   });
 });

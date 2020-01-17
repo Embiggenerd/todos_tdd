@@ -1,0 +1,58 @@
+.user-form-wrapper
+    width: 60%
+    min-width: 400px
+    max-width: 700px
+    height: 275px
+    margin: 100px auto
+    display: grid
+    grid-row-gap: 20px
+    grid-column-gap: 0px
+    grid-template-columns: repeat(4, 1fr)
+    grid-template-rows: repeat(3, 1fr)
+    grid-template-areas: 'statement statement statement statement' 'user-form user-form user-form user-form' '. . suggestion toggle-btn'
+    background: white
+    padding: 20px
+    border-radius: 10px
+
+.user-form 
+    display: grid
+    grid-row-gap: 20px
+    grid-template-rows: repeat(3, 1fr)
+    grid-template-areas:'username''password''submit-btn'
+    grid-area: user-form
+
+input
+    border-bottom-width: 1px
+    border-left-width: 0px
+    border-right-width: 0px
+    border-top-width: 0px
+    border-color: black
+    &:focus 
+        outline: none
+
+.toggle-user-form-btn
+    width: 100px
+    height: 25px
+    grid-area: toggle-btn
+
+
+.user-submit-btn
+    width: 130px
+    height: 25px
+    border-color: black
+    grid-area: submit-btn
+
+.username-label
+    grid-area: username
+
+.password-label 
+    grid-area: password
+
+.statement 
+    min-height: 63px
+    grid-area: statement
+    
+.user-suggestion
+    grid-area: suggestion
+    min-width: 180px
+    padding-top: 3px

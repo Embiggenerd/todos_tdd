@@ -1,9 +1,11 @@
 const { deleteTodo } = require("../services");
+
 module.exports = async (req, res, next) => {
-  const { id } = req.body;
+  const { _id } = req.body;
+  console.log('delete_todoz', req.body)
   try {
-    const deletedTodo = await deleteTodo(id);
-    res.json({ todo: deletedTodo });
+    const deletedTodo = await deleteTodo(_id);
+    res.json(deletedTodo);
   } catch (e) {
     next(e);
   }

@@ -25,9 +25,20 @@ const deleteTodo = TodosModel => async id => {
   return deletedTodo;
 };
 
+const editTodo = TodosModel => async (todoText, id) => {
+  const filter = { _id: id }
+  const update = { todo: todoText }
+  const todoToEdit = await TodosModel.findOneAndUpdate(filter, update, {
+    new: true
+  })
+  console.log('todoToEdit', todoToEdit)
+  return todoToEdit
+}
+
 module.exports = TodosModel => ({
   deleteTodo: deleteTodo(TodosModel),
   toggleClosed: toggleClosed(TodosModel),
   submitTodo: submitTodo(TodosModel),
-  getTodos: getTodos(TodosModel)
+  getTodos: getTodos(TodosModel),
+  editTodo: editTodo(TodosModel)
 });

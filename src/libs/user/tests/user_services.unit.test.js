@@ -9,6 +9,7 @@ describe("User Services:", () => {
   it("UserServices module is defined", () => {
     assert.isDefined(UserServices);
   });
+  
   describe("saveUser test", function() {
     it("Invoked save method on model", () => {
       const save = spy();
@@ -22,6 +23,7 @@ describe("User Services:", () => {
       assert(save.calledOnce);
     });
   });
+
   describe("userExists test", function() {
     it("If user exists, returns true", async function() {
       const countDocuments = stub().returns(1);
@@ -67,6 +69,7 @@ describe("User Services:", () => {
       expect(actual).to.equal(expected);
     });
   });
+
   describe("validateUser test", function() {
     it("returns undefined if user not found in database", async function() {
       const UserModelMock = {
@@ -82,6 +85,7 @@ describe("User Services:", () => {
 
       expect(actual).to.equal(expected);
     });
+
     it("returns undefined if passwords don't match", async function() {
       const userData = {
         username: internet.userName(),
@@ -102,6 +106,7 @@ describe("User Services:", () => {
       const expected = undefined;
       expect(actual).to.equal(expected);
     });
+
     it("returns user id and username when passwords match", async function() {
       const userData = {
         username: internet.userName(),
@@ -125,6 +130,7 @@ describe("User Services:", () => {
       expect(actual).to.deep.equal(expected);
     });
   });
+
   describe("loginUser test", function() {
     it("returns user id on req.session.userId property", function() {
       const req = {
@@ -140,6 +146,7 @@ describe("User Services:", () => {
       expect(actual).to.equal(expected);
     });
   });
+
   describe("logOut test", function() {
     it('calls destroy on session', function(){
       const destroy = spy()
