@@ -65,8 +65,7 @@ app.get('/todos/get', isLoggedIn, getTodos);
 app.post('/todos/deleteTodo', isLoggedIn, deleteTodo);
 app.post('/todos/editTodo', isLoggedIn, editTodo)
 app.all('/*', function(req, res, next) {
-  res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'todos-tdd', 'index.html'));
-  
+  res.redirect('/');
 });
 
 app.use((err, req, res, next) => {
