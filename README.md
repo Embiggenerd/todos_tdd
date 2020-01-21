@@ -9,6 +9,9 @@ A simple todo app with authentication written with test driven development. A ME
 This is using heroku's free tier, so the dyno may be asleep. Give it 10 seconds to startup if you don't see anything.
 
 ## Demonstrates
+* Ability to think on architecture level
+* Attention to accountable code
+* Ability and willingness to learn new frameworks and idioms
 
 ### Testing 
 
