@@ -52,6 +52,8 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3",
     "uuid": "^3.3.3",
-    "uuidv4": "^5.0.1"
+    "uuidv4": "^5.0.1",
+    "webpack": "^4.41.5",
+    "webpack-dev-server": "^3.10.1"
   }
 }

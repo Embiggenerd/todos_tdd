@@ -28,11 +28,11 @@ export class TodosService {
 
   public readonly todos: Observable<Todo[]> = this._todos.asObservable();
 
-  getTodosURL = 'api/todos/get'
-  postTodoURL = 'api/todos/submit'
-  toggleCloseURL = 'api/todos/toggleClosed'
-  deleteTodoURL = 'api/todos/deleteTodo'
-  editTodoURL = 'api/todos/editTodo'
+  getTodosURL = 'todos/get'
+  postTodoURL = 'todos/submit'
+  toggleCloseURL = 'todos/toggleClosed'
+  deleteTodoURL = 'todos/deleteTodo'
+  editTodoURL = 'todos/editTodo'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -50,13 +50,13 @@ export class TodosService {
     })
   }
 
-  editTodo(todo:Todo): Observable<Todo>{
-   return this.http.post<Todo>(this.editTodoURL, todo,this.httpOptions ).pipe(
-   tap((todo: Todo) => this.log(`Submitted todo, todo=${JSON.stringify(todo)}`)),
-   )
+  editTodo(todo: Todo): Observable<Todo> {
+    return this.http.post<Todo>(this.editTodoURL, todo, this.httpOptions).pipe(
+      tap((todo: Todo) => this.log(`Submitted todo, todo=${JSON.stringify(todo)}`)),
+    )
   }
 
-  updateTodo(todo:Todo) {
+  updateTodo(todo: Todo) {
     this.editTodo(todo).subscribe(todo => {
       const oldTodos = this._todos.getValue()
       const i = oldTodos.findIndex(item => item._id === todo._id)

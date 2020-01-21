@@ -1,5 +1,7 @@
+
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Code coverage report for src/app/services/todos/todos.service.ts</title>
     <meta charset="utf-8" />
@@ -12,40 +14,48 @@
         }
     </style>
 </head>
+    
 <body>
 <div class='wrapper'>
-  <div class='pad1'>
-    <h1>
-      <a href="../../../../index.html">All files</a> / <a href="index.html">src/app/services/todos</a> todos.service.ts
-    </h1>
-    <div class='clearfix'>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">84.31% </span>
-        <span class="quiet">Statements</span>
-        <span class='fraction'>43/51</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">82.14% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>23/28</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">84.44% </span>
-        <span class="quiet">Lines</span>
-        <span class='fraction'>38/45</span>
-      </div>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/app/services/todos</a> todos.service.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">84.31% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>43/51</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">82.14% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>23/28</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">84.44% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>38/45</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
     </div>
-    <p class="quiet">
-      Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
-    </p>
-  </div>
-  <div class='status-line high'></div>
-<pre><table class="coverage">
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -306,11 +316,11 @@ export class TodosService {
 &nbsp;
   public readonly todos: Observable&lt;Todo[]&gt; = this._todos.asObservable();
 &nbsp;
-  getTodosURL = 'api/todos/get'
-  postTodoURL = 'api/todos/submit'
-  toggleCloseURL = 'api/todos/toggleClosed'
-  deleteTodoURL = 'api/todos/deleteTodo'
-  editTodoURL = 'api/todos/editTodo'
+  getTodosURL = 'todos/get'
+  postTodoURL = 'todos/submit'
+  toggleCloseURL = 'todos/toggleClosed'
+  deleteTodoURL = 'todos/deleteTodo'
+  editTodoURL = 'todos/editTodo'
 &nbsp;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -328,13 +338,13 @@ export class TodosService {
     })
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  editTodo(</span>todo:Todo): Observable&lt;Todo&gt;{
-<span class="cstat-no" title="statement not covered" >   return this.http.post&lt;Todo&gt;(this.editTodoURL, todo,this.httpOptions ).pipe(</span>
-   tap(<span class="fstat-no" title="function not covered" >(t</span>odo: Todo) =&gt; <span class="cstat-no" title="statement not covered" >this.log(`Submitted todo, todo=${JSON.stringify(todo)}`))</span>,
-   )
+<span class="fstat-no" title="function not covered" >  editTodo(</span>todo: Todo): Observable&lt;Todo&gt; {
+<span class="cstat-no" title="statement not covered" >    return this.http.post&lt;Todo&gt;(this.editTodoURL, todo, this.httpOptions).pipe(</span>
+      tap(<span class="fstat-no" title="function not covered" >(t</span>odo: Todo) =&gt; <span class="cstat-no" title="statement not covered" >this.log(`Submitted todo, todo=${JSON.stringify(todo)}`))</span>,
+    )
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  updateTodo(</span>todo:Todo) {
+<span class="fstat-no" title="function not covered" >  updateTodo(</span>todo: Todo) {
 <span class="cstat-no" title="statement not covered" >    this.editTodo(todo).subscribe(<span class="fstat-no" title="function not covered" >todo </span>=&gt; {</span>
       const oldTodos = <span class="cstat-no" title="statement not covered" >this._todos.getValue()</span>
       const i = <span class="cstat-no" title="statement not covered" >oldTodos.findIndex(<span class="fstat-no" title="function not covered" >item </span>=&gt; <span class="cstat-no" title="statement not covered" >item._id === todo._id)</span></span>
@@ -391,24 +401,24 @@ export class TodosService {
     })
   }
 }
-&nbsp;</pre></td></tr>
-</table></pre>
-<div class='push'></div><!-- for sticky footer -->
-</div><!-- /wrapper -->
-<div class='footer quiet pad2 space-top1 center small'>
-  Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Oct 26 2019 16:27:22 GMT-0400 (Eastern Daylight Time)
-</div>
-</div>
-<script src="../../../../prettify.js"></script>
-<script>
-window.onload = function () {
-        if (typeof prettyPrint === 'function') {
-            prettyPrint();
-        }
-};
-</script>
-<script src="../../../../sorter.js"></script>
-<script src="../../../../block-navigation.js"></script>
-</body>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+                at Tue Jan 21 2020 15:10:07 GMT-0500 (Eastern Standard Time)
+            </div>
+        </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
 </html>
+    

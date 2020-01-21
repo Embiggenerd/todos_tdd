@@ -107,7 +107,7 @@ describe('UserFormComponent', () => {
 
     fixture.detectChanges()
 
-    const req = backend.expectOne('api/user/signup')
+    const req = backend.expectOne('user/signup')
 
     expect(inputUserName.value).toBe('')
     expect(inputPassword.value).toBe('')
@@ -149,7 +149,7 @@ describe('UserFormComponent', () => {
     })
 
     const signupReq = backend.match((request) => {
-      return request.url === 'api/user/signup' &&
+      return request.url === 'user/signup' &&
         request.method === "POST"
     })
 
@@ -199,7 +199,7 @@ describe('UserFormComponent', () => {
     userForm.dispatchEvent(submitEvent)
 
     const loginReq = backend.match((request) => {
-      return request.url === 'api/user/login' &&
+      return request.url === 'user/login' &&
         request.method === "POST"
     })
 

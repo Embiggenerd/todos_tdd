@@ -10,9 +10,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { LogService } from '../log/log.service'
 import { User, A } from '../../models'
 
-@Injectable({
-    providedIn: 'root'
-})
+// @Injectable({
+//     providedIn: 'root'
+// })
 export class UserServiceMock {
 
     isAuthenticated: boolean

@@ -86,14 +86,14 @@ describe('TodosComponent', () => {
   });
 
   it('should get todos on init', (done) => {
-    const req = backend.expectOne('api/todos/get')
+    const req = backend.expectOne('todos/get')
     expect(req.request.method).toEqual('GET')
     backend.verify()
     done()
   })
 
   it('displays todos it receives', (done) => {
-    const req = backend.expectOne('api/todos/get')
+    const req = backend.expectOne('todos/get')
     req.flush([mockTodo])
 
     fixture.detectChanges()
@@ -104,7 +104,7 @@ describe('TodosComponent', () => {
   })
 
   it('deletes todo', (done) => {
-    const getReq = backend.expectOne('api/todos/get')
+    const getReq = backend.expectOne('todos/get')
     getReq.flush([mockTodo])
 
     fixture.detectChanges()
@@ -113,14 +113,14 @@ describe('TodosComponent', () => {
     const clickEvent = createNewEvent('click')
     deleteBtn.dispatchEvent(clickEvent)
 
-    const postReq = backend.expectOne('api/todos/deleteTodo')
+    const postReq = backend.expectOne('todos/deleteTodo')
     postReq.flush(mockTodo)
     backend.verify()
     done()
   })
 
   it('toggles closed property', (done) => {
-    const getReq = backend.expectOne('api/todos/get')
+    const getReq = backend.expectOne('todos/get')
     getReq.flush([mockTodo])
 
     fixture.detectChanges()

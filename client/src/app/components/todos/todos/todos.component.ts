@@ -11,7 +11,7 @@ import { Todo } from '../../../models'
 export class TodosComponent implements OnInit {
 
   constructor(
-    private todosService: TodosService
+    public todosService: TodosService
   ) { }
 
   ngOnInit() {

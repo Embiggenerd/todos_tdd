@@ -41,7 +41,7 @@ describe('UserService', () => {
           expect(user).toEqual(expectedUser);
         });
 
-        const req = httpMock.expectOne('api/user/signup');
+        const req = httpMock.expectOne('user/signup');
 
         expect(req.request.method).toEqual('POST');
 
@@ -63,7 +63,7 @@ describe('UserService', () => {
           expect(user).toEqual(expectedUser);
         });
 
-        const req = httpMock.expectOne('api/user/login');
+        const req = httpMock.expectOne('user/login');
 
         expect(req.request.method).toEqual('POST');
         req.flush(expectedUser);
@@ -84,7 +84,7 @@ describe('UserService', () => {
             expect(service.authAsk()).toBeTruthy()
           })
 
-          const req = httpMock.expectOne('api/user/auth');
+          const req = httpMock.expectOne('user/auth');
 
           expect(req.request.method).toEqual('GET');
 
@@ -105,7 +105,7 @@ describe('UserService', () => {
             expect(service.authAsk()).toBeFalsy()
           })
 
-          const req = httpMock.expectOne('api/user/auth');
+          const req = httpMock.expectOne('user/auth');
 
           expect(req.request.method).toEqual('GET');
 

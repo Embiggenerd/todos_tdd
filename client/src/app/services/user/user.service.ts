@@ -25,13 +25,10 @@ export class UserService {
     this.logService.add(`UserService: ${message}`)
   }
 
-  signupUrl = 'api/user/signup'
-
-  loginUrl = 'api/user/login'
-
-  authUrl = 'api/user/auth'
-
-  logoutUrl = 'api/user/logout'
+  signupUrl = 'user/signup'
+  loginUrl = 'user/login'
+  authUrl = 'user/auth'
+  logoutUrl = 'user/logout'
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

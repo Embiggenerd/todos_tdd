@@ -73,7 +73,7 @@ describe('AppComponent', () => {
   });
 
   it('should check cookie on init', (done) => {
-    const req = httpTestingController.expectOne('api/user/auth')
+    const req = httpTestingController.expectOne('user/auth')
     expect(req.request.method).toEqual('GET');
     req.flush({});
     done()
@@ -81,7 +81,7 @@ describe('AppComponent', () => {
 
   it('should logout user', (done) => {
     component.logout()
-    const req = httpTestingController.expectOne('api/user/logout')
+    const req = httpTestingController.expectOne('user/logout')
     expect(req.request.method).toEqual('GET');
     req.flush({});
     done()
