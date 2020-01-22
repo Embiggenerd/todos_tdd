@@ -17,8 +17,7 @@
     "test:all": "concurrently \"npm test\" \"npm run test:frontend\"",
     "dev": "concurrently \"nodemon index.js\" \"npm start --prefix client\"",
     "build:frontend:deploy": "npm run build:deploy --prefix client",
-    "prod": "concurrently \"NODE_ENV=production node index.js \" \"npm run build:frontend:deploy\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client"
+    "prod": "concurrently \"NODE_ENV=production node index.js \" \"npm run build:frontend:deploy\""
   },
   "author": "",
   "license": "ISC",
