@@ -2,7 +2,7 @@ const UserServices = require("../services/user_services");
 const { expect, assert } = require("chai");
 const { spy, stub, mock } = require("sinon");
 const { internet } = require("faker");
-const { hash, compare } = require("bcrypt");
+const { hash, compare } = require("bcryptjs");
 const { ObjectId } = require("mongoose").Types;
 
 describe("User Services:", () => {

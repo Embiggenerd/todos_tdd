@@ -2,7 +2,7 @@ const { spy, stub, mock } = require("sinon");
 const { expect, assert } = require("chai");
 const { internet } = require("faker");
 const rewire = require("rewire");
-const { hash } = require("bcrypt");
+const { hash } = require("bcryptjs");
 
 const signUpRW = rewire("../controllers/sign_up");
 const userController = rewire("../controllers");

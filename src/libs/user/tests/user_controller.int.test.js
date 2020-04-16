@@ -3,7 +3,7 @@ const request = require('supertest');
 const session = require('supertest-session');
 const { expect, assert } = require('chai');
 const { internet } = require('faker');
-const { compare } = require('bcrypt');
+const { compare } = require('bcryptjs');
 
 const app = require('../../../app');
 const UserModel = require('../user_model');
